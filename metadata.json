@@ -1,0 +1,6 @@
+{
+  "name": "MandalikaEdu - Bimbingan Kuliah Luar Negeri",
+  "description": "Platform dan layanan bimbingan kuliah luar negeri ramah talenta daerah dengan database beasiswa interaktif, kuis jurusan, kalkulator biaya, dan pendampingan dari nol.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
