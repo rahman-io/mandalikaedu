@@ -29,31 +29,31 @@ export const BlogSection: React.FC<BlogSectionProps> = ({ onOpenBooking }) => {
   };
 
   return (
-    <div className="py-16 bg-white min-h-screen">
+    <div className="py-16 bg-eduvance-grid min-h-screen">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         
-        {/* Header */}
-        <div className="text-center max-w-3xl mx-auto mb-12">
-          <div className="text-xs font-semibold uppercase tracking-widest text-slate-500 mb-2">
-            Pusat Edukasi & Strategi Mandiri
+        {/* Header (Matching Insights & Ideas from Eduvance) */}
+        <div className="text-center max-w-3xl mx-auto mb-14">
+          <div className="inline-flex items-center px-3.5 py-1 rounded-full bg-indigo-50 border border-indigo-100 text-indigo-700 text-xs font-bold mb-3 shadow-2xs">
+            Blog & Edukasi Mandiri
           </div>
-          <h1 className="text-3xl sm:text-4xl font-extrabold text-slate-900 tracking-tight mb-4">
-            Panduan & Tips Beasiswa Luar Negeri
+          <h1 className="text-3xl sm:text-5xl font-extrabold text-slate-900 tracking-tight mb-4">
+            <span className="text-indigo-600">Insights</span> & Ide Beasiswa Dari <span className="text-indigo-600">MandalikaEdu</span>
           </h1>
-          <p className="text-base text-slate-600 leading-relaxed">
+          <p className="text-base text-slate-600 leading-relaxed max-w-2xl mx-auto">
             Artikel panduan mendalam seputar penulisan esai, strategi menembus IELTS tanpa les mahal, serta sistem konten edukasi Instagram MandalikaEdu.
           </p>
 
-          {/* Categories */}
+          {/* Categories in Rounded-Full Pills */}
           <div className="mt-8 flex flex-wrap items-center justify-center gap-2">
             {categories.map((cat) => (
               <button
                 key={cat}
                 onClick={() => setActiveCategory(cat)}
-                className={`px-3.5 py-1.5 rounded-xl text-xs font-semibold transition-colors cursor-pointer ${
+                className={`px-4 py-2 rounded-full text-xs font-bold transition-all cursor-pointer ${
                   activeCategory === cat
-                    ? 'bg-slate-900 text-white'
-                    : 'bg-slate-100 text-slate-600 hover:bg-slate-200'
+                    ? 'bg-amber-400 text-slate-950 shadow-xs'
+                    : 'bg-white border border-slate-200 text-slate-600 hover:text-slate-950 hover:bg-slate-50'
                 }`}
               >
                 {cat === 'all' ? 'Semua Topik' : cat}

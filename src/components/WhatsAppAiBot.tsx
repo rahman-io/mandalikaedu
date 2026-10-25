@@ -31,6 +31,19 @@ interface WhatsAppAiBotProps {
 
 const HALOAI_URL = CONTACT_CONFIG.haloAiUrl;
 
+export const sanitizePunctuation = (text: string): string => {
+  if (!text) return text;
+  return text
+    .replace(/\s*—\s*/g, ', ')
+    .replace(/\s*–\s*/g, ' - ')
+    .replace(/—/g, ', ')
+    .replace(/–/g, ' - ')
+    .replace(/,\s*,/g, ', ')
+    .replace(/,\s*\./g, '.')
+    .replace(/\s{2,}/g, ' ')
+    .trim();
+};
+
 export const WhatsAppAiBot: React.FC<WhatsAppAiBotProps> = ({
   onOpenBooking,
   onNavigateTab
@@ -209,6 +222,19 @@ export const WhatsAppAiBot: React.FC<WhatsAppAiBotProps> = ({
     const raw = query.trim();
     const q = raw.toLowerCase();
 
+    // 0. Guardrail: Deteksi pertanyaan di luar konteks MandalikaEdu (beli sayur, masak, dsb.)
+    const isOffTopic = /sayur|masak|resep|makan|minum|baju|motor|mobil|bengkel|politik|pemilu|presiden|artis|gosip|pacar|jodoh|game|slot|cuaca|lirik lagu/i.test(q);
+    if (isOffTopic && !q.includes('beasiswa') && !q.includes('kuliah') && !q.includes('studi') && !q.includes('kampus')) {
+      return {
+        text: 'Maaf ya Kak, Halo AI khusus dirancang untuk mendampingi persiapan beasiswa, kuliah luar negeri, dan layanan bimbingan MandalikaEdu 😊.\n\nAda yang bisa kami bantu seputar riset beasiswa, review esai, atau klaim Sesi Discovery Gratis (Rp 0)?',
+        actionButtons: [
+          { label: '🆓 Klaim Sesi Discovery Gratis (Rp 0)', type: 'booking', packageId: 'discovery-free' },
+          { label: '🔍 Cari Rekomendasi Beasiswa', type: 'tab', target: 'beasiswa' },
+          { label: '💬 Chat di WhatsApp Resmi', type: 'whatsapp', target: 'Halo MandalikaEdu, saya ingin konsultasi beasiswa.' }
+        ]
+      };
+    }
+
     // 1. Sapaan & Izin Bertanya (Menjawab "Hi, boleh bertanya?", "Halo", "P", "Permisi", dsb)
     const isGreetingOrAskingPermission = 
       /^(hi|halo|hei|hey|p|assalamu|selamat|permisi|tes|test|pagi|siang|sore|malam)/i.test(q) ||
@@ -331,7 +357,42 @@ export const WhatsAppAiBot: React.FC<WhatsAppAiBotProps> = ({
       };
     }
 
-    // 8. Anak Daerah / IPK Rendah / Kampus Swasta
+    // 8. Anak Daerah Kalimantan, NTB/NTT, Papua, Sumatra, Sulawesi
+    if (q.includes('kalimantan') || q.includes('borneo') || q.includes('samarinda') || q.includes('balikpapan') || q.includes('pontianak') || q.includes('banjarmasin') || q.includes('kaltim') || q.includes('kalbar') || q.includes('kalteng') || q.includes('kalsel') || q.includes('kaltara')) {
+      return {
+        text: 'Kabar baik banget untuk putra-putri daerah Kalimantan! 🌲\n\nUntuk anak daerah dari Kalimantan, ada beberapa jalur istimewa yang bisa dimanfaatkan:\n1. **LPDP Afirmasi Daerah 3T**: Kabupaten di Kalimantan (seperti pedalaman Kalbar, Kaltara, Kaltim, Kalteng) masuk jalur afirmasi dengan syarat TOEFL/IELTS & IPK yang jauh lebih fleksibel daripada jalur reguler.\n2. **Beasiswa Pemda (Kaltim Tuntas / APBD)**: Bantuan kuliah jenjang D3/S1/S2/S3 dari Pemprov/Pemkab.\n3. **AAS (Australia Awards)** & **MEXT Jepang**: Komite beasiswa sangat menyukai pelamar yang mengangkat isu pembangunan daerah Kalimantan (seperti kelestarian hutan, transisi energi, hilirisasi, atau IKN) di dalam Motivation Letter.\n\nKakak sedang merencanakan jenjang S1 atau S2? Mau kami bantu petakan kampusnya?',
+        actionButtons: [
+          { label: '🆓 Klaim Sesi Discovery Gratis (Rp 0)', type: 'booking', packageId: 'discovery-free' },
+          { label: '🔍 Cek Database 15+ Beasiswa', type: 'tab', target: 'beasiswa' },
+          { label: '💬 Diskusi via WhatsApp Resmi', type: 'whatsapp', target: 'Halo MandalikaEdu, saya dari Kalimantan ingin tanya beasiswa yang cocok.' }
+        ]
+      };
+    }
+
+    if (q.includes('lombok') || q.includes('ntb') || q.includes('mataram') || q.includes('sumbawa') || q.includes('bima') || q.includes('ntt') || q.includes('kupang') || q.includes('sumba') || q.includes('flores')) {
+      return {
+        text: 'Halo Kak! Sebagai sesama putra daerah NTB & NTT, MandalikaEdu lahir langsung di Mataram, NTB!\n\nPeluang emas untuk anak daerah NTB & NTT:\n1. **AAS (Australia Awards)**: Punya kuota Targeted Geographic Area khusus NTB & NTT dengan syarat IELTS minimal hanya 5.0.\n2. **MEXT Jepang**: Fully funded tanpa ikatan dinas, seperti yang diraih Co-Founder kami Dr. Ilham Ramdani asal NTB (The University of Tokyo).\n3. **LPDP Afirmasi Daerah**: Pendanaan 100% kuliah luar negeri dengan kuota daerah khusus.\n4. **Türkiye Bursları**: Bebas biaya hidup, asrama, dan kursus bahasa Turki 1 tahun gratis.\n\nKakak mau kami bantu review dokumen atau mapping beasiswa dari nol?',
+        actionButtons: [
+          { label: '🆓 Klaim Sesi Discovery Gratis (Rp 0)', type: 'booking', packageId: 'discovery-free' },
+          { label: '📦 Paket Roadmap Beasiswa (Rp 199k)', type: 'booking', packageId: 'roadmap-90' },
+          { label: '💬 Chat WhatsApp Resmi MandalikaEdu', type: 'whatsapp', target: 'Halo MandalikaEdu, saya dari NTB/NTT ingin konsultasi beasiswa.' }
+        ]
+      };
+    }
+
+    // Follow-up inquiries ("gimana", "caranya", "maksudnya", "terus")
+    if (q === 'gimana?' || q === 'gimana' || q.includes('gimana caranya') || q.includes('maksudnya') || q.includes('terus gimana') || q.includes('caranya gimana') || q.includes('mulainya gimana') || q.includes('langkahnya')) {
+      return {
+        text: 'Caranya sangat mudah dan bertahap Kak! Berikut langkah persiapan di MandalikaEdu dari nol:\n\n1. **Langkah 1 (Cek Peluang)**: Ikuti Sesi Discovery (20 Menit) secara 100% Gratis untuk cek kecocokan profil & beasiswa target.\n2. **Langkah 2 (Roadmap 90 Hari)**: Tentukan 3 kampus impian, timeline pendaftaran, dan syarat sertifikat bahasa (IELTS/Duolingo).\n3. **Langkah 3 (Bedah Dokumen)**: Bimbingan intensif menulis Motivation Letter, Europass CV, dan Surat Rekomendasi bersama mentor alumni beasiswa luar negeri.\n4. **Langkah 4 (Submit & Mock Interview)**: Simulasi wawancara beasiswa hingga siap 100% menghadapi interviewer.\n\nMau mulai dari **Sesi Discovery Gratis (Rp 0)** dulu Kak?',
+        actionButtons: [
+          { label: '🆓 Ambil Sesi Discovery Gratis (Rp 0)', type: 'booking', packageId: 'discovery-free' },
+          { label: '📦 Cek Paket Lengkap Mentorship', type: 'tab', target: 'paket' },
+          { label: '💬 Tanya Langsung di WhatsApp Resmi', type: 'whatsapp', target: 'Halo Admin MandalikaEdu, saya mau tahu cara mulai bimbingan beasiswa.' }
+        ]
+      };
+    }
+
+    // 9. Anak Daerah / IPK Rendah / Kampus Swasta
     if (q.includes('ipk') || q.includes('daerah') || q.includes('swasta') || q.includes('peluang') || q.includes('bisa tidak') || q.includes('lulusan')) {
       return {
         text: 'Peluang Kakak sangat terbuka! Komite beasiswa internasional saat ini sangat menghargai komitmen kontribusi dan keterikatan emosional dengan pembangunan daerah asal.\n\nBanyak alumni bimbingan MandalikaEdu yang berasal dari kampus non-top di luar Jawa dan berhasil menembus MEXT, DAAD, dan AAS berkat kekuatan Motivation Letter serta pemetaan masalah daerah yang otentik!',
@@ -342,7 +403,7 @@ export const WhatsAppAiBot: React.FC<WhatsAppAiBotProps> = ({
       };
     }
 
-    // 9. Terima Kasih / Closing
+    // 10. Terima Kasih / Closing
     if (q.includes('terima kasih') || q.includes('makasih') || q.includes('thanks') || q.includes('ok') || q.includes('oke') || q.includes('siap') || q.includes('baiklah')) {
       return {
         text: 'Sama-sama Kak! Senang sekali bisa membantu 😊.\n\nJika nanti ada hal yang ingin ditanyakan lagi atau ingin langsung memulai persiapan dokumen bersama mentor, silakan hubungi kami kapan saja ya. Sukses selalu untuk rencana studinya! 🎓',
@@ -355,7 +416,7 @@ export const WhatsAppAiBot: React.FC<WhatsAppAiBotProps> = ({
 
     // Default polite intelligent response
     return {
-      text: `Terima kasih atas pertanyaannya Kak! MandalikaEdu adalah lembaga bimbingan independen yang mendampingi putra-putri daerah meraih beasiswa luar negeri dari nol.\n\nAda yang bisa kami bantu seputar riset kampus, pembuatan esai, simulasi wawancara, atau paket bimbingan bersama mentor alumni luar negeri?`,
+      text: `Pertanyaan yang bagus Kak! Di MandalikaEdu, kami mendampingi putra-putri daerah mulai dari riset beasiswa ramah daerah, bedah esai (Motivation Letter), hingga simulasi wawancara bersama mentor alumni luar negeri.\n\nBiar kami bisa beri rekomendasi yang paling tepat: saat ini Kakak sedang merencanakan kuliah ke negara mana atau jenjang apa (S1/S2/S3)?`,
       actionButtons: [
         { label: '🆓 Jadwalkan Sesi Discovery Gratis', type: 'booking', packageId: 'discovery-free' },
         { label: '📦 Lihat Pilihan Paket Bimbingan', type: 'tab', target: 'paket' },
@@ -390,7 +451,7 @@ export const WhatsAppAiBot: React.FC<WhatsAppAiBotProps> = ({
 
       const targetEndpoint = cfWorkerUrl ? cfWorkerUrl.trim().replace(/\/+$/, '') : '/api/chat';
       const controller = new AbortController();
-      const timeoutId = setTimeout(() => controller.abort(), 8000);
+      const timeoutId = setTimeout(() => controller.abort(), 20000);
 
       const res = await fetch(targetEndpoint, {
         method: 'POST',
@@ -403,11 +464,11 @@ export const WhatsAppAiBot: React.FC<WhatsAppAiBotProps> = ({
 
       if (res && res.ok) {
         const data = await res.json().catch(() => null);
-        if (data && data.reply) {
+        if (data && data.reply && !data.fallback && !data.reply.includes('Sedang ada antrean')) {
           const aiMessage: Message = {
             id: `ai-${Date.now()}`,
             sender: 'ai',
-            text: data.reply,
+            text: sanitizePunctuation(data.reply),
             timestamp: new Date().toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit' }),
             actionButtons: [
               { label: '🆓 Jadwalkan Sesi Discovery Gratis', type: 'booking', packageId: 'discovery-free' },
@@ -424,7 +485,7 @@ export const WhatsAppAiBot: React.FC<WhatsAppAiBotProps> = ({
       const aiMessage: Message = {
         id: `ai-${Date.now()}`,
         sender: 'ai',
-        text: agentic.text,
+        text: sanitizePunctuation(agentic.text),
         timestamp: new Date().toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit' }),
         actionButtons: agentic.actionButtons
       };
@@ -434,7 +495,7 @@ export const WhatsAppAiBot: React.FC<WhatsAppAiBotProps> = ({
       const aiMessage: Message = {
         id: `ai-${Date.now()}`,
         sender: 'ai',
-        text: agentic.text,
+        text: sanitizePunctuation(agentic.text),
         timestamp: new Date().toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit' }),
         actionButtons: agentic.actionButtons
       };

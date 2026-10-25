@@ -156,7 +156,7 @@ export const BookingModal: React.FC<BookingModalProps> = ({
                 >
                   {PACKAGES_DATA.map((p) => (
                     <option key={p.id} value={p.id}>
-                      {p.name} — {p.priceFormatted}
+                      {p.name} ({p.priceFormatted})
                     </option>
                   ))}
                 </select>
@@ -249,7 +249,7 @@ export const BookingModal: React.FC<BookingModalProps> = ({
               <div className="pt-2">
                 <button
                   type="submit"
-                  className="w-full py-3 bg-slate-900 text-white text-xs font-bold uppercase tracking-wider rounded-xl hover:bg-slate-800 active:scale-95 transition-all shadow-sm flex items-center justify-center gap-2 cursor-pointer"
+                  className="w-full py-3.5 bg-amber-400 hover:bg-amber-300 text-slate-950 text-xs font-black uppercase tracking-wider rounded-xl active:scale-95 transition-all shadow-md flex items-center justify-center gap-2 cursor-pointer"
                 >
                   <span>Kirim & Hubungkan ke WhatsApp Mentor</span>
                   <ArrowRight className="w-4 h-4" />

@@ -15,7 +15,7 @@ const MENTORS = [
     name: 'Dr. Ilham Ramdani, Ph.D.',
     role: 'Co-Founder & Head Academic Mentor',
     origin: 'Lombok, Nusa Tenggara Barat',
-    education: 'Ph.D. in Engineering — The University of Tokyo, Jepang',
+    education: 'Ph.D. in Engineering, The University of Tokyo, Jepang',
     scholarship: 'Penerima MEXT Monbukagakusho Scholarship (2018 - 2023)',
     bio: 'Menyelesaikan S1 di kampus regional Mataram sebelum menembus beasiswa MEXT ke Todai. Telah membimbing lebih dari 120 mahasiswa daerah meraih beasiswa Asia dan Eropa.',
   },
@@ -23,7 +23,7 @@ const MENTORS = [
     name: 'Nadia Salsabila, M.Sc.',
     role: 'Lead Mentor Eropa & Jerman',
     origin: 'Padang, Sumatera Barat',
-    education: 'M.Sc. Sustainable Engineering — RWTH Aachen University, Jerman',
+    education: 'M.Sc. Sustainable Engineering, RWTH Aachen University, Jerman',
     scholarship: 'Penerima DAAD EPOS Scholarship',
     bio: 'Spesialis penyusunan Europass CV dan Motivation Letter berstandar institusi Jerman. Membantu pelamar daerah menyiasati blocked account dan visa pelajar.',
   },
@@ -31,7 +31,7 @@ const MENTORS = [
     name: 'Kevin Jonathan, M.P.P.',
     role: 'Lead Mentor UK & Beasiswa Kepemimpinan',
     origin: 'Kupang, Nusa Tenggara Timur',
-    education: 'Master of Public Policy — University of Oxford (Blavatnik School)',
+    education: 'Master of Public Policy, University of Oxford (Blavatnik School)',
     scholarship: 'Penerima Chevening Scholarship UK',
     bio: 'Berpengalaman melatih pelamar daerah menyusun 4 esai Chevening berbasis pengalaman kepemimpinan riil di masyarakat tanpa gaya bahasa klise.',
   },
@@ -39,7 +39,7 @@ const MENTORS = [
     name: 'Ratih Puspadewi, S.Pd., M.Ed.',
     role: 'Language & IELTS Strategist',
     origin: 'Purwokerto, Jawa Tengah',
-    education: 'Master of Education — The University of Melbourne, Australia',
+    education: 'Master of Education, The University of Melbourne, Australia',
     scholarship: 'Penerima Australia Awards Scholarships (AAS)',
     bio: 'Meraih skor IELTS Band 8.5 melalui metode belajar mandiri 90 hari. Mengembangkan kurikulum persiapan tes bahasa yang realistis dan terjangkau untuk anak daerah.',
   }
@@ -80,19 +80,19 @@ export const AboutSection: React.FC<AboutSectionProps> = ({ onOpenBooking, onOpe
   };
 
   return (
-    <div className="py-16 bg-slate-50 min-h-screen">
+    <div className="py-16 bg-eduvance-grid min-h-screen">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-20">
         
         {/* Story Section */}
         <div className="max-w-3xl mx-auto text-center">
-          <div className="text-xs font-semibold uppercase tracking-widest text-slate-500 mb-2">
+          <div className="inline-flex items-center px-3.5 py-1 rounded-full bg-indigo-50 border border-indigo-100 text-indigo-700 text-xs font-bold mb-3 shadow-2xs">
             Cerita Di Balik Nama MandalikaEdu
           </div>
-          <h1 className="text-3xl sm:text-4xl font-extrabold text-slate-900 tracking-tight mb-6">
-            Meratakan Akses Beasiswa Dunia untuk Anak Daerah
+          <h1 className="text-3xl sm:text-5xl font-extrabold text-slate-900 tracking-tight mb-6">
+            <span className="text-indigo-600">Meratakan</span> Akses Beasiswa Dunia untuk Anak <span className="text-indigo-600">Daerah</span>
           </h1>
           <p className="text-base text-slate-600 leading-relaxed mb-6">
-            Nama <strong>Mandalika</strong> berakar dari Lombok, Nusa Tenggara Barat — melambangkan tekad kami membuka gerbang kesempatan pendidikan tinggi kelas dunia bagi putra-putri daerah di luar kota metropolitan Jakarta.
+            Nama <strong>Mandalika</strong> berakar dari Lombok, Nusa Tenggara Barat, yang melambangkan tekad kami membuka gerbang kesempatan pendidikan tinggi kelas dunia bagi putra-putri daerah di luar kota metropolitan Jakarta.
           </p>
           <p className="text-sm text-slate-600 leading-relaxed">
             Selama bertahun-tahun, informasi beasiswa kuliah luar negeri didominasi oleh kota-kota besar. Banyak anak daerah berbakat mengubur impiannya hanya karena tidak tahu cara menulis Motivation Letter, bingung mencari profesor riset, atau takut dengan biaya kursus bahasa. MandalikaEdu hadir sebagai jembatan: <em>"Kuliah ke Luar Negeri dari Mana Saja, Kami Dampingi dari Nol."</em>
@@ -102,10 +102,10 @@ export const AboutSection: React.FC<AboutSectionProps> = ({ onOpenBooking, onOpe
         {/* Mentors Section */}
         <div>
           <div className="text-center max-w-2xl mx-auto mb-12">
-            <div className="text-xs font-semibold uppercase tracking-widest text-slate-500 mb-2">
+            <div className="inline-flex items-center px-3.5 py-1 rounded-full bg-indigo-50 border border-indigo-100 text-indigo-700 text-xs font-bold mb-2">
               Kredibilitas & Pengalaman Nyata
             </div>
-            <h2 className="text-2xl sm:text-3xl font-bold text-slate-900 tracking-tight">
+            <h2 className="text-2xl sm:text-4xl font-extrabold text-slate-900 tracking-tight">
               Profil Tim Mentor Alumni Luar Negeri
             </h2>
             <p className="text-xs sm:text-sm text-slate-600 mt-2">
@@ -115,15 +115,15 @@ export const AboutSection: React.FC<AboutSectionProps> = ({ onOpenBooking, onOpe
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
             {MENTORS.map((m, idx) => (
-              <div key={idx} className="bg-white rounded-3xl border border-slate-200 p-7 sm:p-8 flex flex-col justify-between shadow-xs">
+              <div key={idx} className="bg-white rounded-3xl border border-slate-200/90 p-7 sm:p-8 flex flex-col justify-between shadow-xs hover:shadow-md hover:border-indigo-200 transition-all">
                 <div>
-                  <div className="flex items-center gap-3 mb-4">
-                    <div className="w-12 h-12 rounded-2xl bg-slate-900 text-white flex items-center justify-center font-bold text-lg">
+                  <div className="flex items-center gap-3.5 mb-4">
+                    <div className="w-12 h-12 rounded-2xl bg-indigo-600 text-white flex items-center justify-center font-black text-lg shadow-xs">
                       {m.name.split(' ')[1]?.[0] || 'M'}
                     </div>
                     <div>
                       <h3 className="text-base font-bold text-slate-900">{m.name}</h3>
-                      <div className="text-xs text-slate-600 font-medium">{m.role}</div>
+                      <div className="text-xs text-indigo-700 font-semibold">{m.role}</div>
                       <div className="text-[11px] text-slate-400 flex items-center gap-1 mt-0.5">
                         <MapPin className="w-3 h-3" />
                         <span>Asal: {m.origin}</span>
@@ -132,11 +132,11 @@ export const AboutSection: React.FC<AboutSectionProps> = ({ onOpenBooking, onOpe
                   </div>
 
                   <div className="space-y-2 mb-4 text-xs">
-                    <div className="p-2.5 bg-slate-50 rounded-xl text-slate-700">
+                    <div className="p-3 bg-slate-50 rounded-2xl text-slate-700 border border-slate-100">
                       <strong>Pendidikan:</strong> {m.education}
                     </div>
-                    <div className="p-2.5 bg-slate-50 rounded-xl text-slate-900 font-semibold flex items-center gap-1.5">
-                      <Award className="w-4 h-4 text-slate-700" />
+                    <div className="p-3 bg-amber-50/70 border border-amber-100 rounded-2xl text-slate-900 font-semibold flex items-center gap-2">
+                      <Award className="w-4 h-4 text-amber-600 shrink-0" />
                       <span>{m.scholarship}</span>
                     </div>
                   </div>
@@ -147,11 +147,11 @@ export const AboutSection: React.FC<AboutSectionProps> = ({ onOpenBooking, onOpe
                 </div>
 
                 <div className="pt-4 mt-2 border-t border-slate-100 flex items-center justify-between">
-                  <span className="text-[11px] text-slate-500 font-medium">Sesi 1-on-1 Personal</span>
+                  <span className="text-[11px] text-slate-500 font-semibold">Sesi 1-on-1 Personal</span>
                   <button
                     type="button"
                     onClick={() => onOpenBookingWithMentor ? onOpenBookingWithMentor(m.name) : onOpenBooking()}
-                    className="text-xs font-bold text-slate-900 hover:text-black flex items-center gap-1 group/btn"
+                    className="px-4 py-2 bg-amber-400 hover:bg-amber-300 text-slate-950 font-bold text-xs uppercase tracking-wider rounded-xl transition-all shadow-2xs flex items-center gap-1 group/btn cursor-pointer"
                   >
                     <span>Pilih Mentor Ini</span>
                     <ArrowRight className="w-3.5 h-3.5 transition-transform group-hover/btn:translate-x-0.5" />
@@ -228,7 +228,7 @@ export const AboutSection: React.FC<AboutSectionProps> = ({ onOpenBooking, onOpe
             </p>
             <button
               onClick={onOpenBooking}
-              className="px-6 py-3 bg-slate-900 text-white text-xs font-bold uppercase tracking-wider rounded-xl hover:bg-slate-800 transition-colors shadow-sm"
+              className="px-7 py-3.5 bg-amber-400 hover:bg-amber-300 text-slate-950 text-xs font-bold uppercase tracking-wider rounded-xl transition-all shadow-xs cursor-pointer"
             >
               Hubungi Mentor via WhatsApp
             </button>

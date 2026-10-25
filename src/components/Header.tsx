@@ -28,39 +28,43 @@ export const Header: React.FC<HeaderProps> = ({ activeTab, setActiveTab, onOpenB
   };
 
   return (
-    <header className="sticky top-0 z-40 bg-white/95 backdrop-blur-md border-b border-slate-200">
+    <header className="sticky top-0 z-40 bg-white/90 backdrop-blur-md border-b border-indigo-100/60 shadow-xs">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex items-center justify-between gap-8 h-20">
-          {/* Zone 1: Wordmark */}
+        <div className="flex items-center justify-between gap-6 h-20">
+          
+          {/* Zone 1: Wordmark & Logo */}
           <button
             onClick={() => handleNavClick('home')}
-            className="flex items-center gap-3 text-left group cursor-pointer focus:outline-none"
+            className="flex items-center gap-2.5 text-left group cursor-pointer focus:outline-none"
           >
-            <div className="w-10 h-10 rounded-xl bg-slate-900 flex items-center justify-center text-white font-bold text-lg shadow-sm group-hover:bg-slate-800 transition-colors">
-              M
+            {/* Amber geometric spark/flower logo icon from screenshot */}
+            <div className="w-10 h-10 rounded-2xl bg-amber-400 text-slate-950 flex items-center justify-center shadow-xs group-hover:bg-amber-300 transition-colors">
+              <svg className="w-5 h-5 text-slate-950 fill-current" viewBox="0 0 24 24">
+                <path d="M12 2L14.2 8.5L21 9.2L15.8 13.8L17.5 20.5L12 16.8L6.5 20.5L8.2 13.8L3 9.2L9.8 8.5L12 2Z" />
+              </svg>
             </div>
             <div className="flex flex-col">
-              <span className="text-xl font-bold tracking-tight text-slate-900 whitespace-nowrap shrink-0">
-                MandalikaEdu
+              <span className="text-xl font-extrabold tracking-tight text-slate-900 whitespace-nowrap">
+                Mandalika<span className="text-indigo-600">Edu</span>
               </span>
-              <span className="text-xs text-slate-500 font-medium">
+              <span className="text-[10px] text-slate-500 font-semibold tracking-wide">
                 Bimbingan Kuliah Luar Negeri
               </span>
             </div>
           </button>
 
           {/* Zone 2: Navigation Links */}
-          <nav className="hidden lg:flex items-center gap-6 text-sm font-medium text-slate-600">
+          <nav className="hidden lg:flex items-center gap-1.5 p-1 bg-slate-50/80 border border-slate-200/60 rounded-full text-xs font-semibold text-slate-600">
             {navItems.slice(0, 5).map((item) => {
               const isActive = activeTab === item.id;
               return (
                 <button
                   key={item.id}
                   onClick={() => handleNavClick(item.id)}
-                  className={`whitespace-nowrap shrink-0 transition-colors py-2 border-b-2 ${
+                  className={`px-3.5 py-1.5 rounded-full transition-all whitespace-nowrap ${
                     isActive
-                      ? 'text-slate-950 font-semibold border-slate-900'
-                      : 'border-transparent text-slate-600 hover:text-slate-900 hover:border-slate-300'
+                      ? 'bg-white text-indigo-700 shadow-xs font-bold'
+                      : 'text-slate-600 hover:text-slate-950 hover:bg-white/60'
                   }`}
                 >
                   {item.label}
@@ -68,46 +72,45 @@ export const Header: React.FC<HeaderProps> = ({ activeTab, setActiveTab, onOpenB
               );
             })}
             
-            {/* Secondary dropdown or direct items */}
             <button
               onClick={() => handleNavClick('dashboard')}
-              className={`whitespace-nowrap shrink-0 transition-colors py-2 border-b-2 ${
+              className={`px-3.5 py-1.5 rounded-full transition-all whitespace-nowrap ${
                 activeTab === 'dashboard'
-                  ? 'text-slate-950 font-semibold border-slate-900'
-                  : 'border-transparent text-slate-600 hover:text-slate-900 hover:border-slate-300'
+                  ? 'bg-white text-indigo-700 shadow-xs font-bold'
+                  : 'text-slate-600 hover:text-slate-950 hover:bg-white/60'
               }`}
             >
               Roadmap
             </button>
             <button
               onClick={() => handleNavClick('daftar-mentor')}
-              className={`whitespace-nowrap shrink-0 transition-colors py-2 border-b-2 ${
+              className={`px-3.5 py-1.5 rounded-full transition-all whitespace-nowrap ${
                 activeTab === 'daftar-mentor'
-                  ? 'text-slate-950 font-semibold border-slate-900'
-                  : 'border-transparent text-slate-600 hover:text-slate-900 hover:border-slate-300'
+                  ? 'bg-white text-indigo-700 shadow-xs font-bold'
+                  : 'text-slate-600 hover:text-slate-950 hover:bg-white/60'
               }`}
             >
               Daftar Jadi Mentor
             </button>
             <button
               onClick={() => handleNavClick('tentang')}
-              className={`whitespace-nowrap shrink-0 transition-colors py-2 border-b-2 ${
+              className={`px-3.5 py-1.5 rounded-full transition-all whitespace-nowrap ${
                 activeTab === 'tentang'
-                  ? 'text-slate-950 font-semibold border-slate-900'
-                  : 'border-transparent text-slate-600 hover:text-slate-900 hover:border-slate-300'
+                  ? 'bg-white text-indigo-700 shadow-xs font-bold'
+                  : 'text-slate-600 hover:text-slate-950 hover:bg-white/60'
               }`}
             >
               Tentang
             </button>
           </nav>
 
-          {/* Zone 3: 1 Primary Action */}
+          {/* Zone 3: Warm Amber Action Button */}
           <div className="hidden sm:flex items-center gap-3 shrink-0">
             <button
               onClick={onOpenBooking}
-              className="px-5 py-2.5 text-xs font-semibold uppercase tracking-wider text-white bg-slate-900 rounded-lg hover:bg-slate-800 active:scale-95 transition-all whitespace-nowrap shrink-0 shadow-sm"
+              className="px-5 py-2.5 text-xs font-bold uppercase tracking-wider text-slate-950 bg-amber-400 hover:bg-amber-300 active:scale-95 transition-all whitespace-nowrap shrink-0 rounded-xl shadow-xs flex items-center gap-1.5 cursor-pointer"
             >
-              Konsultasi Gratis
+              <span>Konsultasi Gratis</span>
             </button>
           </div>
 
@@ -115,13 +118,13 @@ export const Header: React.FC<HeaderProps> = ({ activeTab, setActiveTab, onOpenB
           <div className="flex lg:hidden items-center gap-2">
             <button
               onClick={onOpenBooking}
-              className="px-3.5 py-1.5 text-xs font-semibold text-white bg-slate-900 rounded-lg hover:bg-slate-800 transition-colors whitespace-nowrap"
+              className="px-3 py-1.5 text-xs font-bold text-slate-950 bg-amber-400 rounded-lg whitespace-nowrap"
             >
               Konsultasi
             </button>
             <button
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-              className="p-2 text-slate-600 hover:text-slate-900 rounded-lg focus:outline-none"
+              className="p-2 text-slate-700 hover:text-slate-950 rounded-lg focus:outline-none"
               aria-label="Toggle navigation menu"
             >
               {mobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}

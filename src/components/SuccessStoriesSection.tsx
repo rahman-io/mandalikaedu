@@ -158,7 +158,7 @@ export const SuccessStoriesSection: React.FC<SuccessStoriesSectionProps> = ({ on
               {selectedStory.name}
             </h2>
             <div className="text-sm font-semibold text-slate-700 mb-1">
-              {selectedStory.program} — {selectedStory.university}
+              {selectedStory.program} • {selectedStory.university}
             </div>
             <div className="text-xs font-bold text-slate-900 mb-6 flex items-center gap-1.5">
               <Award className="w-4 h-4 text-slate-700" />

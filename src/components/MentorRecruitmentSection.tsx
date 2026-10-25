@@ -110,7 +110,7 @@ export const MentorRecruitmentSection: React.FC<MentorRecruitmentSectionProps> =
               Jadwal Fleksibel (Part-time)
             </h3>
             <p className="text-xs text-slate-600 leading-relaxed">
-              Atur waktu luang Anda sendiri (2–5 jam/minggu). Seluruh bimbingan berjalan 100% daring melalui Google Meet / Zoom tanpa mengganggu perkuliahan atau riset Anda.
+              Atur waktu luang Anda sendiri (2 hingga 5 jam per minggu). Seluruh bimbingan berjalan 100% daring melalui Google Meet / Zoom tanpa mengganggu perkuliahan atau riset Anda.
             </p>
           </div>
 

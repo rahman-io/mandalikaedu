@@ -18,12 +18,14 @@ export const Footer: React.FC<FooterProps> = ({ onNavClick, onOpenBooking, onOpe
           
           {/* Brand & Mission (2 cols) */}
           <div className="lg:col-span-2 space-y-4">
-            <div className="flex items-center gap-3">
-              <div className="w-9 h-9 rounded-xl bg-white text-slate-900 flex items-center justify-center font-bold text-base">
-                M
+            <div className="flex items-center gap-2.5">
+              <div className="w-9 h-9 rounded-xl bg-amber-400 text-slate-950 flex items-center justify-center font-black shadow-xs">
+                <svg className="w-5 h-5 text-slate-950 fill-current" viewBox="0 0 24 24">
+                  <path d="M12 2L14.2 8.5L21 9.2L15.8 13.8L17.5 20.5L12 16.8L6.5 20.5L8.2 13.8L3 9.2L9.8 8.5L12 2Z" />
+                </svg>
               </div>
-              <span className="text-xl font-bold tracking-tight text-white">
-                MandalikaEdu
+              <span className="text-xl font-extrabold tracking-tight text-white">
+                Mandalika<span className="text-amber-400">Edu</span>
               </span>
             </div>
 
