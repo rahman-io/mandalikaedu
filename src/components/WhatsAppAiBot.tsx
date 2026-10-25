@@ -1,7 +1,8 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { 
   MessageSquare, X, Send, Bot, CheckCheck, 
-  ExternalLink, Sparkles, ChevronRight, Phone, RefreshCw, Calendar, Award, ShieldCheck, Settings, Edit3
+  ExternalLink, Sparkles, ChevronRight, Phone, RefreshCw, Calendar, Award, ShieldCheck, Settings, Edit3,
+  Cloud, Key, Check, AlertCircle, Loader2
 } from 'lucide-react';
 import { 
   getActiveWhatsAppNumber, 
@@ -43,8 +44,19 @@ export const WhatsAppAiBot: React.FC<WhatsAppAiBotProps> = ({
   const [currentWaNumber, setCurrentWaNumber] = useState<string>(getActiveWhatsAppNumber());
   const [currentWaDisplay, setCurrentWaDisplay] = useState<string>(getActiveWhatsAppDisplay());
   const [isNumberSettingsOpen, setIsNumberSettingsOpen] = useState(false);
+  const [settingsActiveTab, setSettingsActiveTab] = useState<'whatsapp' | 'cloudflare'>('whatsapp');
   const [inputCustomNumber, setInputCustomNumber] = useState(getActiveWhatsAppNumber());
   const [pendingWaText, setPendingWaText] = useState<string | null>(null);
+
+  // Cloudflare Worker AI configuration
+  const [cfWorkerUrl, setCfWorkerUrl] = useState<string>(() => {
+    return localStorage.getItem('mandalika_cf_worker_url') || (import.meta.env.VITE_CF_WORKER_URL as string) || '';
+  });
+  const [inputCfUrl, setInputCfUrl] = useState<string>(() => {
+    return localStorage.getItem('mandalika_cf_worker_url') || (import.meta.env.VITE_CF_WORKER_URL as string) || '';
+  });
+  const [cfTestStatus, setCfTestStatus] = useState<'idle' | 'testing' | 'success' | 'error'>('idle');
+  const [cfTestMessage, setCfTestMessage] = useState<string>('');
 
   const messagesEndRef = useRef<HTMLDivElement>(null);
 
@@ -110,6 +122,70 @@ export const WhatsAppAiBot: React.FC<WhatsAppAiBotProps> = ({
     }
   };
 
+  // Test Cloudflare Worker connection
+  const handleTestCfWorker = async (urlToTest: string) => {
+    const trimmed = urlToTest.trim();
+    if (!trimmed) {
+      setCfTestStatus('error');
+      setCfTestMessage('Masukkan URL Cloudflare Worker terlebih dahulu.');
+      return;
+    }
+
+    setCfTestStatus('testing');
+    setCfTestMessage('Menghubungi Cloudflare Worker...');
+
+    try {
+      const cleanUrl = trimmed.replace(/\/+$/, '');
+      const res = await fetch(cleanUrl, {
+        method: 'GET',
+        headers: { Accept: 'application/json' },
+      });
+
+      if (!res.ok) {
+        setCfTestStatus('error');
+        setCfTestMessage(`Worker merespons status ${res.status}. Pastikan worker sudah di-Deploy.`);
+        return;
+      }
+
+      const data = await res.json().catch(() => null);
+      if (data && data.status === 'ok') {
+        if (data.geminiConfigured) {
+          setCfTestStatus('success');
+          setCfTestMessage('✅ Worker terhubung & GEMINI_API_KEY aktif!');
+        } else {
+          setCfTestStatus('success');
+          setCfTestMessage('⚠️ Worker aktif, tapi GEMINI_API_KEY belum disetel di Variables Cloudflare.');
+        }
+      } else {
+        setCfTestStatus('success');
+        setCfTestMessage('✅ Worker aktif dan siap digunakan!');
+      }
+    } catch {
+      setCfTestStatus('error');
+      setCfTestMessage('❌ Gagal menghubungi Worker. Periksa URL atau CORS header.');
+    }
+  };
+
+  const handleSaveCfWorker = () => {
+    const cleanUrl = inputCfUrl.trim().replace(/\/+$/, '');
+    if (cleanUrl) {
+      localStorage.setItem('mandalika_cf_worker_url', cleanUrl);
+      setCfWorkerUrl(cleanUrl);
+    } else {
+      localStorage.removeItem('mandalika_cf_worker_url');
+      setCfWorkerUrl('');
+    }
+    setIsNumberSettingsOpen(false);
+  };
+
+  const handleResetCfWorker = () => {
+    localStorage.removeItem('mandalika_cf_worker_url');
+    setCfWorkerUrl('');
+    setInputCfUrl('');
+    setCfTestStatus('idle');
+    setCfTestMessage('');
+  };
+
   // Safe WhatsApp opener: detects if placeholder number is used
   const safeOpenWhatsApp = (text: string) => {
     const isPlaceholder = 
@@ -119,6 +195,7 @@ export const WhatsAppAiBot: React.FC<WhatsAppAiBotProps> = ({
 
     if (isPlaceholder) {
       setPendingWaText(text);
+      setSettingsActiveTab('whatsapp');
       setIsNumberSettingsOpen(true);
       return;
     }
@@ -305,16 +382,17 @@ export const WhatsAppAiBot: React.FC<WhatsAppAiBotProps> = ({
     setIsTyping(true);
 
     try {
-      // 1. Try server-side Gemini 3.8 Flash API call
+      // 1. Try Cloudflare Worker or server-side Gemini Flash API call
       const conversationHistory = newMessages.map(m => ({
         role: m.sender === 'ai' ? 'model' : 'user',
         content: m.text
       }));
 
+      const targetEndpoint = cfWorkerUrl ? cfWorkerUrl.trim().replace(/\/+$/, '') : '/api/chat';
       const controller = new AbortController();
-      const timeoutId = setTimeout(() => controller.abort(), 6000);
+      const timeoutId = setTimeout(() => controller.abort(), 8000);
 
-      const res = await fetch('/api/chat', {
+      const res = await fetch(targetEndpoint, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ messages: conversationHistory }),
@@ -324,8 +402,8 @@ export const WhatsAppAiBot: React.FC<WhatsAppAiBotProps> = ({
       clearTimeout(timeoutId);
 
       if (res && res.ok) {
-        const data = await res.json();
-        if (data.reply) {
+        const data = await res.json().catch(() => null);
+        if (data && data.reply) {
           const aiMessage: Message = {
             id: `ai-${Date.now()}`,
             sender: 'ai',
@@ -461,6 +539,17 @@ export const WhatsAppAiBot: React.FC<WhatsAppAiBotProps> = ({
             <div className="flex items-center gap-1">
               <button
                 type="button"
+                onClick={() => {
+                  setSettingsActiveTab('cloudflare');
+                  setIsNumberSettingsOpen(true);
+                }}
+                title="Pengaturan AI & Cloudflare Worker"
+                className="p-1.5 rounded-lg text-emerald-200 hover:text-white hover:bg-white/10 transition-colors cursor-pointer"
+              >
+                <Settings className="w-4 h-4" />
+              </button>
+              <button
+                type="button"
                 onClick={() => safeOpenWhatsApp('Halo Tim MandalikaEdu via Halo AI! Saya ingin berdiskusi.')}
                 title={`Buka WhatsApp Resmi (${currentWaDisplay})`}
                 className="p-1.5 rounded-lg text-emerald-200 hover:text-white hover:bg-white/10 transition-colors cursor-pointer"
@@ -479,25 +568,35 @@ export const WhatsAppAiBot: React.FC<WhatsAppAiBotProps> = ({
           </div>
 
           {/* Subheader Banner: Official WhatsApp link & Change number option */}
-          <div className="bg-[#128C7E] px-4 py-1.5 text-white/90 text-[11px] flex items-center justify-between border-t border-emerald-700/50">
+          <div className="bg-[#128C7E] px-3.5 py-1.5 text-white/90 text-[11px] flex items-center justify-between border-t border-emerald-700/50">
             <span className="flex items-center gap-1.5 truncate">
               <span>WA: {currentWaDisplay}</span>
               <button
                 type="button"
-                onClick={() => setIsNumberSettingsOpen(true)}
+                onClick={() => {
+                  setSettingsActiveTab('whatsapp');
+                  setIsNumberSettingsOpen(true);
+                }}
                 title="Ubah nomor WhatsApp bisnis Anda"
                 className="text-[10px] text-emerald-200 hover:text-white underline cursor-pointer"
               >
                 (Ubah)
               </button>
             </span>
-            <button
-              type="button"
-              onClick={() => safeOpenWhatsApp('Halo Admin MandalikaEdu, saya ingin konsultasi via WhatsApp.')}
-              className="text-[10px] bg-white/20 hover:bg-white/30 px-2 py-0.5 rounded-full font-semibold transition-colors cursor-pointer shrink-0"
-            >
-              Buka WA Asli ↗
-            </button>
+            <div className="flex items-center gap-2 shrink-0">
+              {cfWorkerUrl && (
+                <span className="inline-flex items-center gap-1 text-[9px] bg-emerald-950/40 text-emerald-200 border border-emerald-500/30 px-1.5 py-0.5 rounded-md font-mono" title="Terhubung ke Cloudflare Worker AI">
+                  <Cloud className="w-2.5 h-2.5" /> CF Active
+                </span>
+              )}
+              <button
+                type="button"
+                onClick={() => safeOpenWhatsApp('Halo Admin MandalikaEdu, saya ingin konsultasi via WhatsApp.')}
+                className="text-[10px] bg-white/20 hover:bg-white/30 px-2 py-0.5 rounded-full font-semibold transition-colors cursor-pointer shrink-0"
+              >
+                Buka WA Asli ↗
+              </button>
+            </div>
           </div>
 
           {/* Chat Messages Body */}
@@ -611,14 +710,15 @@ export const WhatsAppAiBot: React.FC<WhatsAppAiBotProps> = ({
         </div>
       )}
 
-      {/* Set WhatsApp Number Modal Dialog */}
+      {/* Set WhatsApp Number & Cloudflare Worker AI Modal Dialog */}
       {isNumberSettingsOpen && (
         <div className="fixed inset-0 z-60 bg-black/60 backdrop-blur-2xs flex items-center justify-center p-4">
-          <div className="bg-white rounded-3xl p-6 max-w-sm w-full shadow-2xl border border-slate-200 space-y-4 animate-in fade-in zoom-in-95 duration-150">
-            <div className="flex items-center justify-between">
-              <div className="flex items-center gap-2 text-emerald-800 font-bold text-sm">
-                <Phone className="w-4 h-4" />
-                <span>Atur Nomor WhatsApp Bisnis</span>
+          <div className="bg-white rounded-3xl p-5 sm:p-6 max-w-md w-full shadow-2xl border border-slate-200 space-y-4 animate-in fade-in zoom-in-95 duration-150">
+            {/* Modal Header */}
+            <div className="flex items-center justify-between pb-1 border-b border-slate-100">
+              <div className="flex items-center gap-2 text-emerald-900 font-bold text-sm">
+                <Settings className="w-4 h-4 text-emerald-600" />
+                <span>Pengaturan Chatbot & Integrasi</span>
               </div>
               <button
                 type="button"
@@ -626,49 +726,176 @@ export const WhatsAppAiBot: React.FC<WhatsAppAiBotProps> = ({
                   setIsNumberSettingsOpen(false);
                   setPendingWaText(null);
                 }}
-                className="text-slate-400 hover:text-slate-600 p-1 cursor-pointer"
+                className="text-slate-400 hover:text-slate-600 p-1 rounded-lg hover:bg-slate-100 transition-colors cursor-pointer"
               >
                 <X className="w-4 h-4" />
               </button>
             </div>
 
-            <p className="text-xs text-slate-600 leading-relaxed">
-              Nomor WhatsApp saat ini masih berupa nomor contoh. Masukkan nomor WhatsApp aktif Anda (contoh: <strong>08123456789</strong> atau <strong>628123456789</strong>) agar tombol WhatsApp langsung membuka chat ke nomor Anda:
-            </p>
-
-            <div>
-              <label className="text-[11px] font-semibold text-slate-700 block mb-1">
-                Nomor WhatsApp Anda:
-              </label>
-              <input
-                type="tel"
-                value={inputCustomNumber}
-                onChange={(e) => setInputCustomNumber(e.target.value)}
-                placeholder="Contoh: 08123456789"
-                className="w-full text-xs px-3.5 py-2.5 bg-slate-50 border border-slate-300 rounded-xl focus:outline-none focus:border-emerald-500 font-medium"
-              />
-            </div>
-
-            <div className="space-y-2 pt-1">
+            {/* Tab Switcher */}
+            <div className="flex bg-slate-100 p-1 rounded-xl text-xs font-semibold">
               <button
                 type="button"
-                onClick={() => handleSaveCustomNumber(true)}
-                className="w-full py-2.5 bg-[#25D366] hover:bg-[#20ba59] text-white text-xs font-bold rounded-xl shadow-xs transition-colors cursor-pointer"
+                onClick={() => setSettingsActiveTab('whatsapp')}
+                className={`flex-1 py-1.5 rounded-lg flex items-center justify-center gap-1.5 transition-all cursor-pointer ${
+                  settingsActiveTab === 'whatsapp'
+                    ? 'bg-white text-emerald-900 shadow-2xs'
+                    : 'text-slate-600 hover:text-slate-900'
+                }`}
               >
-                Simpan & Lanjutkan ke WhatsApp
+                <Phone className="w-3.5 h-3.5 text-emerald-600" />
+                <span>Nomor WhatsApp</span>
               </button>
-
               <button
                 type="button"
-                onClick={() => {
-                  setIsNumberSettingsOpen(false);
-                  onOpenBooking('discovery-free', 'Pemesanan langsung via form web');
-                }}
-                className="w-full py-2 bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-medium rounded-xl transition-colors cursor-pointer"
+                onClick={() => setSettingsActiveTab('cloudflare')}
+                className={`flex-1 py-1.5 rounded-lg flex items-center justify-center gap-1.5 transition-all cursor-pointer ${
+                  settingsActiveTab === 'cloudflare'
+                    ? 'bg-white text-emerald-900 shadow-2xs'
+                    : 'text-slate-600 hover:text-slate-900'
+                }`}
               >
-                Gunakan Form Booking di Web Saja
+                <Cloud className="w-3.5 h-3.5 text-blue-600" />
+                <span>Cloudflare AI (Aman)</span>
               </button>
             </div>
+
+            {/* Tab 1: WhatsApp Number */}
+            {settingsActiveTab === 'whatsapp' && (
+              <div className="space-y-3.5">
+                <p className="text-xs text-slate-600 leading-relaxed">
+                  Masukkan nomor WhatsApp admin/konsultan MandalikaEdu Anda agar calon pendaftar bisa langsung diarahkan ke nomor WhatsApp Anda:
+                </p>
+
+                <div>
+                  <label className="text-[11px] font-semibold text-slate-700 block mb-1">
+                    Nomor WhatsApp Bisnis:
+                  </label>
+                  <input
+                    type="tel"
+                    value={inputCustomNumber}
+                    onChange={(e) => setInputCustomNumber(e.target.value)}
+                    placeholder="Contoh: 082247563829 atau 6282247563829"
+                    className="w-full text-xs px-3.5 py-2.5 bg-slate-50 border border-slate-300 rounded-xl focus:outline-none focus:border-emerald-500 font-medium"
+                  />
+                  <span className="text-[10px] text-slate-500 mt-1 block">
+                    Format otomatis disesuaikan ke kode negara 62.
+                  </span>
+                </div>
+
+                <div className="space-y-2 pt-1">
+                  <button
+                    type="button"
+                    onClick={() => handleSaveCustomNumber(true)}
+                    className="w-full py-2.5 bg-[#25D366] hover:bg-[#20ba59] text-white text-xs font-bold rounded-xl shadow-xs transition-colors cursor-pointer"
+                  >
+                    Simpan & Terapkan ke WhatsApp
+                  </button>
+
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setIsNumberSettingsOpen(false);
+                      onOpenBooking('discovery-free', 'Pemesanan langsung via form web');
+                    }}
+                    className="w-full py-2 bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-medium rounded-xl transition-colors cursor-pointer"
+                  >
+                    Gunakan Form Booking di Web Saja
+                  </button>
+                </div>
+              </div>
+            )}
+
+            {/* Tab 2: Cloudflare Worker AI */}
+            {settingsActiveTab === 'cloudflare' && (
+              <div className="space-y-3.5">
+                <div className="bg-blue-50/80 border border-blue-200 rounded-xl p-3 text-xs text-blue-900 space-y-1.5">
+                  <div className="flex items-center gap-1.5 font-bold text-blue-950">
+                    <ShieldCheck className="w-4 h-4 text-blue-700 shrink-0" />
+                    <span>API Key Tersimpan Aman di Cloudflare</span>
+                  </div>
+                  <p className="text-[11px] text-blue-800/90 leading-relaxed">
+                    API Key Google Gemini disimpan di brankas terenkripsi Cloudflare Worker, sehingga <strong>100% aman dari pencurian/hack</strong> saat web berjalan di GitHub Pages.
+                  </p>
+                </div>
+
+                <div>
+                  <label className="text-[11px] font-semibold text-slate-700 block mb-1">
+                    URL Cloudflare Worker Anda:
+                  </label>
+                  <input
+                    type="url"
+                    value={inputCfUrl}
+                    onChange={(e) => {
+                      setInputCfUrl(e.target.value);
+                      setCfTestStatus('idle');
+                      setCfTestMessage('');
+                    }}
+                    placeholder="https://mandalikaedu-ai.nama-akun.workers.dev"
+                    className="w-full text-xs px-3.5 py-2.5 bg-slate-50 border border-slate-300 rounded-xl focus:outline-none focus:border-blue-500 font-mono text-[11px]"
+                  />
+                  <p className="text-[10px] text-slate-500 mt-1">
+                    Salin URL dari Worker yang Anda deploy di dash.cloudflare.com.
+                  </p>
+                </div>
+
+                {/* Test Feedback Area */}
+                {cfTestStatus !== 'idle' && (
+                  <div
+                    className={`p-2.5 rounded-xl text-xs flex items-center gap-2 ${
+                      cfTestStatus === 'testing'
+                        ? 'bg-slate-100 text-slate-700 border border-slate-200'
+                        : cfTestStatus === 'success'
+                        ? 'bg-emerald-50 text-emerald-800 border border-emerald-200 font-medium'
+                        : 'bg-rose-50 text-rose-800 border border-rose-200'
+                    }`}
+                  >
+                    {cfTestStatus === 'testing' && <Loader2 className="w-3.5 h-3.5 animate-spin text-blue-600 shrink-0" />}
+                    {cfTestStatus === 'success' && <Check className="w-3.5 h-3.5 text-emerald-600 shrink-0" />}
+                    {cfTestStatus === 'error' && <AlertCircle className="w-3.5 h-3.5 text-rose-600 shrink-0" />}
+                    <span className="text-[11px]">{cfTestMessage}</span>
+                  </div>
+                )}
+
+                {/* Buttons */}
+                <div className="space-y-2 pt-1">
+                  <div className="flex gap-2">
+                    <button
+                      type="button"
+                      disabled={cfTestStatus === 'testing' || !inputCfUrl.trim()}
+                      onClick={() => handleTestCfWorker(inputCfUrl)}
+                      className="flex-1 py-2 bg-slate-100 hover:bg-slate-200 disabled:opacity-50 text-slate-700 text-xs font-semibold rounded-xl transition-colors cursor-pointer flex items-center justify-center gap-1.5"
+                    >
+                      <RefreshCw className={`w-3.5 h-3.5 ${cfTestStatus === 'testing' ? 'animate-spin' : ''}`} />
+                      <span>Test Koneksi</span>
+                    </button>
+                    <button
+                      type="button"
+                      onClick={handleSaveCfWorker}
+                      className="flex-1 py-2 bg-blue-600 hover:bg-blue-700 text-white text-xs font-bold rounded-xl transition-colors cursor-pointer shadow-xs"
+                    >
+                      Simpan Worker
+                    </button>
+                  </div>
+
+                  {cfWorkerUrl && (
+                    <button
+                      type="button"
+                      onClick={handleResetCfWorker}
+                      className="w-full py-1.5 text-rose-600 hover:text-rose-700 hover:bg-rose-50 text-[11px] font-medium rounded-lg transition-colors cursor-pointer text-center"
+                    >
+                      Lepas Worker (Kembali ke AI Bawaan MandalikaEdu)
+                    </button>
+                  )}
+                </div>
+
+                <div className="pt-1 text-center">
+                  <span className="text-[10px] text-slate-500">
+                    File kode & panduan tersedia di folder <code className="text-blue-700 font-mono">cloudflare-worker/README.md</code>
+                  </span>
+                </div>
+              </div>
+            )}
           </div>
         </div>
       )}
