@@ -17,6 +17,7 @@ export const Header: React.FC<HeaderProps> = ({ activeTab, setActiveTab, onOpenB
     { id: 'paket', label: 'Paket & Harga' },
     { id: 'kisah', label: 'Kisah Siswa' },
     { id: 'dashboard', label: 'Roadmap Siswa' },
+    { id: 'daftar-mentor', label: 'Daftar Jadi Mentor' },
     { id: 'tentang', label: 'Tentang Kami' },
   ];
 
@@ -77,6 +78,16 @@ export const Header: React.FC<HeaderProps> = ({ activeTab, setActiveTab, onOpenB
               }`}
             >
               Roadmap
+            </button>
+            <button
+              onClick={() => handleNavClick('daftar-mentor')}
+              className={`whitespace-nowrap shrink-0 transition-colors py-2 border-b-2 ${
+                activeTab === 'daftar-mentor'
+                  ? 'text-slate-950 font-semibold border-slate-900'
+                  : 'border-transparent text-slate-600 hover:text-slate-900 hover:border-slate-300'
+              }`}
+            >
+              Daftar Jadi Mentor
             </button>
             <button
               onClick={() => handleNavClick('tentang')}

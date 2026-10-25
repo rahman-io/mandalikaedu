@@ -6,6 +6,8 @@ import {
 
 interface AboutSectionProps {
   onOpenBooking: () => void;
+  onOpenBookingWithMentor?: (mentorName: string) => void;
+  onNavigateTab?: (tab: string) => void;
 }
 
 const MENTORS = [
@@ -70,7 +72,7 @@ const FAQS = [
   }
 ];
 
-export const AboutSection: React.FC<AboutSectionProps> = ({ onOpenBooking }) => {
+export const AboutSection: React.FC<AboutSectionProps> = ({ onOpenBooking, onOpenBookingWithMentor, onNavigateTab }) => {
   const [openFaqIndex, setOpenFaqIndex] = useState<number | null>(0);
 
   const toggleFaq = (idx: number) => {
@@ -139,13 +141,50 @@ export const AboutSection: React.FC<AboutSectionProps> = ({ onOpenBooking }) => 
                     </div>
                   </div>
 
-                  <p className="text-xs text-slate-600 leading-relaxed">
+                  <p className="text-xs text-slate-600 leading-relaxed mb-4">
                     {m.bio}
                   </p>
+                </div>
+
+                <div className="pt-4 mt-2 border-t border-slate-100 flex items-center justify-between">
+                  <span className="text-[11px] text-slate-500 font-medium">Sesi 1-on-1 Personal</span>
+                  <button
+                    type="button"
+                    onClick={() => onOpenBookingWithMentor ? onOpenBookingWithMentor(m.name) : onOpenBooking()}
+                    className="text-xs font-bold text-slate-900 hover:text-black flex items-center gap-1 group/btn"
+                  >
+                    <span>Pilih Mentor Ini</span>
+                    <ArrowRight className="w-3.5 h-3.5 transition-transform group-hover/btn:translate-x-0.5" />
+                  </button>
                 </div>
               </div>
             ))}
           </div>
+
+          {/* Callout to Join as Mentor */}
+          {onNavigateTab && (
+            <div className="mt-8 bg-linear-to-r from-slate-900 via-slate-800 to-slate-900 rounded-3xl p-6 sm:p-8 text-white flex flex-col md:flex-row items-center justify-between gap-6 shadow-sm border border-slate-800">
+              <div className="space-y-1.5 text-center md:text-left">
+                <span className="text-[10px] font-bold uppercase tracking-wider text-emerald-400 bg-emerald-950/60 border border-emerald-500/30 px-2.5 py-1 rounded-full inline-block">
+                  Peluang Kemitraan Mentor
+                </span>
+                <h3 className="text-lg sm:text-xl font-bold tracking-tight text-white">
+                  Kuliah di Luar Negeri? Bergabunglah Menjadi Mentor MandalikaEdu
+                </h3>
+                <p className="text-xs sm:text-sm text-slate-300 max-w-2xl leading-relaxed">
+                  Bantu adik-adik daerah meraih kampus dan beasiswa impianmu. Dapatkan fee per sesi / bagi hasil bimbingan, jam kerja fleksibel part-time, dan dampak sosial nyata bagi daerah asalmu.
+                </p>
+              </div>
+              <button
+                type="button"
+                onClick={() => onNavigateTab('daftar-mentor')}
+                className="shrink-0 px-5 py-3 bg-white text-slate-900 rounded-xl text-xs font-bold uppercase tracking-wider hover:bg-slate-100 transition-colors shadow-sm flex items-center gap-2 cursor-pointer"
+              >
+                <span>Daftar Jadi Mentor</span>
+                <ArrowRight className="w-4 h-4" />
+              </button>
+            </div>
+          )}
         </div>
 
         {/* FAQ Section */}

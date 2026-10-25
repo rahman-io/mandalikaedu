@@ -16,8 +16,10 @@ import { CountriesDirectory } from './components/CountriesDirectory';
 import { StudentDashboard } from './components/StudentDashboard';
 import { BlogSection } from './components/BlogSection';
 import { AboutSection } from './components/AboutSection';
+import { MentorRecruitmentSection } from './components/MentorRecruitmentSection';
 import { BookingModal } from './components/BookingModal';
 import { LeadMagnetModal } from './components/LeadMagnetModal';
+import { WhatsAppAiBot } from './components/WhatsAppAiBot';
 import { ServicePackage } from './data/packages';
 import { Scholarship } from './data/scholarships';
 
@@ -123,6 +125,14 @@ export default function App() {
         {activeTab === 'tentang' && (
           <AboutSection
             onOpenBooking={() => handleOpenBooking('discovery-free')}
+            onOpenBookingWithMentor={(mentorName) => handleOpenBooking('discovery-free', `Booking konsultasi dengan mentor: ${mentorName}`)}
+            onNavigateTab={handleNavClick}
+          />
+        )}
+
+        {activeTab === 'daftar-mentor' && (
+          <MentorRecruitmentSection
+            onOpenBookingWithMentor={(mentorName) => handleOpenBooking('discovery-free', `Konsultasi calon mentor bersama ${mentorName}`)}
           />
         )}
       </main>
@@ -145,6 +155,12 @@ export default function App() {
       <LeadMagnetModal
         isOpen={isLeadMagnetOpen}
         onClose={() => setIsLeadMagnetOpen(false)}
+      />
+
+      {/* WhatsApp Halo AI Interactive Floating Bot */}
+      <WhatsAppAiBot
+        onOpenBooking={(pkgId, note) => handleOpenBooking(pkgId || 'discovery-free', note || '')}
+        onNavigateTab={handleNavClick}
       />
 
     </div>

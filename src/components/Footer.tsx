@@ -1,5 +1,6 @@
 import React from 'react';
 import { ShieldCheck, MapPin, Mail, Phone, ExternalLink } from 'lucide-react';
+import { getActiveWhatsAppDisplay, getActiveWhatsAppNumber } from '../config/contact';
 
 interface FooterProps {
   onNavClick: (tab: string) => void;
@@ -35,10 +36,15 @@ export const Footer: React.FC<FooterProps> = ({ onNavClick, onOpenBooking, onOpe
                 <MapPin className="w-3.5 h-3.5 text-slate-500 shrink-0" />
                 <span>Headquarters: Mataram, Lombok, Nusa Tenggara Barat</span>
               </div>
-              <div className="flex items-center gap-2">
+              <a 
+                href={`https://wa.me/${getActiveWhatsAppNumber()}`} 
+                target="_blank" 
+                rel="noreferrer" 
+                className="flex items-center gap-2 hover:text-white transition-colors"
+              >
                 <Phone className="w-3.5 h-3.5 text-slate-500 shrink-0" />
-                <span>WhatsApp: +62 821-4567-8901 (Fast Response)</span>
-              </div>
+                <span>WhatsApp: {getActiveWhatsAppDisplay()} (Fast Response)</span>
+              </a>
               <div className="flex items-center gap-2">
                 <Mail className="w-3.5 h-3.5 text-slate-500 shrink-0" />
                 <span>Email: halo@mandalikaedu.id</span>
@@ -109,6 +115,11 @@ export const Footer: React.FC<FooterProps> = ({ onNavClick, onOpenBooking, onOpe
               <li>
                 <button onClick={() => onNavClick('tentang')} className="hover:text-white transition-colors text-left">
                   Profil Mentor & FAQ
+                </button>
+              </li>
+              <li>
+                <button onClick={() => onNavClick('daftar-mentor')} className="hover:text-white transition-colors text-left text-slate-300 font-semibold">
+                  Daftar Jadi Mentor (Rekrutmen)
                 </button>
               </li>
             </ul>

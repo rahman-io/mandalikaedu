@@ -4,6 +4,7 @@ import {
   Sparkles, ShieldCheck, ArrowRight, Phone 
 } from 'lucide-react';
 import { PACKAGES_DATA, ServicePackage } from '../data/packages';
+import { getActiveWhatsAppNumber } from '../config/contact';
 
 interface BookingModalProps {
   isOpen: boolean;
@@ -42,6 +43,7 @@ export const BookingModal: React.FC<BookingModalProps> = ({
 
   // Generate WhatsApp Direct Link
   const selectedPkg = PACKAGES_DATA.find(p => p.id === formData.packageId) || PACKAGES_DATA[0];
+
   const waText = encodeURIComponent(
     `Halo Tim MandalikaEdu, saya ingin mendaftar sesi konsultasi:\n\n` +
     `• Nama: ${formData.name}\n` +
@@ -53,7 +55,7 @@ export const BookingModal: React.FC<BookingModalProps> = ({
     `\nMohon konfirmasi jadwal ketersediaan mentor. Terima kasih!`
   );
 
-  const waUrl = `https://wa.me/6282145678901?text=${waText}`;
+  const waUrl = `https://wa.me/${getActiveWhatsAppNumber()}?text=${waText}`;
 
   return (
     <div className="fixed inset-0 z-50 overflow-y-auto bg-slate-900/60 backdrop-blur-xs flex items-center justify-center p-4 sm:p-6">
