@@ -37,11 +37,13 @@ export const Header: React.FC<HeaderProps> = ({ activeTab, setActiveTab, onOpenB
             onClick={() => handleNavClick('home')}
             className="flex items-center gap-2.5 text-left group cursor-pointer focus:outline-none"
           >
-            {/* Amber geometric spark/flower logo icon from screenshot */}
-            <div className="w-10 h-10 rounded-2xl bg-amber-400 text-slate-950 flex items-center justify-center shadow-xs group-hover:bg-amber-300 transition-colors">
-              <svg className="w-5 h-5 text-slate-950 fill-current" viewBox="0 0 24 24">
-                <path d="M12 2L14.2 8.5L21 9.2L15.8 13.8L17.5 20.5L12 16.8L6.5 20.5L8.2 13.8L3 9.2L9.8 8.5L12 2Z" />
-              </svg>
+            {/* Visual Brand Mark from uploaded Instagram logo (text cropped out) */}
+            <div className="w-10 h-10 sm:w-11 sm:h-11 rounded-2xl bg-white border border-slate-200/80 shadow-2xs group-hover:border-indigo-300 transition-all flex items-center justify-center overflow-hidden shrink-0">
+              <img 
+                src="/assets/aistudio/Instagram_Profile_Logo_Fit_c4e23bff.jpg" 
+                alt="MandalikaEdu Logo" 
+                className="w-full h-full object-cover object-top scale-[1.28] origin-top" 
+              />
             </div>
             <div className="flex flex-col">
               <span className="text-xl font-extrabold tracking-tight text-slate-900 whitespace-nowrap">

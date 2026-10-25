@@ -60,7 +60,7 @@ export default function App() {
       />
 
       {/* Main Content Area */}
-      <main className="flex-1">
+      <main className="flex-1 pb-12 sm:pb-20">
         {activeTab === 'home' && (
           <HomeSection
             onNavigateTab={handleNavClick}

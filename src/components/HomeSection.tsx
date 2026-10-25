@@ -755,7 +755,7 @@ export const HomeSection: React.FC<HomeSectionProps> = ({
       <WebinarSection onOpenBooking={onOpenBooking} />
 
       {/* 10. LEAD MAGNET BANNER (E-BOOK DOWNLOAD) */}
-      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-10 sm:pb-16">
         <div className="bg-gradient-to-r from-indigo-900 via-indigo-800 to-purple-900 text-white rounded-3xl p-8 sm:p-12 flex flex-col md:flex-row items-center justify-between gap-8 shadow-xl">
           <div className="space-y-3 max-w-xl">
             <div className="inline-flex items-center gap-2 text-xs font-semibold uppercase tracking-wider text-amber-300">

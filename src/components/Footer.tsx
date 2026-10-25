@@ -19,10 +19,12 @@ export const Footer: React.FC<FooterProps> = ({ onNavClick, onOpenBooking, onOpe
           {/* Brand & Mission (2 cols) */}
           <div className="lg:col-span-2 space-y-4">
             <div className="flex items-center gap-2.5">
-              <div className="w-9 h-9 rounded-xl bg-amber-400 text-slate-950 flex items-center justify-center font-black shadow-xs">
-                <svg className="w-5 h-5 text-slate-950 fill-current" viewBox="0 0 24 24">
-                  <path d="M12 2L14.2 8.5L21 9.2L15.8 13.8L17.5 20.5L12 16.8L6.5 20.5L8.2 13.8L3 9.2L9.8 8.5L12 2Z" />
-                </svg>
+              <div className="w-10 h-10 rounded-2xl bg-white border border-slate-700 shadow-2xs flex items-center justify-center overflow-hidden shrink-0">
+                <img 
+                  src="/assets/aistudio/Instagram_Profile_Logo_Fit_c4e23bff.jpg" 
+                  alt="MandalikaEdu Logo" 
+                  className="w-full h-full object-cover object-top scale-[1.28] origin-top" 
+                />
               </div>
               <span className="text-xl font-extrabold tracking-tight text-white">
                 Mandalika<span className="text-amber-400">Edu</span>
