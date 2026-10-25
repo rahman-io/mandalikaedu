@@ -17,18 +17,19 @@ export const CountriesDirectory: React.FC<CountriesDirectoryProps> = ({
   const [activeModalCountry, setActiveModalCountry] = useState<CountryDetail | null>(null);
 
   return (
-    <div className="py-16 bg-slate-50 min-h-screen">
+    <div className="py-16 bg-eduvance-grid min-h-screen">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         
         {/* Header */}
         <div className="text-center max-w-3xl mx-auto mb-12">
-          <div className="text-xs font-semibold uppercase tracking-widest text-slate-500 mb-2">
-            Panduan Lengkap Studi Mancanegara
+          <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-indigo-50 border border-indigo-100 text-indigo-700 text-xs font-bold tracking-wide uppercase mb-3">
+            <Sparkles className="w-3.5 h-3.5 text-indigo-600" />
+            <span>Panduan Lengkap Studi Mancanegara</span>
           </div>
-          <h1 className="text-3xl sm:text-4xl font-extrabold text-slate-900 tracking-tight mb-4">
-            Eksplorasi Negara Tujuan Favorit
+          <h1 className="text-3xl sm:text-4xl lg:text-5xl font-black text-slate-900 tracking-tight mb-4">
+            Eksplorasi <span className="text-indigo-600">Negara Tujuan</span> Favorit
           </h1>
-          <p className="text-base text-slate-600 leading-relaxed">
+          <p className="text-base text-slate-600 leading-relaxed max-w-2xl mx-auto">
             Pahami karakteristik sistem pendidikan, kebijakan SPP, biaya hidup riil bulanan, regulasi kerja sampingan, serta peluang beasiswa terfavorit untuk setiap negara.
           </p>
         </div>
@@ -39,20 +40,20 @@ export const CountriesDirectory: React.FC<CountriesDirectoryProps> = ({
             <div
               key={c.id}
               onClick={() => setActiveModalCountry(c)}
-              className="bg-white rounded-3xl border border-slate-200/90 hover:border-slate-400/80 p-7 sm:p-8 flex flex-col justify-between transition-all duration-200 hover:shadow-md cursor-pointer group"
+              className="bg-white rounded-3xl border border-slate-200/90 hover:border-indigo-300 p-7 sm:p-8 flex flex-col justify-between transition-all duration-200 hover:shadow-md cursor-pointer group"
             >
               <div>
                 <div className="flex items-center justify-between mb-4 pb-3 border-b border-slate-100">
                   <div className="flex items-center gap-3">
                     <span className="text-3xl" role="img" aria-label={c.name}>{c.flag}</span>
                     <div>
-                      <h3 className="text-xl font-bold text-slate-900 group-hover:text-slate-800 transition-colors">
+                      <h3 className="text-xl font-bold text-slate-900 group-hover:text-indigo-600 transition-colors">
                         {c.name}
                       </h3>
-                      <span className="text-xs text-slate-500">Ibu kota: {c.capital}</span>
+                      <span className="text-xs text-slate-500 font-medium">Ibu kota: {c.capital}</span>
                     </div>
                   </div>
-                  <div className="text-xs font-semibold text-slate-600 bg-slate-50 px-2.5 py-1 rounded-lg">
+                  <div className="text-xs font-bold text-indigo-700 bg-indigo-50 border border-indigo-100 px-3 py-1 rounded-full">
                     {c.currency}
                   </div>
                 </div>
@@ -61,30 +62,30 @@ export const CountriesDirectory: React.FC<CountriesDirectoryProps> = ({
                   {c.tagline}
                 </p>
 
-                {/* Unboxed Metadata Stats */}
+                {/* Metadata Stats */}
                 <div className="space-y-3 mb-6 text-xs text-slate-700">
                   <div className="flex items-start justify-between gap-2">
-                    <span className="text-slate-500">Living Cost Bulanan:</span>
-                    <strong className="text-slate-900 text-right">{c.avgLivingCostMonthly.idr}</strong>
+                    <span className="text-slate-500 font-medium">Living Cost Bulanan:</span>
+                    <strong className="text-slate-900 text-right font-bold">{c.avgLivingCostMonthly.idr}</strong>
                   </div>
 
                   <div className="flex items-start justify-between gap-2">
-                    <span className="text-slate-500">Kuliah Gratis / SPP:</span>
-                    <span className="text-slate-800 text-right line-clamp-1 font-medium">{c.tuitionFeeInfo.split('.')[0]}</span>
+                    <span className="text-slate-500 font-medium">Kuliah Gratis / SPP:</span>
+                    <span className="text-slate-800 text-right line-clamp-1 font-semibold">{c.tuitionFeeInfo.split('.')[0]}</span>
                   </div>
 
                   <div className="flex items-start justify-between gap-2">
-                    <span className="text-slate-500">Syarat Bahasa:</span>
-                    <span className="text-slate-800 text-right line-clamp-1 font-medium">{c.languageRequirements.english.split('(')[0]}</span>
+                    <span className="text-slate-500 font-medium">Syarat Bahasa:</span>
+                    <span className="text-slate-800 text-right line-clamp-1 font-semibold">{c.languageRequirements.english.split('(')[0]}</span>
                   </div>
                 </div>
 
                 {/* Popular universities preview */}
-                <div className="p-3 bg-slate-50 rounded-2xl mb-6 text-xs text-slate-600">
-                  <span className="font-semibold text-slate-800 block mb-1">
+                <div className="p-3.5 bg-slate-50 border border-slate-100 rounded-2xl mb-6 text-xs text-slate-600">
+                  <span className="font-bold text-slate-800 block mb-1">
                     Kampus Terkemuka:
                   </span>
-                  <div className="text-[11px] text-slate-500 line-clamp-2">
+                  <div className="text-[11px] text-slate-500 line-clamp-2 font-medium">
                     {c.popularUniversities.map(u => u.name.split('(')[0].trim()).join(', ')}
                   </div>
                 </div>
@@ -92,10 +93,10 @@ export const CountriesDirectory: React.FC<CountriesDirectoryProps> = ({
 
               {/* Bottom Card Action */}
               <div className="pt-4 border-t border-slate-100 flex items-center justify-between text-xs">
-                <span className="font-semibold text-slate-900 group-hover:translate-x-1 transition-transform flex items-center gap-1">
+                <span className="font-bold text-indigo-600 group-hover:text-indigo-700 group-hover:translate-x-1 transition-all flex items-center gap-1">
                   Lihat Rincian Studi <ArrowRight className="w-3.5 h-3.5" />
                 </span>
-                <span className="text-[11px] text-slate-400">
+                <span className="text-[11px] font-semibold text-slate-400 bg-slate-100 px-2.5 py-0.5 rounded-full">
                   {c.availableScholarships.length} Beasiswa
                 </span>
               </div>
@@ -221,12 +222,12 @@ export const CountriesDirectory: React.FC<CountriesDirectoryProps> = ({
               </div>
 
               {/* Adaptasi Anak Daerah */}
-              <div className="p-4 bg-slate-900 text-white rounded-2xl text-xs space-y-1.5">
-                <div className="font-bold flex items-center gap-1.5 text-slate-200">
-                  <Sparkles className="w-4 h-4 text-slate-300" />
+              <div className="p-5 bg-gradient-to-br from-indigo-900 via-indigo-950 to-slate-950 text-white rounded-2xl text-xs space-y-1.5 border border-indigo-800/40 shadow-sm">
+                <div className="font-bold flex items-center gap-1.5 text-amber-300">
+                  <Sparkles className="w-4 h-4 text-amber-400" />
                   <span>Catatan Khusus untuk Mahasiswa Asal Daerah:</span>
                 </div>
-                <p className="text-slate-300 leading-relaxed">
+                <p className="text-slate-300 leading-relaxed font-normal">
                   {activeModalCountry.regionalStudentFriendly}
                 </p>
               </div>
@@ -241,7 +242,7 @@ export const CountriesDirectory: React.FC<CountriesDirectoryProps> = ({
                   setActiveModalCountry(null);
                   onSelectCountryForScholarships(countryName);
                 }}
-                className="w-full sm:w-auto px-5 py-2.5 text-xs font-semibold text-slate-700 bg-slate-100 hover:bg-slate-200 rounded-xl transition-colors"
+                className="w-full sm:w-auto px-5 py-2.5 text-xs font-bold text-slate-700 bg-slate-100 hover:bg-slate-200 rounded-xl transition-colors cursor-pointer"
               >
                 Cari Beasiswa di {activeModalCountry.name}
               </button>
@@ -251,7 +252,7 @@ export const CountriesDirectory: React.FC<CountriesDirectoryProps> = ({
                   setActiveModalCountry(null);
                   onOpenBooking();
                 }}
-                className="w-full sm:w-auto px-5 py-2.5 text-xs font-bold uppercase tracking-wider text-white bg-slate-900 hover:bg-slate-800 rounded-xl transition-all shadow-sm"
+                className="w-full sm:w-auto px-6 py-3 text-xs font-bold uppercase tracking-wider text-slate-950 bg-amber-400 hover:bg-amber-300 rounded-xl transition-all shadow-xs cursor-pointer active:scale-95"
               >
                 Konsultasi Kuliah ke {activeModalCountry.name}
               </button>

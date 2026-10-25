@@ -183,37 +183,37 @@ export const QuizStudyFinder: React.FC<QuizStudyFinderProps> = ({
   const currentQ = QUIZ_QUESTIONS[currentStep];
 
   return (
-    <div className="py-12 bg-white min-h-screen">
+    <div className="py-16 bg-eduvance-grid min-h-screen">
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
         
         {/* Header */}
-        <div className="text-center mb-10">
-          <div className="text-xs font-semibold uppercase tracking-widest text-slate-500 mb-2 flex items-center justify-center gap-1.5">
-            <Compass className="w-4 h-4 text-slate-700" />
+        <div className="text-center mb-12">
+          <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-indigo-50 border border-indigo-100 text-indigo-700 text-xs font-bold tracking-wide uppercase mb-3">
+            <Sparkles className="w-3.5 h-3.5 text-indigo-600" />
             <span>Interactive Study Matching Engine</span>
           </div>
-          <h1 className="text-3xl sm:text-4xl font-extrabold text-slate-900 tracking-tight mb-3">
-            Kuis "Cocok Kuliah di Mana?"
+          <h1 className="text-3xl sm:text-4xl lg:text-5xl font-black text-slate-900 tracking-tight mb-4">
+            Kuis <span className="text-indigo-600">"Cocok Kuliah di Mana?"</span>
           </h1>
-          <p className="text-sm text-slate-600 max-w-xl mx-auto leading-relaxed">
+          <p className="text-base text-slate-600 max-w-xl mx-auto leading-relaxed">
             Jawab 6 pertanyaan singkat untuk menemukan negara tujuan, skema beasiswa paling realistis, dan strategi bimbingan terbaik untuk profil asal daerah Anda.
           </p>
         </div>
 
         {!isCalculated ? (
-          <div className="bg-slate-50 border border-slate-200 rounded-3xl p-6 sm:p-10 shadow-xs">
+          <div className="bg-white border border-slate-200/90 rounded-3xl p-6 sm:p-10 shadow-xs">
             
             {/* Progress Bar & Counter */}
             <div className="mb-8">
-              <div className="flex items-center justify-between text-xs font-semibold text-slate-500 mb-2">
-                <span>Pertanyaan {currentStep + 1} dari {QUIZ_QUESTIONS.length}</span>
-                <span className="tabular-nums font-bold text-slate-800">
+              <div className="flex items-center justify-between text-xs font-bold text-slate-500 mb-2.5">
+                <span className="text-indigo-600">Pertanyaan {currentStep + 1} dari {QUIZ_QUESTIONS.length}</span>
+                <span className="tabular-nums font-extrabold text-slate-900 bg-amber-100 text-amber-900 px-2.5 py-0.5 rounded-full text-xs">
                   {Math.round(((currentStep + 1) / QUIZ_QUESTIONS.length) * 100)}% Selesai
                 </span>
               </div>
-              <div className="w-full h-2 bg-slate-200 rounded-full overflow-hidden">
+              <div className="w-full h-2.5 bg-slate-100 rounded-full overflow-hidden p-0.5 border border-slate-200/60">
                 <div 
-                  className="h-full bg-slate-900 transition-all duration-300 rounded-full"
+                  className="h-full bg-amber-400 transition-all duration-300 rounded-full"
                   style={{ width: `${((currentStep + 1) / QUIZ_QUESTIONS.length) * 100}%` }}
                 />
               </div>
@@ -239,8 +239,8 @@ export const QuizStudyFinder: React.FC<QuizStudyFinderProps> = ({
                     onClick={() => handleSelectOption(currentQ.id, opt.value)}
                     className={`w-full p-4 sm:p-5 rounded-2xl border text-left transition-all cursor-pointer flex items-start justify-between gap-4 ${
                       isSelected
-                        ? 'bg-white border-slate-900 shadow-sm ring-1 ring-slate-900'
-                        : 'bg-white border-slate-200 hover:border-slate-300 hover:bg-slate-100/50'
+                        ? 'bg-amber-50/80 border-amber-400 shadow-xs ring-2 ring-amber-400/30 scale-[1.01]'
+                        : 'bg-white border-slate-200/90 hover:border-indigo-300 hover:bg-indigo-50/20'
                     }`}
                   >
                     <div className="space-y-1">
@@ -249,8 +249,8 @@ export const QuizStudyFinder: React.FC<QuizStudyFinderProps> = ({
                           {opt.label}
                         </span>
                         {opt.tag && (
-                          <span className="text-[11px] font-medium text-slate-500">
-                            · {opt.tag}
+                          <span className="text-[11px] font-bold text-indigo-700 bg-indigo-50 border border-indigo-100 px-2 py-0.5 rounded-full">
+                            {opt.tag}
                           </span>
                         )}
                       </div>
@@ -261,10 +261,10 @@ export const QuizStudyFinder: React.FC<QuizStudyFinderProps> = ({
 
                     <div className={`w-5 h-5 rounded-full border flex items-center justify-center shrink-0 mt-0.5 ${
                       isSelected 
-                        ? 'bg-slate-900 border-slate-900 text-white' 
+                        ? 'bg-amber-400 border-amber-400 text-slate-950 font-bold' 
                         : 'border-slate-300 bg-white'
                     }`}>
-                      {isSelected && <CheckCircle2 className="w-3.5 h-3.5" />}
+                      {isSelected && <CheckCircle2 className="w-3.5 h-3.5 text-slate-950" />}
                     </div>
                   </button>
                 );
@@ -272,20 +272,20 @@ export const QuizStudyFinder: React.FC<QuizStudyFinderProps> = ({
             </div>
 
             {/* Navigation Buttons */}
-            <div className="flex items-center justify-between pt-4 border-t border-slate-200">
+            <div className="flex items-center justify-between pt-4 border-t border-slate-100">
               <button
                 onClick={handlePrev}
                 disabled={currentStep === 0}
-                className={`text-xs font-semibold py-2 px-4 rounded-lg transition-colors ${
+                className={`text-xs font-bold py-2.5 px-4 rounded-xl transition-colors ${
                   currentStep === 0
                     ? 'text-slate-300 cursor-not-allowed'
-                    : 'text-slate-600 hover:text-slate-900 hover:bg-slate-200'
+                    : 'text-slate-600 hover:text-slate-900 hover:bg-slate-100'
                 }`}
               >
                 Kembali
               </button>
 
-              <div className="text-xs text-slate-400">
+              <div className="text-xs text-slate-400 font-medium">
                 Pilih opsi di atas untuk lanjut otomatis
               </div>
             </div>
@@ -296,10 +296,10 @@ export const QuizStudyFinder: React.FC<QuizStudyFinderProps> = ({
           <div className="space-y-8 animate-in fade-in duration-300">
             
             {/* Top Match Hero Card */}
-            <div className="bg-slate-900 text-white rounded-3xl p-8 sm:p-10 shadow-xl relative overflow-hidden">
+            <div className="bg-gradient-to-br from-indigo-900 via-indigo-950 to-slate-950 text-white rounded-3xl p-8 sm:p-10 shadow-xl relative overflow-hidden border border-indigo-900/50">
               <div className="max-w-2xl relative z-10">
-                <div className="text-xs font-bold uppercase tracking-widest text-slate-400 mb-2 flex items-center gap-2">
-                  <Sparkles className="w-4 h-4 text-slate-300" />
+                <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-indigo-800/60 border border-indigo-700/60 text-amber-300 text-xs font-bold uppercase tracking-wider mb-3">
+                  <Sparkles className="w-3.5 h-3.5 text-amber-400" />
                   <span>Rekomendasi Utama Hasil Analisis Profil Anda</span>
                 </div>
 
@@ -308,17 +308,17 @@ export const QuizStudyFinder: React.FC<QuizStudyFinderProps> = ({
                     {resultData.country.flag}
                   </span>
                   <div>
-                    <h2 className="text-2xl sm:text-3xl font-extrabold tracking-tight">
+                    <h2 className="text-2xl sm:text-3xl font-black tracking-tight">
                       {resultData.country.name}
                     </h2>
-                    <p className="text-xs text-slate-300">
+                    <p className="text-xs text-slate-300 font-medium">
                       {resultData.country.tagline}
                     </p>
                   </div>
                 </div>
 
                 <div className="bg-white/10 rounded-2xl p-4 sm:p-5 mt-4 text-xs sm:text-sm text-slate-200 leading-relaxed border border-white/10">
-                  <strong className="text-white block mb-1">Mengapa cocok untuk Anda?</strong>
+                  <strong className="text-amber-300 block mb-1">Mengapa cocok untuk Anda?</strong>
                   {resultData.reason}
                 </div>
 
@@ -326,22 +326,22 @@ export const QuizStudyFinder: React.FC<QuizStudyFinderProps> = ({
                 <div className="grid grid-cols-2 sm:grid-cols-3 gap-4 mt-6 pt-6 border-t border-white/10 text-xs">
                   <div>
                     <span className="text-slate-400 block text-[11px]">Biaya Hidup Rata-Rata</span>
-                    <strong className="text-white">{resultData.country.avgLivingCostMonthly.idr} / bln</strong>
+                    <strong className="text-white font-bold">{resultData.country.avgLivingCostMonthly.idr} / bln</strong>
                   </div>
                   <div>
                     <span className="text-slate-400 block text-[11px]">Kerja Paruh Waktu</span>
-                    <strong className="text-white">{resultData.country.partTimeWorkRules.allowedHours.split('(')[0]}</strong>
+                    <strong className="text-white font-bold">{resultData.country.partTimeWorkRules.allowedHours.split('(')[0]}</strong>
                   </div>
                   <div className="col-span-2 sm:col-span-1">
                     <span className="text-slate-400 block text-[11px]">Syarat Bahasa</span>
-                    <strong className="text-white truncate block">{resultData.country.languageRequirements.english.split('(')[0]}</strong>
+                    <strong className="text-white truncate block font-bold">{resultData.country.languageRequirements.english.split('(')[0]}</strong>
                   </div>
                 </div>
               </div>
             </div>
 
             {/* Recommended Scholarships for this result */}
-            <div className="bg-white border border-slate-200 rounded-3xl p-6 sm:p-8">
+            <div className="bg-white border border-slate-200/90 rounded-3xl p-6 sm:p-8 shadow-xs">
               <h3 className="text-lg font-bold text-slate-900 mb-2">
                 Beasiswa yang Paling Cocok untuk Profil Anda
               </h3>
@@ -351,15 +351,16 @@ export const QuizStudyFinder: React.FC<QuizStudyFinderProps> = ({
 
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 {resultData.scholarships.map((sch) => (
-                  <div key={sch.id} className="p-4 bg-slate-50 border border-slate-200 rounded-2xl space-y-2">
+                  <div key={sch.id} className="p-5 bg-slate-50 border border-slate-200/90 rounded-2xl space-y-2">
                     <div className="flex items-center justify-between text-xs text-slate-500">
-                      <span>{sch.flag} {sch.country}</span>
-                      <span className="font-semibold text-slate-800">{sch.fundingType}</span>
+                      <span className="font-bold text-slate-800">{sch.flag} {sch.country}</span>
+                      <span className="bg-indigo-50 text-indigo-700 border border-indigo-100 font-bold px-2 py-0.5 rounded-full text-[10px]">{sch.fundingType}</span>
                     </div>
                     <h4 className="text-sm font-bold text-slate-900">{sch.name}</h4>
                     <p className="text-xs text-slate-600 line-clamp-2">{sch.summary}</p>
-                    <div className="text-[11px] text-slate-500 pt-2 border-t border-slate-200">
-                      Deadline: <strong>{sch.applicationPeriod.deadline}</strong> · Kesulitan: {sch.difficulty}
+                    <div className="text-[11px] text-slate-500 pt-2 border-t border-slate-200 flex items-center justify-between">
+                      <span>Deadline: <strong className="text-slate-800">{sch.applicationPeriod.deadline}</strong></span>
+                      <span>Kesulitan: {sch.difficulty}</span>
                     </div>
                   </div>
                 ))}
@@ -367,9 +368,10 @@ export const QuizStudyFinder: React.FC<QuizStudyFinderProps> = ({
             </div>
 
             {/* Recommended Package Consultation Action (Upsell) */}
-            <div className="bg-slate-50 border border-slate-200 rounded-3xl p-6 sm:p-8 flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
+            <div className="bg-white border border-slate-200/90 rounded-3xl p-6 sm:p-8 shadow-xs flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
               <div className="max-w-xl">
-                <span className="text-xs font-bold uppercase tracking-wider text-slate-500 mb-1 block">
+                <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-amber-100 text-amber-900 text-xs font-bold uppercase tracking-wider mb-2">
+                  <Sparkles className="w-3.5 h-3.5 text-amber-700" />
                   Paket Pendampingan yang Disarankan
                 </span>
                 <h3 className="text-xl font-bold text-slate-900">
@@ -383,7 +385,7 @@ export const QuizStudyFinder: React.FC<QuizStudyFinderProps> = ({
               <div className="flex flex-col sm:flex-row gap-3 w-full md:w-auto shrink-0">
                 <button
                   onClick={resetQuiz}
-                  className="px-4 py-2.5 text-xs font-semibold text-slate-600 hover:text-slate-900 bg-white border border-slate-200 rounded-xl hover:bg-slate-100 transition-colors flex items-center justify-center gap-1.5"
+                  className="px-4 py-2.5 text-xs font-semibold text-slate-700 hover:text-slate-900 bg-slate-100 border border-slate-200 rounded-xl hover:bg-slate-200 transition-colors flex items-center justify-center gap-1.5 cursor-pointer"
                 >
                   <RotateCcw className="w-3.5 h-3.5" />
                   <span>Ulangi Kuis</span>
@@ -391,7 +393,7 @@ export const QuizStudyFinder: React.FC<QuizStudyFinderProps> = ({
 
                 <button
                   onClick={() => onOpenBookingWithPackage(resultData.recPackage.id, `Hasil Kuis: Rekomendasi ${resultData.country.name}`)}
-                  className="px-5 py-2.5 text-xs font-bold text-white bg-slate-900 hover:bg-slate-800 rounded-xl transition-all shadow-sm flex items-center justify-center gap-1.5"
+                  className="px-6 py-3.5 text-xs font-bold text-slate-950 bg-amber-400 hover:bg-amber-300 rounded-xl transition-all shadow-xs flex items-center justify-center gap-1.5 active:scale-95 cursor-pointer"
                 >
                   <span>Konsultasikan Hasil Kuis Ini</span>
                   <ArrowRight className="w-3.5 h-3.5" />

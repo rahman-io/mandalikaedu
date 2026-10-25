@@ -510,7 +510,7 @@ export const HomeSection: React.FC<HomeSectionProps> = ({
             </div>
 
             <button
-              onClick={() => onSelectPackage(popularPackages[2] || popularPackages[0])}
+              onClick={() => onSelectPackage(PACKAGES_DATA[2] || PACKAGES_DATA[0])}
               className="w-full py-3.5 bg-amber-400 hover:bg-amber-300 text-slate-950 font-black text-xs uppercase tracking-wider rounded-xl transition-all shadow-md cursor-pointer active:scale-95"
             >
               Pilih Paket Ini
@@ -549,7 +549,7 @@ export const HomeSection: React.FC<HomeSectionProps> = ({
             </div>
 
             <button
-              onClick={() => onSelectPackage(popularPackages[3] || popularPackages[0])}
+              onClick={() => onSelectPackage(PACKAGES_DATA[3] || PACKAGES_DATA[0])}
               className="w-full py-3 bg-slate-100 hover:bg-slate-200 text-slate-900 font-bold text-xs uppercase tracking-wider rounded-xl transition-colors cursor-pointer"
             >
               Daftar Mentorship 360

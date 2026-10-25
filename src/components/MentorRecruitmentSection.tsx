@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { 
   Users, CheckCircle2, Award, Briefcase, GraduationCap, 
-  Upload, ShieldCheck, ArrowRight, Clock, Globe, FileText, Phone 
+  Upload, ShieldCheck, ArrowRight, Clock, Globe, FileText, Phone, Sparkles 
 } from 'lucide-react';
 import { getActiveWhatsAppNumber } from '../config/contact';
 
@@ -71,57 +71,57 @@ export const MentorRecruitmentSection: React.FC<MentorRecruitmentSectionProps> =
   const waUrl = `https://wa.me/${getActiveWhatsAppNumber()}?text=${waText}`;
 
   return (
-    <div className="py-16 bg-slate-50 min-h-screen">
+    <div className="py-16 bg-eduvance-grid min-h-screen">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-16">
         
         {/* Header */}
         <div className="text-center max-w-3xl mx-auto">
-          <div className="text-xs font-semibold uppercase tracking-widest text-slate-500 mb-2 flex items-center justify-center gap-1.5">
-            <Users className="w-4 h-4 text-slate-700" />
+          <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-indigo-50 border border-indigo-100 text-indigo-700 text-xs font-bold tracking-wide uppercase mb-3">
+            <Sparkles className="w-3.5 h-3.5 text-indigo-600" />
             <span>Kemitraan & Rekrutmen Mentor MandalikaEdu</span>
           </div>
-          <h1 className="text-3xl sm:text-4xl font-extrabold text-slate-900 tracking-tight mb-4">
-            Bergabung Jadi Mentor: Bimbing Talenta Daerah ke Kampus Dunia
+          <h1 className="text-3xl sm:text-4xl lg:text-5xl font-black text-slate-900 tracking-tight mb-4">
+            Bergabung Jadi Mentor: Bimbing <span className="text-indigo-600">Talenta Daerah</span> ke Kampus Dunia
           </h1>
-          <p className="text-base text-slate-600 leading-relaxed">
+          <p className="text-base text-slate-600 leading-relaxed max-w-2xl mx-auto">
             Apakah Anda mahasiswa aktif atau alumni Indonesia di luar negeri? Mari perluas akses pendidikan tinggi dunia bagi adik-adik di daerah dengan skema kerja sama fleksibel dan transparan.
           </p>
         </div>
 
         {/* 3 Manfaat & Skema Kemitraan */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-          <div className="p-6 bg-white rounded-3xl border border-slate-200 space-y-2">
-            <div className="w-10 h-10 rounded-xl bg-slate-900 text-white flex items-center justify-center font-bold text-sm mb-3">
+          <div className="p-7 bg-white rounded-3xl border border-slate-200/90 shadow-xs hover:border-indigo-300 transition-all space-y-2">
+            <div className="w-10 h-10 rounded-2xl bg-amber-400 text-slate-950 flex items-center justify-center font-black text-sm mb-3 shadow-xs">
               1
             </div>
             <h3 className="text-base font-bold text-slate-900">
               Skema Bagi Hasil / Fee per Sesi
             </h3>
-            <p className="text-xs text-slate-600 leading-relaxed">
+            <p className="text-xs text-slate-600 leading-relaxed font-medium">
               Mentor dibayar transparan per sesi bimbingan 1-on-1 atau melalui sistem bagi hasil dari paket bimbingan yang ditangani sesuai perjanjian kemitraan resmi.
             </p>
           </div>
 
-          <div className="p-6 bg-white rounded-3xl border border-slate-200 space-y-2">
-            <div className="w-10 h-10 rounded-xl bg-slate-900 text-white flex items-center justify-center font-bold text-sm mb-3">
+          <div className="p-7 bg-white rounded-3xl border border-slate-200/90 shadow-xs hover:border-indigo-300 transition-all space-y-2">
+            <div className="w-10 h-10 rounded-2xl bg-amber-400 text-slate-950 flex items-center justify-center font-black text-sm mb-3 shadow-xs">
               2
             </div>
             <h3 className="text-base font-bold text-slate-900">
               Jadwal Fleksibel (Part-time)
             </h3>
-            <p className="text-xs text-slate-600 leading-relaxed">
+            <p className="text-xs text-slate-600 leading-relaxed font-medium">
               Atur waktu luang Anda sendiri (2 hingga 5 jam per minggu). Seluruh bimbingan berjalan 100% daring melalui Google Meet / Zoom tanpa mengganggu perkuliahan atau riset Anda.
             </p>
           </div>
 
-          <div className="p-6 bg-white rounded-3xl border border-slate-200 space-y-2">
-            <div className="w-10 h-10 rounded-xl bg-slate-900 text-white flex items-center justify-center font-bold text-sm mb-3">
+          <div className="p-7 bg-white rounded-3xl border border-slate-200/90 shadow-xs hover:border-indigo-300 transition-all space-y-2">
+            <div className="w-10 h-10 rounded-2xl bg-amber-400 text-slate-950 flex items-center justify-center font-black text-sm mb-3 shadow-xs">
               3
             </div>
             <h3 className="text-base font-bold text-slate-900">
               Dampak Riil untuk Anak Daerah
             </h3>
-            <p className="text-xs text-slate-600 leading-relaxed">
+            <p className="text-xs text-slate-600 leading-relaxed font-medium">
               Profil dan kredensial Anda akan tampil di website resmi, membantu calon mahasiswa daerah memilih mentor yang relevan dengan negara dan jurusan impiannya.
             </p>
           </div>
@@ -414,7 +414,7 @@ export const MentorRecruitmentSection: React.FC<MentorRecruitmentSectionProps> =
 
                 <button
                   type="submit"
-                  className="w-full py-3 bg-slate-900 text-white font-bold uppercase tracking-wider rounded-xl hover:bg-slate-800 active:scale-95 transition-all shadow-sm cursor-pointer mt-4"
+                  className="w-full py-3.5 bg-amber-400 hover:bg-amber-300 text-slate-950 font-bold uppercase tracking-wider rounded-xl active:scale-95 transition-all shadow-md cursor-pointer mt-4"
                 >
                   Kirim Pendaftaran Mentor
                 </button>

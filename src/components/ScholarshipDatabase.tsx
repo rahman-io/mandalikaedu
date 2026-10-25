@@ -151,18 +151,19 @@ export const ScholarshipDatabase: React.FC<ScholarshipDatabaseProps> = ({
   };
 
   return (
-    <div className="py-12 bg-slate-50 min-h-screen">
+    <div className="py-16 bg-eduvance-grid min-h-screen">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         
         {/* Section Header */}
-        <div className="mb-10 text-center max-w-3xl mx-auto">
-          <div className="text-xs font-semibold uppercase tracking-widest text-slate-500 mb-2">
-            Pusat Kurasi Beasiswa Terverifikasi
+        <div className="mb-12 text-center max-w-3xl mx-auto">
+          <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-indigo-50 border border-indigo-100 text-indigo-700 text-xs font-bold tracking-wide uppercase mb-3">
+            <Sparkles className="w-3.5 h-3.5 text-indigo-600" />
+            <span>Pusat Kurasi Beasiswa Terverifikasi</span>
           </div>
-          <h1 className="text-3xl sm:text-4xl font-extrabold text-slate-900 tracking-tight mb-4">
-            Database Beasiswa Kuliah Luar Negeri
+          <h1 className="text-3xl sm:text-4xl lg:text-5xl font-black text-slate-900 tracking-tight mb-4">
+            Database <span className="text-indigo-600">Beasiswa</span> Kuliah Luar Negeri
           </h1>
-          <p className="text-base text-slate-600 leading-relaxed">
+          <p className="text-base text-slate-600 leading-relaxed max-w-2xl mx-auto">
             Pilih negara target Anda atau gunakan filter multi-parameter. Setiap beasiswa telah diverifikasi batas pendaftaran, syarat bahasa, dan peluang afirmasi untuk talenta daerah.
           </p>
         </div>
@@ -170,13 +171,13 @@ export const ScholarshipDatabase: React.FC<ScholarshipDatabaseProps> = ({
         {/* Step 1: Country Quick Selector Cards */}
         <div className="mb-8">
           <div className="flex items-center justify-between mb-3">
-            <span className="text-xs font-semibold uppercase tracking-wider text-slate-500">
+            <span className="text-xs font-bold uppercase tracking-wider text-slate-400">
               Pilih Negara Tujuan Favorit
             </span>
             {selectedCountry !== 'all' && (
               <button
                 onClick={() => setSelectedCountry('all')}
-                className="text-xs text-slate-600 hover:text-slate-900 underline"
+                className="text-xs font-bold text-indigo-600 hover:text-indigo-700 underline"
               >
                 Lihat Semua Negara
               </button>
@@ -190,16 +191,16 @@ export const ScholarshipDatabase: React.FC<ScholarshipDatabaseProps> = ({
                 <button
                   key={c.id}
                   onClick={() => setSelectedCountry(c.id)}
-                  className={`p-3 rounded-xl border text-center transition-all cursor-pointer flex flex-col items-center justify-center gap-1.5 ${
+                  className={`p-3 rounded-2xl border text-center transition-all cursor-pointer flex flex-col items-center justify-center gap-1.5 ${
                     isSelected
-                      ? 'bg-slate-900 text-white border-slate-900 shadow-sm'
-                      : 'bg-white text-slate-800 border-slate-200 hover:border-slate-300 hover:bg-slate-100/60'
+                      ? 'bg-amber-400 text-slate-950 border-amber-400 font-bold shadow-xs scale-[1.02] ring-2 ring-amber-400/20'
+                      : 'bg-white text-slate-700 border-slate-200/90 hover:border-indigo-300 hover:text-indigo-600 hover:shadow-xs font-medium'
                   }`}
                 >
                   <span className="text-2xl" role="img" aria-label={c.name}>
                     {c.flag}
                   </span>
-                  <span className="text-xs font-medium whitespace-nowrap truncate w-full">
+                  <span className="text-xs whitespace-nowrap truncate w-full">
                     {c.name}
                   </span>
                 </button>
@@ -209,7 +210,7 @@ export const ScholarshipDatabase: React.FC<ScholarshipDatabaseProps> = ({
         </div>
 
         {/* Filter Toolbar */}
-        <div className="bg-white rounded-2xl border border-slate-200 p-5 mb-8 shadow-xs">
+        <div className="bg-white rounded-3xl border border-slate-200/90 p-6 mb-8 shadow-xs">
           <div className="grid grid-cols-1 md:grid-cols-12 gap-4 items-center">
             
             {/* Search Input */}
@@ -220,7 +221,7 @@ export const ScholarshipDatabase: React.FC<ScholarshipDatabaseProps> = ({
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
                 placeholder="Cari beasiswa (misal: MEXT, DAAD, S2 Teknik, Tanpa IELTS)..."
-                className="w-full pl-10 pr-4 py-2.5 bg-slate-50 border border-slate-200 rounded-lg text-sm text-slate-900 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-slate-900 focus:border-transparent transition-all"
+                className="w-full pl-10 pr-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm text-slate-900 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-all font-medium"
               />
               {searchQuery && (
                 <button
@@ -237,7 +238,7 @@ export const ScholarshipDatabase: React.FC<ScholarshipDatabaseProps> = ({
               <select
                 value={selectedLevel}
                 onChange={(e) => setSelectedLevel(e.target.value)}
-                className="w-full px-3 py-2.5 bg-slate-50 border border-slate-200 rounded-lg text-sm text-slate-700 focus:outline-none focus:ring-2 focus:ring-slate-900"
+                className="w-full px-3 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm text-slate-700 font-medium focus:outline-none focus:ring-2 focus:ring-indigo-500"
               >
                 <option value="all">Semua Jenjang</option>
                 <option value="S1">S1 (Sarjana)</option>
@@ -252,7 +253,7 @@ export const ScholarshipDatabase: React.FC<ScholarshipDatabaseProps> = ({
               <select
                 value={selectedFunding}
                 onChange={(e) => setSelectedFunding(e.target.value)}
-                className="w-full px-3 py-2.5 bg-slate-50 border border-slate-200 rounded-lg text-sm text-slate-700 focus:outline-none focus:ring-2 focus:ring-slate-900"
+                className="w-full px-3 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm text-slate-700 font-medium focus:outline-none focus:ring-2 focus:ring-indigo-500"
               >
                 <option value="all">Semua Pendanaan</option>
                 <option value="Fully Funded">Fully Funded (Penuh)</option>
@@ -265,7 +266,7 @@ export const ScholarshipDatabase: React.FC<ScholarshipDatabaseProps> = ({
               <select
                 value={selectedDeadlineStatus}
                 onChange={(e) => setSelectedDeadlineStatus(e.target.value)}
-                className="w-full px-3 py-2.5 bg-slate-50 border border-slate-200 rounded-lg text-sm text-slate-700 focus:outline-none focus:ring-2 focus:ring-slate-900"
+                className="w-full px-3 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm text-slate-700 font-medium focus:outline-none focus:ring-2 focus:ring-indigo-500"
               >
                 <option value="all">Semua Status</option>
                 <option value="open">Buka Sekarang</option>
@@ -278,7 +279,7 @@ export const ScholarshipDatabase: React.FC<ScholarshipDatabaseProps> = ({
             <div className="md:col-span-1 text-center">
               <button
                 onClick={resetFilters}
-                className="text-xs text-slate-500 hover:text-slate-900 font-medium py-2 px-2 hover:bg-slate-100 rounded-md transition-colors"
+                className="text-xs text-slate-500 hover:text-indigo-600 hover:bg-indigo-50 font-bold py-2.5 px-3 rounded-xl transition-colors border border-transparent hover:border-indigo-100"
                 title="Reset seluruh filter"
               >
                 Reset
@@ -287,16 +288,16 @@ export const ScholarshipDatabase: React.FC<ScholarshipDatabaseProps> = ({
           </div>
 
           {/* Secondary Filter Tags */}
-          <div className="mt-4 pt-3 border-t border-slate-100 flex flex-wrap items-center gap-2 text-xs">
-            <span className="text-slate-400 font-medium mr-1">Rumpun Studi:</span>
+          <div className="mt-4 pt-4 border-t border-slate-100 flex flex-wrap items-center gap-2 text-xs">
+            <span className="text-slate-400 font-semibold mr-1">Rumpun Studi:</span>
             {fieldOptions.map((f) => (
               <button
                 key={f}
                 onClick={() => setSelectedField(f)}
-                className={`px-2.5 py-1 rounded-md transition-colors ${
+                className={`px-3.5 py-1.5 rounded-full transition-all cursor-pointer ${
                   selectedField === f
-                    ? 'bg-slate-900 text-white font-medium'
-                    : 'bg-slate-100 text-slate-600 hover:bg-slate-200'
+                    ? 'bg-amber-400 text-slate-950 font-bold shadow-xs scale-[1.02]'
+                    : 'bg-slate-100 text-slate-600 hover:bg-indigo-50 hover:text-indigo-600 font-medium'
                 }`}
               >
                 {f === 'all' ? 'Semua Bidang' : f}
@@ -344,26 +345,26 @@ export const ScholarshipDatabase: React.FC<ScholarshipDatabaseProps> = ({
                 <div
                   key={sch.id}
                   onClick={() => setActiveModalScholarship(sch)}
-                  className="bg-white rounded-2xl border border-slate-200/90 hover:border-slate-400/80 p-6 flex flex-col justify-between transition-all duration-200 hover:shadow-md cursor-pointer group relative"
+                  className="bg-white rounded-3xl border border-slate-200/90 hover:border-indigo-300 p-6 flex flex-col justify-between transition-all duration-200 hover:shadow-md cursor-pointer group relative"
                 >
                   <div>
                     {/* Top Header Row */}
                     <div className="flex items-start justify-between gap-3 mb-3">
                       <div className="flex items-center gap-2 text-xs text-slate-500">
                         <span className="text-xl" role="img" aria-label={sch.country}>{sch.flag}</span>
-                        <span className="font-semibold text-slate-800">{sch.country}</span>
-                        <span aria-hidden="true">·</span>
-                        <span>{sch.level.join(', ')}</span>
+                        <span className="font-bold text-slate-800">{sch.country}</span>
+                        <span aria-hidden="true" className="text-slate-300">·</span>
+                        <span className="font-medium text-slate-600">{sch.level.join(', ')}</span>
                       </div>
 
                       {/* Bookmark Button */}
                       <button
                         onClick={(e) => toggleBookmark(sch.id, e)}
-                        className="text-slate-400 hover:text-slate-900 p-1 rounded-md transition-colors"
+                        className="text-slate-400 hover:text-indigo-600 p-1.5 rounded-xl hover:bg-indigo-50 transition-colors"
                         title={isBookmarked ? 'Hapus dari simpanan' : 'Simpan beasiswa'}
                       >
                         {isBookmarked ? (
-                          <BookmarkCheck className="w-5 h-5 text-slate-900 fill-slate-900" />
+                          <BookmarkCheck className="w-5 h-5 text-indigo-600 fill-indigo-600" />
                         ) : (
                           <Bookmark className="w-5 h-5" />
                         )}
@@ -371,44 +372,42 @@ export const ScholarshipDatabase: React.FC<ScholarshipDatabaseProps> = ({
                     </div>
 
                     {/* Scholarship Title */}
-                    <h3 className="text-lg font-bold text-slate-900 group-hover:text-slate-800 transition-colors mb-1 line-clamp-2">
+                    <h3 className="text-lg font-bold text-slate-900 group-hover:text-indigo-600 transition-colors mb-1 line-clamp-2">
                       {sch.name}
                     </h3>
 
                     {/* Organizer */}
-                    <p className="text-xs text-slate-500 mb-4 line-clamp-1">
+                    <p className="text-xs text-slate-500 mb-4 line-clamp-1 font-medium">
                       {sch.organizer}
                     </p>
 
-                    {/* Unboxed Metadata Row */}
-                    <div className="flex flex-wrap items-center gap-2 text-xs text-slate-600 mb-4 pb-4 border-b border-slate-100">
-                      <span className="font-medium text-slate-800">
+                    {/* Metadata Row */}
+                    <div className="flex flex-wrap items-center gap-1.5 text-xs text-slate-600 mb-4 pb-4 border-b border-slate-100">
+                      <span className="bg-indigo-50 text-indigo-700 border border-indigo-100 font-bold px-2.5 py-0.5 rounded-full text-[11px]">
                         {sch.fundingType}
                       </span>
-                      <span aria-hidden="true" className="text-slate-300">·</span>
-                      <span className="text-slate-500">
+                      <span className="bg-slate-100 text-slate-600 font-medium px-2 py-0.5 rounded-full text-[11px]">
                         Kesulitan: {sch.difficulty}
                       </span>
-                      <span aria-hidden="true" className="text-slate-300">·</span>
-                      <span className="text-slate-500">
+                      <span className="bg-slate-100 text-slate-600 font-medium px-2 py-0.5 rounded-full text-[11px]">
                         Kuota: {sch.quota}
                       </span>
                     </div>
 
                     {/* Key Coverage Snippet */}
                     <div className="space-y-1.5 mb-4 text-xs text-slate-600">
-                      <div className="font-semibold text-slate-700 mb-1">Cakupan Utama:</div>
+                      <div className="font-bold text-slate-700 mb-1">Cakupan Utama:</div>
                       {sch.coverage.slice(0, 3).map((cov, idx) => (
                         <div key={idx} className="flex items-start gap-1.5">
-                          <CheckCircle2 className="w-3.5 h-3.5 text-slate-600 shrink-0 mt-0.5" />
+                          <CheckCircle2 className="w-3.5 h-3.5 text-emerald-500 shrink-0 mt-0.5" />
                           <span className="line-clamp-1">{cov}</span>
                         </div>
                       ))}
                     </div>
 
                     {/* Requirement Note */}
-                    <div className="p-3 bg-slate-50 rounded-xl text-xs text-slate-600 mb-4">
-                      <div className="font-semibold text-slate-800 mb-0.5">Syarat Bahasa & IPK:</div>
+                    <div className="p-3 bg-amber-50/70 border border-amber-200/60 rounded-2xl text-xs text-slate-700 mb-4">
+                      <div className="font-bold text-slate-900 mb-0.5">Syarat Bahasa & IPK:</div>
                       <p className="line-clamp-2 text-slate-600">{sch.requirements.language}</p>
                     </div>
                   </div>
@@ -416,8 +415,8 @@ export const ScholarshipDatabase: React.FC<ScholarshipDatabaseProps> = ({
                   {/* Card Bottom Row */}
                   <div className="pt-4 border-t border-slate-100 flex items-center justify-between gap-2 mt-auto">
                     <div className="text-xs text-slate-500">
-                      <div className="font-medium text-slate-700">Deadline:</div>
-                      <span className="font-semibold text-slate-900">{sch.applicationPeriod.deadline}</span>
+                      <div className="font-medium text-slate-600">Deadline:</div>
+                      <span className="font-bold text-slate-900">{sch.applicationPeriod.deadline}</span>
                     </div>
 
                     <div className="flex items-center gap-2">
@@ -426,7 +425,7 @@ export const ScholarshipDatabase: React.FC<ScholarshipDatabaseProps> = ({
                           e.stopPropagation();
                           setReminderModalScholarship(sch);
                         }}
-                        className="p-2 text-slate-500 hover:text-slate-900 hover:bg-slate-100 rounded-lg transition-colors"
+                        className="p-2 text-slate-400 hover:text-amber-600 hover:bg-amber-50 rounded-xl transition-colors"
                         title="Ingatkan Saya Sebelum Deadline"
                       >
                         <Bell className="w-4 h-4" />
@@ -434,7 +433,7 @@ export const ScholarshipDatabase: React.FC<ScholarshipDatabaseProps> = ({
 
                       <button
                         onClick={() => setActiveModalScholarship(sch)}
-                        className="px-3 py-1.5 text-xs font-semibold text-white bg-slate-900 rounded-lg hover:bg-slate-800 transition-colors flex items-center gap-1"
+                        className="px-3.5 py-2 text-xs font-bold text-slate-950 bg-amber-400 hover:bg-amber-300 rounded-xl transition-colors flex items-center gap-1 shadow-xs"
                       >
                         Detail
                         <ChevronRight className="w-3.5 h-3.5" />
@@ -448,22 +447,23 @@ export const ScholarshipDatabase: React.FC<ScholarshipDatabaseProps> = ({
         )}
 
         {/* Upsell Banner for Scholarship Hunter / Consultation */}
-        <div className="mt-16 bg-slate-900 text-white rounded-3xl p-8 sm:p-10 flex flex-col md:flex-row items-center justify-between gap-8">
-          <div className="max-w-2xl">
-            <div className="text-xs font-bold uppercase tracking-widest text-slate-400 mb-2">
-              Pendampingan Intensif MandalikaEdu
+        <div className="mt-16 bg-gradient-to-br from-indigo-900 via-indigo-950 to-slate-950 text-white rounded-3xl p-8 sm:p-10 border border-indigo-800/40 shadow-xl flex flex-col md:flex-row items-center justify-between gap-8 relative overflow-hidden">
+          <div className="max-w-2xl relative z-10">
+            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-indigo-800/60 border border-indigo-700/60 text-amber-300 text-xs font-bold uppercase tracking-wider mb-3">
+              <Sparkles className="w-3.5 h-3.5 text-amber-400" />
+              <span>Pendampingan Intensif MandalikaEdu</span>
             </div>
-            <h3 className="text-2xl sm:text-3xl font-extrabold tracking-tight mb-3">
+            <h3 className="text-2xl sm:text-3xl font-black tracking-tight mb-3">
               Bingung Menentukan Beasiswa yang Paling Sesuai Profil Anda?
             </h3>
             <p className="text-sm text-slate-300 leading-relaxed">
               Dapatkan pemetaan profil 1-on-1 bersama mentor alumni luar negeri. Kami bedah kelemahan berkas, kurasi beasiswa dengan peluang lolos tertinggi untuk asal daerah Anda, dan dampingi penulisan esai dari nol.
             </p>
           </div>
-          <div className="flex flex-col sm:flex-row gap-3 w-full sm:w-auto shrink-0">
+          <div className="flex flex-col sm:flex-row gap-3 w-full sm:w-auto shrink-0 relative z-10">
             <button
               onClick={() => onSelectForConsultation(SCHOLARSHIPS_DATA[0])}
-              className="px-6 py-3 bg-white text-slate-900 text-xs font-bold uppercase tracking-wider rounded-xl hover:bg-slate-100 active:scale-95 transition-all text-center whitespace-nowrap shadow-sm"
+              className="px-6 py-3.5 bg-amber-400 hover:bg-amber-300 text-slate-950 text-xs font-bold uppercase tracking-wider rounded-xl active:scale-95 transition-all text-center whitespace-nowrap shadow-md"
             >
               Jadwalkan Konsultasi Gratis
             </button>
@@ -518,12 +518,12 @@ export const ScholarshipDatabase: React.FC<ScholarshipDatabaseProps> = ({
               </div>
 
               {/* Tips Khusus MandalikaEdu (Nilai Tambah untuk Anak Daerah) */}
-              <div className="bg-slate-50 border border-slate-200 rounded-2xl p-5">
-                <div className="flex items-center gap-2 text-slate-900 font-bold text-sm mb-2">
-                  <Sparkles className="w-4 h-4 text-slate-700" />
+              <div className="bg-indigo-50/70 border border-indigo-100 rounded-2xl p-5">
+                <div className="flex items-center gap-2 text-indigo-950 font-bold text-sm mb-2">
+                  <Sparkles className="w-4 h-4 text-indigo-600" />
                   <span>Catatan & Tips Mentor MandalikaEdu</span>
                 </div>
-                <p className="text-xs text-slate-700 leading-relaxed">
+                <p className="text-xs text-indigo-950/80 leading-relaxed font-medium">
                   {activeModalScholarship.tipsMandalika}
                 </p>
               </div>
@@ -532,15 +532,15 @@ export const ScholarshipDatabase: React.FC<ScholarshipDatabaseProps> = ({
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 
                 {/* Cakupan Pembiayaan */}
-                <div className="bg-white border border-slate-200 rounded-2xl p-5">
+                <div className="bg-white border border-slate-200/90 rounded-2xl p-5">
                   <h4 className="text-xs font-bold uppercase tracking-wider text-slate-500 mb-3 flex items-center gap-1.5">
-                    <Award className="w-4 h-4 text-slate-600" />
+                    <Award className="w-4 h-4 text-indigo-600" />
                     Cakupan yang Ditanggung
                   </h4>
                   <ul className="space-y-2 text-xs text-slate-700">
                     {activeModalScholarship.coverage.map((cov, i) => (
                       <li key={i} className="flex items-start gap-2">
-                        <CheckCircle2 className="w-3.5 h-3.5 text-slate-800 shrink-0 mt-0.5" />
+                        <CheckCircle2 className="w-3.5 h-3.5 text-emerald-500 shrink-0 mt-0.5" />
                         <span>{cov}</span>
                       </li>
                     ))}
@@ -548,9 +548,9 @@ export const ScholarshipDatabase: React.FC<ScholarshipDatabaseProps> = ({
                 </div>
 
                 {/* Syarat Utama & Dokumen */}
-                <div className="bg-white border border-slate-200 rounded-2xl p-5">
+                <div className="bg-white border border-slate-200/90 rounded-2xl p-5">
                   <h4 className="text-xs font-bold uppercase tracking-wider text-slate-500 mb-3 flex items-center gap-1.5">
-                    <FileText className="w-4 h-4 text-slate-600" />
+                    <FileText className="w-4 h-4 text-indigo-600" />
                     Syarat Utama & Dokumen
                   </h4>
                   <div className="space-y-2 text-xs text-slate-700 mb-3">
@@ -585,11 +585,11 @@ export const ScholarshipDatabase: React.FC<ScholarshipDatabaseProps> = ({
                 </h4>
                 <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-2">
                   {activeModalScholarship.selectionStages.map((stage, idx) => (
-                    <div key={idx} className="p-3 bg-slate-50 rounded-xl text-xs text-slate-700 flex items-start gap-2">
-                      <span className="w-5 h-5 rounded-full bg-slate-900 text-white flex items-center justify-center font-bold text-[10px] shrink-0 mt-0.5">
+                    <div key={idx} className="p-3 bg-slate-50 rounded-xl text-xs text-slate-700 flex items-start gap-2 border border-slate-100">
+                      <span className="w-5 h-5 rounded-full bg-indigo-600 text-white flex items-center justify-center font-bold text-[10px] shrink-0 mt-0.5">
                         {idx + 1}
                       </span>
-                      <span>{stage}</span>
+                      <span className="font-medium">{stage}</span>
                     </div>
                   ))}
                 </div>
@@ -609,7 +609,7 @@ export const ScholarshipDatabase: React.FC<ScholarshipDatabaseProps> = ({
                   href={activeModalScholarship.officialUrl}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="text-slate-700 hover:text-slate-950 underline font-medium flex items-center gap-1"
+                  className="text-indigo-600 hover:text-indigo-800 underline font-semibold flex items-center gap-1"
                 >
                   Situs Resmi Pendaftaran
                   <ExternalLink className="w-3 h-3" />
@@ -631,7 +631,7 @@ export const ScholarshipDatabase: React.FC<ScholarshipDatabaseProps> = ({
                     setActiveModalScholarship(null);
                     setReminderModalScholarship(sch);
                   }}
-                  className="px-4 py-2.5 text-xs font-medium text-slate-700 bg-slate-100 hover:bg-slate-200 rounded-xl transition-colors whitespace-nowrap flex items-center gap-1.5"
+                  className="px-4 py-2.5 text-xs font-semibold text-slate-700 bg-slate-100 hover:bg-slate-200 rounded-xl transition-colors whitespace-nowrap flex items-center gap-1.5"
                 >
                   <Bell className="w-3.5 h-3.5" />
                   Ingatkan Deadline
@@ -643,7 +643,7 @@ export const ScholarshipDatabase: React.FC<ScholarshipDatabaseProps> = ({
                     setActiveModalScholarship(null);
                     onSelectForConsultation(sch);
                   }}
-                  className="flex-1 sm:flex-initial px-5 py-2.5 text-xs font-bold text-white bg-slate-900 hover:bg-slate-800 active:scale-95 transition-all rounded-xl whitespace-nowrap shadow-sm flex items-center justify-center gap-1.5"
+                  className="flex-1 sm:flex-initial px-5 py-2.5 text-xs font-bold text-slate-950 bg-amber-400 hover:bg-amber-300 active:scale-95 transition-all rounded-xl whitespace-nowrap shadow-xs flex items-center justify-center gap-1.5"
                 >
                   <span>Konsultasi untuk Beasiswa Ini</span>
                   <ArrowRight className="w-3.5 h-3.5" />
@@ -661,14 +661,14 @@ export const ScholarshipDatabase: React.FC<ScholarshipDatabaseProps> = ({
           <div className="bg-white rounded-3xl border border-slate-200 max-w-md w-full p-6 shadow-2xl relative">
             <button
               onClick={() => setReminderModalScholarship(null)}
-              className="absolute top-5 right-5 text-slate-400 hover:text-slate-800 p-1"
+              className="absolute top-5 right-5 text-slate-400 hover:text-slate-800 p-1 rounded-full"
             >
               <X className="w-5 h-5" />
             </button>
 
             {reminderSuccess ? (
               <div className="py-8 text-center space-y-3">
-                <div className="w-12 h-12 bg-slate-100 text-slate-900 rounded-full flex items-center justify-center mx-auto">
+                <div className="w-12 h-12 bg-emerald-50 text-emerald-600 rounded-full flex items-center justify-center mx-auto">
                   <CheckCircle2 className="w-6 h-6" />
                 </div>
                 <h3 className="text-lg font-bold text-slate-900">
@@ -680,8 +680,8 @@ export const ScholarshipDatabase: React.FC<ScholarshipDatabaseProps> = ({
               </div>
             ) : (
               <form onSubmit={handleReminderSubmit} className="space-y-4">
-                <div className="flex items-center gap-2 text-xs font-semibold text-slate-500 uppercase tracking-wider">
-                  <Bell className="w-4 h-4 text-slate-700" />
+                <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-indigo-50 border border-indigo-100 text-indigo-700 text-xs font-bold uppercase tracking-wider">
+                  <Bell className="w-3.5 h-3.5 text-indigo-600" />
                   <span>Pengingat Deadline Beasiswa</span>
                 </div>
 
@@ -696,7 +696,7 @@ export const ScholarshipDatabase: React.FC<ScholarshipDatabaseProps> = ({
 
                 <div className="space-y-3">
                   <div>
-                    <label className="block text-xs font-medium text-slate-700 mb-1">
+                    <label className="block text-xs font-semibold text-slate-700 mb-1">
                       Nama Lengkap
                     </label>
                     <input
@@ -705,22 +705,22 @@ export const ScholarshipDatabase: React.FC<ScholarshipDatabaseProps> = ({
                       value={reminderContact.name}
                       onChange={(e) => setReminderContact({ ...reminderContact, name: e.target.value })}
                       placeholder="Contoh: Budi Santoso"
-                      className="w-full px-3 py-2 text-xs bg-slate-50 border border-slate-200 rounded-lg text-slate-900 focus:outline-none focus:ring-2 focus:ring-slate-900"
+                      className="w-full px-3 py-2 text-xs bg-slate-50 border border-slate-200 rounded-xl text-slate-900 focus:outline-none focus:ring-2 focus:ring-indigo-500 font-medium"
                     />
                   </div>
 
                   <div>
-                    <label className="block text-xs font-medium text-slate-700 mb-1">
+                    <label className="block text-xs font-semibold text-slate-700 mb-1">
                       Kanal Pengingat
                     </label>
                     <div className="grid grid-cols-2 gap-2 text-xs">
                       <button
                         type="button"
                         onClick={() => setReminderContact({ ...reminderContact, notifyVia: 'whatsapp' })}
-                        className={`py-2 px-3 rounded-lg border text-center transition-colors ${
+                        className={`py-2 px-3 rounded-xl border text-center transition-colors cursor-pointer ${
                           reminderContact.notifyVia === 'whatsapp'
-                            ? 'bg-slate-900 text-white border-slate-900 font-medium'
-                            : 'bg-slate-50 text-slate-700 border-slate-200'
+                            ? 'bg-amber-400 text-slate-950 border-amber-400 font-bold shadow-xs'
+                            : 'bg-slate-50 text-slate-700 border-slate-200 hover:bg-slate-100'
                         }`}
                       >
                         WhatsApp
@@ -728,10 +728,10 @@ export const ScholarshipDatabase: React.FC<ScholarshipDatabaseProps> = ({
                       <button
                         type="button"
                         onClick={() => setReminderContact({ ...reminderContact, notifyVia: 'email' })}
-                        className={`py-2 px-3 rounded-lg border text-center transition-colors ${
+                        className={`py-2 px-3 rounded-xl border text-center transition-colors cursor-pointer ${
                           reminderContact.notifyVia === 'email'
-                            ? 'bg-slate-900 text-white border-slate-900 font-medium'
-                            : 'bg-slate-50 text-slate-700 border-slate-200'
+                            ? 'bg-amber-400 text-slate-950 border-amber-400 font-bold shadow-xs'
+                            : 'bg-slate-50 text-slate-700 border-slate-200 hover:bg-slate-100'
                         }`}
                       >
                         Email
@@ -740,7 +740,7 @@ export const ScholarshipDatabase: React.FC<ScholarshipDatabaseProps> = ({
                   </div>
 
                   <div>
-                    <label className="block text-xs font-medium text-slate-700 mb-1">
+                    <label className="block text-xs font-semibold text-slate-700 mb-1">
                       {reminderContact.notifyVia === 'whatsapp' ? 'Nomor WhatsApp' : 'Alamat Email'}
                     </label>
                     <input
@@ -749,7 +749,7 @@ export const ScholarshipDatabase: React.FC<ScholarshipDatabaseProps> = ({
                       value={reminderContact.phoneOrEmail}
                       onChange={(e) => setReminderContact({ ...reminderContact, phoneOrEmail: e.target.value })}
                       placeholder={reminderContact.notifyVia === 'whatsapp' ? '0812-xxxx-xxxx' : 'emailanda@gmail.com'}
-                      className="w-full px-3 py-2 text-xs bg-slate-50 border border-slate-200 rounded-lg text-slate-900 focus:outline-none focus:ring-2 focus:ring-slate-900"
+                      className="w-full px-3 py-2 text-xs bg-slate-50 border border-slate-200 rounded-xl text-slate-900 focus:outline-none focus:ring-2 focus:ring-indigo-500 font-medium"
                     />
                   </div>
                 </div>
@@ -760,7 +760,7 @@ export const ScholarshipDatabase: React.FC<ScholarshipDatabaseProps> = ({
 
                 <button
                   type="submit"
-                  className="w-full py-2.5 bg-slate-900 text-white text-xs font-semibold rounded-xl hover:bg-slate-800 transition-colors shadow-sm"
+                  className="w-full py-3 bg-amber-400 hover:bg-amber-300 text-slate-950 text-xs font-bold rounded-xl transition-colors shadow-xs cursor-pointer"
                 >
                   Pasang Pengingat Sekarang
                 </button>
