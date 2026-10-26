@@ -70,7 +70,7 @@ export const WhatsAppAiBot: React.FC<WhatsAppAiBotProps> = ({
     {
       id: 'welcome-1',
       sender: 'ai',
-      text: 'Halo Kak! Selamat datang di MandalikaEdu 🎓\n\nSaya **Halo AI**, asisten cerdas yang didukung oleh teknologi **Halo AI (haloai.app)**. Saya siap menemani diskusi Kakak seputar kuliah luar negeri, rekomendasi beasiswa, atau pemesanan paket bimbingan.',
+      text: 'Halo Kak! Selamat datang di MandalikaEdu 🎓\n\nSaya **Safiya**, asisten cerdas AI MandalikaEdu. Saya siap menemani diskusi Kakak seputar kuliah luar negeri, rekomendasi beasiswa, atau pemesanan paket bimbingan.',
       timestamp: 'Baru saja',
       actionButtons: [
         { label: '🆓 Klaim Sesi Discovery Gratis (Rp 0)', type: 'booking', packageId: 'discovery-free' },
@@ -115,7 +115,7 @@ export const WhatsAppAiBot: React.FC<WhatsAppAiBotProps> = ({
       {
         id: `welcome-${Date.now()}`,
         sender: 'ai',
-        text: 'Halo Kak! Selamat datang di MandalikaEdu 🎓\n\nSaya **Halo AI**, asisten cerdas yang didukung oleh teknologi **Halo AI (haloai.app)**. Saya siap menemani diskusi Kakak seputar kuliah luar negeri, rekomendasi beasiswa, atau pemesanan paket bimbingan.',
+        text: 'Halo Kak! Selamat datang di MandalikaEdu 🎓\n\nSaya **Safiya**, asisten cerdas AI MandalikaEdu. Saya siap menemani diskusi Kakak seputar kuliah luar negeri, rekomendasi beasiswa, atau pemesanan paket bimbingan.',
         timestamp: new Date().toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit' }),
         actionButtons: [
           { label: '🆓 Klaim Sesi Discovery Gratis (Rp 0)', type: 'booking', packageId: 'discovery-free' },
@@ -127,7 +127,7 @@ export const WhatsAppAiBot: React.FC<WhatsAppAiBotProps> = ({
     ]);
   };
 
-  // Context-aware agentic response engine (matches Halo AI natural conversational CX)
+  // Context-aware agentic response engine (matches Safiya natural conversational CX)
   const generateAgenticResponse = (query: string): { text: string; actionButtons?: Message['actionButtons'] } => {
     const raw = query.trim();
     const q = raw.toLowerCase();
@@ -136,7 +136,7 @@ export const WhatsAppAiBot: React.FC<WhatsAppAiBotProps> = ({
     const isOffTopic = /sayur|masak|resep|makan|minum|baju|motor|mobil|bengkel|politik|pemilu|presiden|artis|gosip|pacar|jodoh|game|slot|cuaca|lirik lagu/i.test(q);
     if (isOffTopic && !q.includes('beasiswa') && !q.includes('kuliah') && !q.includes('studi') && !q.includes('kampus')) {
       return {
-        text: 'Maaf ya Kak, Halo AI khusus dirancang untuk mendampingi persiapan beasiswa, kuliah luar negeri, dan layanan bimbingan MandalikaEdu 😊.\n\nAda yang bisa kami bantu seputar riset beasiswa, review esai, atau klaim Sesi Discovery Gratis (Rp 0)?',
+        text: 'Maaf ya Kak, Safiya khusus dirancang untuk mendampingi persiapan beasiswa, kuliah luar negeri, dan layanan bimbingan MandalikaEdu 😊.\n\nAda yang bisa kami bantu seputar riset beasiswa, review esai, atau klaim Sesi Discovery Gratis (Rp 0)?',
         actionButtons: [
           { label: '🆓 Klaim Sesi Discovery Gratis (Rp 0)', type: 'booking', packageId: 'discovery-free' },
           { label: '🔍 Cari Rekomendasi Beasiswa', type: 'tab', target: 'beasiswa' },
@@ -171,13 +171,13 @@ export const WhatsAppAiBot: React.FC<WhatsAppAiBotProps> = ({
       };
     }
 
-    // 2. Pertanyaan seputar Halo AI / haloai.app
-    if (q.includes('haloai') || q.includes('halo ai') || q.includes('haloai.app')) {
+    // 2. Pertanyaan seputar Safiya / Safiya AI
+    if (q.includes('safiya') || q.includes('haloai') || q.includes('halo ai') || q.includes('haloai.app')) {
       return {
-        text: 'Betul Kak! Sistem live chat cerdas kami terintegrasi dengan teknologi **Halo AI (haloai.app)** untuk memastikan respons ramah 24/7.\n\nKakak bisa berdiskusi langsung di web ini atau melanjutkan obrolan ke bot WhatsApp resmi MandalikaEdu di **' + getActiveWhatsAppDisplay() + '**.',
+        text: 'Halo Kak! Saya **Safiya**, asisten AI cerdas resmi MandalikaEdu yang siap menemani diskusi Kakak 24/7 seputar beasiswa dan persiapan kuliah luar negeri 😊.\n\nKakak bisa berdiskusi langsung di sini atau melanjutkan obrolan ke WhatsApp resmi MandalikaEdu di **' + getActiveWhatsAppDisplay() + '**.',
         actionButtons: [
-          { label: '💬 Buka WhatsApp Resmi Halo AI', type: 'whatsapp', target: 'Halo Tim MandalikaEdu via Halo AI, saya ingin berkonsultasi.' },
-          { label: '🌐 Kunjungi HaloAI.app', type: 'external', target: HALOAI_URL }
+          { label: '💬 Chat Safiya di WhatsApp Resmi', type: 'whatsapp', target: 'Halo Safiya & Tim MandalikaEdu, saya ingin berkonsultasi.' },
+          { label: '🆓 Klaim Sesi Discovery Gratis (Rp 0)', type: 'booking', packageId: 'discovery-free' }
         ]
       };
     }
@@ -382,7 +382,7 @@ export const WhatsAppAiBot: React.FC<WhatsAppAiBotProps> = ({
             timestamp: new Date().toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit' }),
             actionButtons: [
               { label: '🆓 Jadwalkan Sesi Discovery Gratis', type: 'booking', packageId: 'discovery-free' },
-              { label: '💬 Lanjut ke WhatsApp Resmi Halo AI', type: 'whatsapp', target: `Halo Admin MandalikaEdu via Halo AI, saya ingin konsultasi lanjutan: "${text}"` }
+              { label: '💬 Lanjut ke WhatsApp Resmi Safiya AI', type: 'whatsapp', target: `Halo Admin MandalikaEdu via Safiya AI, saya ingin konsultasi lanjutan: "${text}"` }
             ]
           };
           setMessages(prev => [...prev, aiMessage]);
@@ -419,7 +419,7 @@ export const WhatsAppAiBot: React.FC<WhatsAppAiBotProps> = ({
     if (btn.type === 'whatsapp') {
       safeOpenWhatsApp(btn.target || 'Halo MandalikaEdu, saya ingin berkonsultasi seputar beasiswa luar negeri.');
     } else if (btn.type === 'booking') {
-      onOpenBooking(btn.packageId || 'discovery-free', `Melalui Halo AI Bot: ${btn.label}`);
+      onOpenBooking(btn.packageId || 'discovery-free', `Melalui Safiya AI Bot: ${btn.label}`);
       setIsOpen(false);
     } else if (btn.type === 'tab' && btn.target) {
       onNavigateTab(btn.target);
@@ -440,7 +440,7 @@ export const WhatsAppAiBot: React.FC<WhatsAppAiBotProps> = ({
             <div className="w-2.5 h-2.5 rounded-full bg-violet-400 shrink-0 mt-1 animate-pulse" />
             <div className="space-y-1">
               <div className="font-bold text-white flex items-center gap-1.5">
-                <span>AI agent MandalikaEdu</span>
+                <span>Safiya • AI Agent MandalikaEdu</span>
                 <span className="text-[10px] px-1.5 py-0.2 bg-emerald-500/20 text-emerald-300 rounded font-medium">Online</span>
               </div>
               <p className="text-slate-300 text-[11px] leading-relaxed">
@@ -462,7 +462,7 @@ export const WhatsAppAiBot: React.FC<WhatsAppAiBotProps> = ({
         <button
           type="button"
           onClick={() => setIsOpen(!isOpen)}
-          aria-label="Buka Chat AI Agent MandalikaEdu"
+          aria-label="Buka Chat Safiya AI Agent MandalikaEdu"
           className="relative group w-14 h-14 sm:w-16 sm:h-16 rounded-full bg-[#8B5CF6] hover:bg-[#7C3AED] active:scale-95 text-white flex items-center justify-center shadow-xl shadow-purple-600/30 transition-all duration-200 cursor-pointer"
         >
           {isOpen ? (
@@ -502,7 +502,7 @@ export const WhatsAppAiBot: React.FC<WhatsAppAiBotProps> = ({
                 />
               </div>
               <div>
-                <h3 className="font-bold text-slate-900 text-base leading-tight">AI agent</h3>
+                <h3 className="font-bold text-slate-900 text-base leading-tight">Safiya AI</h3>
                 <p className="text-xs text-slate-400 font-normal mt-0.5">Online</p>
               </div>
             </div>
