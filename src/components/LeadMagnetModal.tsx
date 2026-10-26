@@ -21,16 +21,18 @@ export const LeadMagnetModal: React.FC<LeadMagnetModalProps> = ({ isOpen, onClos
   };
 
   return (
-    <div className="fixed inset-0 z-50 overflow-y-auto bg-slate-900/60 backdrop-blur-xs flex items-center justify-center p-4">
-      <div className="bg-white rounded-3xl border border-slate-200 max-w-md w-full p-6 sm:p-8 shadow-2xl relative">
+    <div className="fixed inset-0 z-[100] bg-slate-900/70 backdrop-blur-xs flex items-center justify-center p-3 sm:p-6 overflow-y-auto">
+      <div className="bg-white rounded-3xl border border-slate-200 max-w-md w-full p-5 sm:p-7 shadow-2xl relative my-auto max-h-[92vh] sm:max-h-[88vh] flex flex-col overflow-hidden">
         <button
           onClick={onClose}
-          className="absolute top-5 right-5 text-slate-400 hover:text-slate-800 p-1"
+          className="absolute top-4 right-4 sm:top-5 sm:right-5 text-slate-400 hover:text-slate-800 p-1.5 rounded-full hover:bg-slate-100 transition-colors z-10 cursor-pointer"
+          aria-label="Tutup Modal"
         >
           <X className="w-5 h-5" />
         </button>
 
-        {!downloadSuccess ? (
+        <div className="flex-1 overflow-y-auto pr-1 pt-1">
+          {!downloadSuccess ? (
           <div>
             <div className="w-12 h-12 bg-amber-100 text-amber-900 rounded-2xl flex items-center justify-center mb-4">
               <BookOpen className="w-6 h-6" />
@@ -149,6 +151,7 @@ export const LeadMagnetModal: React.FC<LeadMagnetModalProps> = ({ isOpen, onClos
             </button>
           </div>
         )}
+        </div>
       </div>
     </div>
   );
