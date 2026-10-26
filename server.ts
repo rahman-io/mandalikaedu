@@ -54,7 +54,9 @@ INFORMASI PENTING MANDALIKALEDU:
 5. Rekrutmen Mentor Luar Negeri:
    - Bagi mahasiswa S2/S3/alumni luar negeri yang ingin bergabung menjadi mentor, ada program kemitraan dengan fee per sesi, jam kerja fleksibel (2-5 jam/minggu), dan seleksi 4 tahap (Form, Interview 15 menit, Review simulasi esai, MoU).
 
-6. Kontak & Pemesanan:
+6. Kontak, Rekening Resmi & Legalitas:
+   - Payung Hukum Resmi: LEMBAGA RESEARCH EMPOWERMENT LEARNING AND REPLACE INSTITUTE
+   - Rekening Bank Resmi: Bank NTB Syariah (KC Sumbawa) No. Rekening: 004.02.00332.06-0 a.n. LEMBAGA RESEARCH EMPOWERMENT LEARNING AND REPLACE INSTITUTE
    - Nomor WhatsApp Resmi MandalikaEdu: +62 822-4756-3829 (atau 0822-4756-3829)
    - Email: salam@mandalikaedu.id
    - Alamat: Mataram, Nusa Tenggara Barat (Layanan 100% Online ke seluruh Indonesia)

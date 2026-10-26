@@ -5,12 +5,12 @@ export const CONTACT_CONFIG = {
   whatsappDisplay: '+62 812-3456-7890',
   email: 'salam@mandalikaedu.id',
   address: 'Mataram, Nusa Tenggara Barat, Indonesia',
-  legalEntity: 'Lembaga Research Empowerment and Learning Centre Institute',
+  legalEntity: 'LEMBAGA RESEARCH EMPOWERMENT LEARNING AND REPLACE INSTITUTE',
   
   // Rekening Bank Resmi
-  bankName: 'Bank Central Asia (BCA)',
-  bankAccountNo: '1234567890',
-  bankAccountName: 'Lembaga Research Empowerment and Learning Centre Institute',
+  bankName: 'Bank NTB Syariah (KC Sumbawa)',
+  bankAccountNo: '004.02.00332.06-0',
+  bankAccountName: 'LEMBAGA RESEARCH EMPOWERMENT LEARNING AND REPLACE INSTITUTE',
 
   // Rekening Cadangan (Opsional)
   bankName2: 'Bank Mandiri',
