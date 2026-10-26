@@ -2,8 +2,9 @@ import React, { useState, useRef, useEffect } from 'react';
 import { 
   MessageSquare, MessageCircle, X, Send, Bot, CheckCheck, 
   ExternalLink, Sparkles, ChevronRight, Phone, RefreshCw, Calendar, Award, ShieldCheck, Settings, Edit3,
-  Cloud, Key, Check, AlertCircle, Loader2, Paperclip, FileText, Maximize2, Minimize2, ArrowUp, SquarePen
+  Cloud, Key, Check, AlertCircle, Loader2, FileText, Maximize2, Minimize2, ArrowUp, SquarePen
 } from 'lucide-react';
+import brandLogoImg from '../assets/logo.jpg';
 import { 
   getActiveWhatsAppNumber, 
   getActiveWhatsAppDisplay, 
@@ -478,20 +479,24 @@ export const WhatsAppAiBot: React.FC<WhatsAppAiBotProps> = ({
         </button>
       </div>
 
-      {/* Chat Window Modal / Drawer (Exact Match to Screenshot) */}
+      {/* Chat Window Modal / Drawer */}
       {isOpen && (
         <div 
           role="dialog"
           aria-label="AI Agent Chat Window"
-          className="fixed bottom-22 sm:bottom-24 right-4 sm:right-6 z-50 w-[calc(100vw-32px)] sm:w-[410px] h-[590px] max-h-[84vh] bg-white rounded-[28px] shadow-2xl shadow-slate-400/25 border border-slate-200/80 flex flex-col overflow-hidden animate-in fade-in zoom-in-95 duration-200"
+          className={
+            isExpanded
+              ? "fixed inset-0 z-[9999] w-screen h-screen bg-white rounded-none border-0 p-0 flex flex-col overflow-hidden animate-in fade-in zoom-in-95 duration-200"
+              : "fixed bottom-22 sm:bottom-24 right-4 sm:right-6 z-50 w-[calc(100vw-32px)] sm:w-[410px] h-[590px] max-h-[84vh] bg-white rounded-[28px] shadow-2xl shadow-slate-400/25 border border-slate-200/80 flex flex-col overflow-hidden animate-in fade-in zoom-in-95 duration-200"
+          }
         >
-          {/* Pure White Header (Matching Screenshot) */}
-          <div className="bg-white px-5 py-3.5 flex items-center justify-between border-b border-slate-100">
+          {/* Pure White Header */}
+          <div className="bg-white px-5 py-3.5 flex items-center justify-between border-b border-slate-100 shrink-0">
             <div className="flex items-center gap-3">
               {/* Brand Logo Avatar */}
               <div className="w-10 h-10 rounded-full bg-white border border-slate-200 flex items-center justify-center overflow-hidden shadow-2xs shrink-0">
                 <img 
-                  src="/assets/aistudio/Instagram_Profile_Logo_Fit_c4e23bff.jpg" 
+                  src={brandLogoImg} 
                   alt="AI Agent Logo" 
                   className="w-full h-full object-cover object-top scale-[1.28] origin-top" 
                 />
@@ -648,17 +653,7 @@ export const WhatsAppAiBot: React.FC<WhatsAppAiBotProps> = ({
                 className="w-full text-xs sm:text-sm bg-transparent border-0 focus:outline-none resize-none text-slate-800 placeholder-slate-400"
               />
 
-              <div className="flex items-center justify-between pt-1 border-t border-slate-100/60">
-                {/* Paperclip attachment icon mockup */}
-                <button
-                  type="button"
-                  onClick={() => safeOpenWhatsApp('Halo MandalikaEdu, saya ingin mengirim dokumen/file.')}
-                  title="Lampirkan File (Lanjut ke WA)"
-                  className="p-1 text-slate-400 hover:text-slate-600 transition-colors cursor-pointer"
-                >
-                  <Paperclip className="w-4 h-4" />
-                </button>
-
+              <div className="flex items-center justify-end pt-1 border-t border-slate-100/60">
                 {/* Circular Send Arrow Button */}
                 <button
                   type="submit"

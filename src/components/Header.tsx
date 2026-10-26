@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Menu, X, Compass, Calculator, GraduationCap, Sparkles, BookOpen, UserCheck, ShieldCheck } from 'lucide-react';
+import brandLogoImg from '../assets/logo.jpg';
 
 interface HeaderProps {
   activeTab: string;
@@ -40,7 +41,7 @@ export const Header: React.FC<HeaderProps> = ({ activeTab, setActiveTab, onOpenB
             {/* Visual Brand Mark from uploaded Instagram logo (text cropped out) */}
             <div className="w-10 h-10 sm:w-11 sm:h-11 rounded-2xl bg-white border border-slate-200/80 shadow-2xs group-hover:border-indigo-300 transition-all flex items-center justify-center overflow-hidden shrink-0">
               <img 
-                src="/assets/aistudio/Instagram_Profile_Logo_Fit_c4e23bff.jpg" 
+                src={brandLogoImg} 
                 alt="MandalikaEdu Logo" 
                 className="w-full h-full object-cover object-top scale-[1.28] origin-top" 
               />

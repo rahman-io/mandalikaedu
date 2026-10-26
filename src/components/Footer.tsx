@@ -1,6 +1,7 @@
 import React from 'react';
 import { ShieldCheck, MapPin, Mail, Phone, ExternalLink } from 'lucide-react';
 import { getActiveWhatsAppDisplay, getActiveWhatsAppNumber } from '../config/contact';
+import brandLogoImg from '../assets/logo.jpg';
 
 interface FooterProps {
   onNavClick: (tab: string) => void;
@@ -21,7 +22,7 @@ export const Footer: React.FC<FooterProps> = ({ onNavClick, onOpenBooking, onOpe
             <div className="flex items-center gap-2.5">
               <div className="w-10 h-10 rounded-2xl bg-white border border-slate-700 shadow-2xs flex items-center justify-center overflow-hidden shrink-0">
                 <img 
-                  src="/assets/aistudio/Instagram_Profile_Logo_Fit_c4e23bff.jpg" 
+                  src={brandLogoImg} 
                   alt="MandalikaEdu Logo" 
                   className="w-full h-full object-cover object-top scale-[1.28] origin-top" 
                 />
