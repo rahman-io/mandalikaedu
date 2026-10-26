@@ -495,7 +495,7 @@ export const WhatsAppAiBot: React.FC<WhatsAppAiBotProps> = ({
             <div className="flex items-center gap-3">
               {/* Brand Logo Avatar */}
               <div className="w-12 h-12 rounded-full bg-white border border-slate-200 flex items-center justify-center overflow-hidden shadow-2xs shrink-0">
-                <SafiyaAvatar talking={isTyping} />
+                <SafiyaAvatar talking={isTyping} lastMessage={messages[messages.length - 1]} />
               </div>
               <div>
                 <h3 className="font-bold text-slate-900 text-base leading-tight">Safiya AI</h3>
