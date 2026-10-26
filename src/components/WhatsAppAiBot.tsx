@@ -83,6 +83,8 @@ export const WhatsAppAiBot: React.FC<WhatsAppAiBotProps> = ({
 
   const quickPrompts = [
     'Boleh bertanya?',
+    '🎮 Game Vocab Diglosa',
+    '📱 Grammar AI TenseGO',
     '🎯 Rekomendasi beasiswa untuk saya',
     '📦 Berapa biaya & paket bimbingan?',
     '🆓 Mau booking Discovery Gratis (Rp 0)',
@@ -256,13 +258,36 @@ export const WhatsAppAiBot: React.FC<WhatsAppAiBotProps> = ({
       };
     }
 
-    // 7. Bahasa / TOEFL / IELTS / Tanpa Bahasa
+    // 7. TenseGO / Aplikasi Belajar Grammar AI & AR (Kemitraan Resmi)
+    if (q.includes('tensego') || q.includes('tense go') || q.includes('cosmo') || q.includes('grammar') || q.includes('tenses')) {
+      return {
+        text: 'Untuk mengasah kemampuan Grammar & Tenses Bahasa Inggris secara cepat dan interaktif, MandalikaEdu merekomendasikan mitra resmi kami **TenseGO** (Aplikasi Belajar Grammar AI & AR) 🚀!\n\nFitur unggulan TenseGO:\n• **Tutor AI Cosmo 24/7**: Tanya jawab tenses & grammar kapan saja.\n• **Kamera AR Cosmo**: Sorot benda di sekitarmu dengan kamera HP dan ubah menjadi kelas bahasa Inggris interaktif.\n• **Personalized Paths**: Materi disesuaikan dengan gaya belajar kamu.',
+        actionButtons: [
+          { label: '📱 Coba Demo TenseGO (Web/AR Gratis)', type: 'external', target: 'https://tensego.replaceid.org/' },
+          { label: '🎮 Coba Juga Game Vocab Diglosa', type: 'external', target: 'https://diglosa.replaceid.org/' }
+        ]
+      };
+    }
+
+    // 8. Diglosa / Game Petualangan Kata (Kemitraan Resmi)
+    if (q.includes('diglosa') || q.includes('game') || q.includes('kata') || q.includes('kosa kata') || q.includes('vocab')) {
+      return {
+        text: 'Untuk menambah penguasaan Kosa Kata (Vocabulary) Bahasa Inggris dengan cara yang sangat seru dan tidak membosankan, Kakak bisa mencoba mitra resmi kami **Diglosa (Petualangan Kata)** 🏰🎮!\n\nFitur seru Diglosa:\n• **Game Petualangan RPG**: Naik level sambil menaklukkan tantangan kosa kata.\n• **Peta & Trofi**: Kumpulkan trofi dan pantau kemajuan kosa kata akademikmu.\n• **Seru & Gratis**: Sangat cocok sebagai pendamping latihan IELTS & TOEFL!',
+        actionButtons: [
+          { label: '🎮 Mainkan Diglosa (Game Vocabulary)', type: 'external', target: 'https://diglosa.replaceid.org/' },
+          { label: '📱 Coba TenseGO (Grammar AI & AR)', type: 'external', target: 'https://tensego.replaceid.org/' }
+        ]
+      };
+    }
+
+    // 9. Bahasa / TOEFL / IELTS / Tanpa Bahasa
     if (q.includes('bahasa') || q.includes('ielts') || q.includes('toefl') || q.includes('inggris') || q.includes('skor')) {
       return {
-        text: 'Jangan khawatir Kak! Tidak semua beasiswa mewajibkan skor IELTS tinggi di awal:\n• **Turki (Türkiye Bursları)**: Menyediakan kelas persiapan bahasa gratis 1 tahun di Turki.\n• **Jepang (MEXT Jalur Kedutaan)**: Seleksi tahap awal menggunakan ujian tertulis matematika & bahasa Inggris mandiri MEXT.\n• **AAS & LPDP Afirmasi**: Menerima sertifikat TOEFL ITP dengan standar skor lebih ringan untuk anak daerah.\n\nMandalikaEdu memiliki strategi bertahap untuk menembus tes bahasa secara mandiri dan hemat biaya.',
+        text: 'Jangan khawatir Kak! Tidak semua beasiswa mewajibkan skor IELTS tinggi di awal:\n• **Turki (Türkiye Bursları)**: Menyediakan kelas persiapan bahasa gratis 1 tahun di Turki.\n• **Jepang (MEXT Jalur Kedutaan)**: Seleksi tahap awal menggunakan ujian tertulis matematika & bahasa Inggris mandiri MEXT.\n• **AAS & LPDP Afirmasi**: Menerima sertifikat TOEFL ITP dengan standar skor lebih ringan untuk anak daerah.\n\nUntuk latihan harian yang menyenangkan, Kakak bisa menggunakan 2 tools mitra resmi kami:\n• **TenseGO**: Belajar Grammar & Tenses via AI & AR\n• **Diglosa**: Game Petualangan Kosa Kata (Vocabulary)',
         actionButtons: [
-          { label: '🆓 Diskusi Strategi Bahasa di Sesi Discovery', type: 'booking', packageId: 'discovery-free' },
-          { label: '💬 Chat Tim MandalikaEdu', type: 'whatsapp', target: 'Halo, saya ingin konsultasi mengenai persiapan bahasa Inggris untuk beasiswa.' }
+          { label: '📱 Coba TenseGO (Grammar AI & AR)', type: 'external', target: 'https://tensego.replaceid.org/' },
+          { label: '🎮 Mainkan Diglosa (Game Vocab)', type: 'external', target: 'https://diglosa.replaceid.org/' },
+          { label: '🆓 Diskusi Strategi Bahasa di Sesi Discovery', type: 'booking', packageId: 'discovery-free' }
         ]
       };
     }

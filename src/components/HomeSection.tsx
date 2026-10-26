@@ -568,6 +568,111 @@ export const HomeSection: React.FC<HomeSectionProps> = ({
         </div>
       </section>
 
+      {/* 5.5 EKOSISTEM TOOLS BELAJAR BAHASA INGGRIS (KEMITRAAN RESMI EKSTERNAL) */}
+      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-8">
+        
+        {/* Section Header */}
+        <div className="text-center max-w-2xl mx-auto space-y-2">
+          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-purple-50 border border-purple-200 text-purple-700 text-xs font-extrabold shadow-2xs">
+            <Sparkles className="w-3.5 h-3.5 text-purple-600 animate-pulse" />
+            <span>Kemitraan Resmi Penyedia Layanan Eksternal</span>
+          </div>
+          <h2 className="text-3xl sm:text-4xl font-extrabold text-slate-900 tracking-tight">
+            Tools Interaktif Pendamping <span className="text-indigo-600">Belajar Bahasa Inggris</span>
+          </h2>
+          <p className="text-xs sm:text-sm text-slate-600">
+            Akses 2 platform inovatif mitra MandalikaEdu untuk menguasai Grammar, Tenses, dan Kosa Kata (Vocabulary) IELTS & TOEFL dengan cara seru!
+          </p>
+        </div>
+
+        {/* 2 Featured Partner Cards Grid */}
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+          
+          {/* Partner Card 1: TenseGO (Grammar AI & AR) */}
+          <div className="bg-gradient-to-br from-slate-950 via-slate-900 to-indigo-950 rounded-3xl p-7 sm:p-9 text-white shadow-xl relative overflow-hidden border border-purple-500/20 flex flex-col justify-between space-y-6">
+            <div className="space-y-4">
+              <div className="flex items-center justify-between gap-2">
+                <span className="px-3 py-1 bg-purple-500/20 border border-purple-400/30 text-purple-300 text-[11px] font-bold rounded-full">
+                  📱 TenseGO · Grammar AI & AR
+                </span>
+                <span className="text-[10px] text-slate-400 font-semibold">Mitra Eksternal</span>
+              </div>
+
+              <h3 className="text-2xl font-black text-white leading-tight">
+                TenseGO <span className="text-purple-400 font-normal">| Belajar Grammar & Tenses Interaktif</span>
+              </h3>
+
+              <p className="text-xs sm:text-sm text-slate-300 leading-relaxed">
+                Aplikasi pintar yang memadukan AI & Augmented Reality (AR) untuk menyulap objek di sekitarmu menjadi kelas bahasa Inggris interaktif bersama Tutor AI Cosmo 24/7.
+              </p>
+
+              <div className="space-y-2 text-xs text-slate-300 pt-2">
+                <div className="flex items-center gap-2 bg-white/5 border border-white/10 rounded-xl p-2.5">
+                  <span className="w-2 h-2 rounded-full bg-emerald-400 shrink-0" />
+                  <span><strong>Kamera AR Cosmo:</strong> Ubah Objek Jadi Materi Tenses</span>
+                </div>
+                <div className="flex items-center gap-2 bg-white/5 border border-white/10 rounded-xl p-2.5">
+                  <span className="w-2 h-2 rounded-full bg-purple-400 shrink-0" />
+                  <span><strong>Tutor AI 24/7:</strong> Tanya Jawab 16 Tenses Kapan Saja</span>
+                </div>
+              </div>
+            </div>
+
+            <a
+              href="https://tensego.replaceid.org/"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="w-full py-3.5 bg-gradient-to-r from-purple-500 to-indigo-600 hover:from-purple-600 hover:to-indigo-700 text-white font-extrabold text-xs uppercase tracking-wider rounded-xl transition-all shadow-md flex items-center justify-center gap-2 cursor-pointer active:scale-95"
+            >
+              <span>Buka TenseGO (tensego.replaceid.org)</span>
+              <Globe className="w-4 h-4" />
+            </a>
+          </div>
+
+          {/* Partner Card 2: Diglosa (Game Petualangan Kata / Vocabulary) */}
+          <div className="bg-gradient-to-br from-amber-950 via-amber-900/90 to-slate-950 rounded-3xl p-7 sm:p-9 text-white shadow-xl relative overflow-hidden border border-amber-500/20 flex flex-col justify-between space-y-6">
+            <div className="space-y-4">
+              <div className="flex items-center justify-between gap-2">
+                <span className="px-3 py-1 bg-amber-500/20 border border-amber-400/30 text-amber-300 text-[11px] font-bold rounded-full">
+                  🏰 Diglosa · Game Petualangan Kata
+                </span>
+                <span className="text-[10px] text-slate-400 font-semibold">Mitra Eksternal</span>
+              </div>
+
+              <h3 className="text-2xl font-black text-white leading-tight">
+                Diglosa <span className="text-amber-300 font-normal">| Petualangan Kosa Kata RPG</span>
+              </h3>
+
+              <p className="text-xs sm:text-sm text-amber-100/90 leading-relaxed">
+                Game petualangan edukasi seru untuk meningkatkan kuantitas dan kualitas Kosa Kata (Vocabulary) akademik Bahasa Inggris kamu lewat tantangan petualangan RPG fantasy!
+              </p>
+
+              <div className="space-y-2 text-xs text-amber-100/90 pt-2">
+                <div className="flex items-center gap-2 bg-white/5 border border-white/10 rounded-xl p-2.5">
+                  <span className="w-2 h-2 rounded-full bg-amber-400 shrink-0" />
+                  <span><strong>Petualangan RPG Fantasy:</strong> Belajar Vocab Sambil Main Game</span>
+                </div>
+                <div className="flex items-center gap-2 bg-white/5 border border-white/10 rounded-xl p-2.5">
+                  <span className="w-2 h-2 rounded-full bg-amber-300 shrink-0" />
+                  <span><strong>Leveling & Trofi:</strong> Pantau Progres Kosa Kata Akademik</span>
+                </div>
+              </div>
+            </div>
+
+            <a
+              href="https://diglosa.replaceid.org/"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="w-full py-3.5 bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-600 hover:to-amber-700 text-slate-950 font-black text-xs uppercase tracking-wider rounded-xl transition-all shadow-md flex items-center justify-center gap-2 cursor-pointer active:scale-95"
+            >
+              <span>Mainkan Diglosa (diglosa.replaceid.org)</span>
+              <Globe className="w-4 h-4" />
+            </a>
+          </div>
+
+        </div>
+      </section>
+
       {/* 6. YOUR LEARNING JOURNEY IN 4 SIMPLE STEPS (FROM SCREENSHOT) */}
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center max-w-2xl mx-auto mb-12">
