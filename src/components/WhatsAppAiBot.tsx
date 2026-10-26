@@ -4,7 +4,7 @@ import {
   ExternalLink, Sparkles, ChevronRight, Phone, RefreshCw, Calendar, Award, ShieldCheck, Settings, Edit3,
   Cloud, Key, Check, AlertCircle, Loader2, FileText, Maximize2, Minimize2, ArrowUp, SquarePen
 } from 'lucide-react';
-import brandLogoImg from '../assets/logo.jpg';
+import { SafiyaAvatar } from './SafiyaAvatar';
 import { 
   getActiveWhatsAppNumber, 
   getActiveWhatsAppDisplay, 
@@ -494,12 +494,8 @@ export const WhatsAppAiBot: React.FC<WhatsAppAiBotProps> = ({
           <div className="bg-white px-5 py-3.5 flex items-center justify-between border-b border-slate-100 shrink-0">
             <div className="flex items-center gap-3">
               {/* Brand Logo Avatar */}
-              <div className="w-10 h-10 rounded-full bg-white border border-slate-200 flex items-center justify-center overflow-hidden shadow-2xs shrink-0">
-                <img 
-                  src={brandLogoImg} 
-                  alt="AI Agent Logo" 
-                  className="w-full h-full object-cover object-top scale-[1.28] origin-top" 
-                />
+              <div className="w-12 h-12 rounded-full bg-white border border-slate-200 flex items-center justify-center overflow-hidden shadow-2xs shrink-0">
+                <SafiyaAvatar talking={isTyping} />
               </div>
               <div>
                 <h3 className="font-bold text-slate-900 text-base leading-tight">Safiya AI</h3>
