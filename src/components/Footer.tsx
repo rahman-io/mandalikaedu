@@ -159,10 +159,10 @@ export const Footer: React.FC<FooterProps> = ({ onNavClick, onOpenBooking, onOpe
           </p>
         </div>
 
-        {/* Bottom Copyright */}
+        {/* Bottom Copyright & Legal Entity */}
         <div className="pt-6 mt-6 border-t border-slate-800 flex flex-col sm:flex-row items-center justify-between text-[11px] text-slate-500 gap-3">
           <div>
-            © {new Date().getFullYear()} MandalikaEdu. Seluruh hak cipta dilindungi undang-undang.
+            © {new Date().getFullYear()} MandalikaEdu. Program resmi di bawah naungan <strong>Lembaga Research Empowerment and Learning Centre Institute</strong>.
           </div>
           <div className="flex items-center gap-4">
             <button onClick={() => onNavClick('tentang')} className="hover:text-slate-400">

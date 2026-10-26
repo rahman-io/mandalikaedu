@@ -1,10 +1,23 @@
-// Centralized Contact & WhatsApp Configuration
+// Centralized Contact & WhatsApp & Legal Payment Configuration
 export const CONTACT_CONFIG = {
   // Ganti dengan nomor WhatsApp aktif Anda (format internasional tanpa tanda +, contoh: '6281234567890')
   whatsappNumber: '6281234567890', 
   whatsappDisplay: '+62 812-3456-7890',
   email: 'salam@mandalikaedu.id',
   address: 'Mataram, Nusa Tenggara Barat, Indonesia',
+  legalEntity: 'Lembaga Research Empowerment and Learning Centre Institute',
+  
+  // Rekening Bank Resmi
+  bankName: 'Bank Central Asia (BCA)',
+  bankAccountNo: '1234567890',
+  bankAccountName: 'Lembaga Research Empowerment and Learning Centre Institute',
+
+  // Rekening Cadangan (Opsional)
+  bankName2: 'Bank Mandiri',
+  bankAccountNo2: '0987654321',
+
+  // QRIS All Payment Image Path
+  qrisImageUrl: '/assets/qris-mandalikaedu.png',
   haloAiUrl: 'https://haloai.app/en'
 };
 
