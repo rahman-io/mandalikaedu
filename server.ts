@@ -3,6 +3,7 @@ import path from 'path';
 import { fileURLToPath } from 'url';
 import dotenv from 'dotenv';
 import { GoogleGenAI } from '@google/genai';
+import { SCHOLARSHIPS_DATA } from './src/data/scholarships';
 
 dotenv.config();
 
@@ -29,7 +30,30 @@ if (apiKey) {
   });
 }
 
-const SYSTEM_INSTRUCTION = `Anda adalah "Safiya", asisten pintar WhatsApp resmi MandalikaEdu.
+/**
+ * Membangun ringkasan basis data beasiswa real-time langsung dari single source of truth (SCHOLARSHIPS_DATA).
+ * Jika ada penambahan, pengurangan, atau perubahan 1 huruf di data beasiswa, sistem AI otomatis mengetahuinya seketika.
+ */
+function buildLiveScholarshipsKnowledge(): string {
+  const items = SCHOLARSHIPS_DATA.map((s, idx) => {
+    const levels = s.level.join('/');
+    const note = s.educationalNote ? ` [Catatan: ${s.educationalNote}]` : '';
+    const status = s.statusNote ? ` [Jadwal: ${s.statusNote}]` : ` [Deadline: ${s.applicationPeriod.deadline}]`;
+    const age = s.requirements.maxAge ? ` (Maks ${s.requirements.maxAge})` : '';
+    return `${idx + 1}. ${s.name} (${s.country} ${s.flag}) - ${levels} - ${s.fundingType}. IPK min: ${s.requirements.gpa}, Bahasa: ${s.requirements.language}${age}.${status}${note}`;
+  }).join('\n');
+
+  return `\n\nDATABASE RESMI BEASISWA AKTIF MANDALIKAEDU (TOTAL ${SCHOLARSHIPS_DATA.length} BEASISWA - REAL-TIME SINGLE SOURCE OF TRUTH):
+Setiap kali Anda merekomendasikan atau menjawab pertanyaan pengguna, selalu gunakan data resmi terbaru berikut sebagai acuan fakta mutlak:
+${items}
+
+PANDUAN KONSULTASI BEASISWA DENGAN DATA DI ATAS:
+- Jika pengguna bertanya tentang beasiswa di negara tertentu (misal: Swedia, Belanda, Hungaria, Turki, Jepang, Jerman, dll), carikan dari daftar resmi di atas.
+- Jika pengguna menanyakan syarat IPK, bahasa, batas usia, atau jadwal, jawab sesuai data beasiswa tersebut di atas.
+- Jelaskan nilai tambah bimbingan MandalikaEdu dan ajak pengguna mengikuti Sesi Discovery Gratis (Rp 0) untuk review berkas.`;
+}
+
+const BASE_SYSTEM_INSTRUCTION = `Anda adalah "Safiya", asisten pintar WhatsApp resmi MandalikaEdu.
 MandalikaEdu adalah platform dan lembaga bimbingan persiapan beasiswa & studi luar negeri independen yang berfokus mendampingi putra-putri daerah di Indonesia (termasuk NTB, NTT, Kalimantan, Sulawesi, Sumatera, Papua, dan kota-kota non-metropolitan) dari nol.
 
 INFORMASI PENTING MANDALIKALEDU:
@@ -49,12 +73,10 @@ INFORMASI PENTING MANDALIKALEDU:
    - TenseGO (Aplikasi Android & Web Belajar Grammar AI & AR): Memadukan AI & Augmented Reality (AR) untuk menyulap objek sekitar menjadi kelas Bahasa Inggris interaktif dengan Tutor AI Cosmo 24/7. Akses gratis di https://tensego.replaceid.org/
    - Diglosa (Game Petualangan Kata / Vocabulary Adventure Game): Game edukasi petualangan kata yang seru untuk menguasai kosa kata Bahasa Inggris akademik & IELTS/TOEFL lewat tantangan petualangan RPG fantasy. Akses gratis di https://diglosa.replaceid.org/
 
-4. Beasiswa Populer: MEXT (Jepang, fully funded + uang saku ~144k JPY), DAAD EPOS (Jerman, kuliah gratis + uang saku 934 EUR), AAS (Australia, kuota afirmasi daerah Indonesia Timur), Chevening (Inggris/UK), LPDP (Afirmasi & Reguler), Turkiye Burslari (Turki, termasuk kursus bahasa gratis 1 tahun), GKS (Korea Selatan), Stipendium Hungaricum (Hungaria).
-
-5. Rekrutmen Mentor Luar Negeri:
+4. Rekrutmen Mentor Luar Negeri:
    - Bagi mahasiswa S2/S3/alumni luar negeri yang ingin bergabung menjadi mentor, ada program kemitraan dengan fee per sesi, jam kerja fleksibel (2-5 jam/minggu), dan seleksi 4 tahap (Form, Interview 15 menit, Review simulasi esai, MoU).
 
-6. Kontak, Rekening Resmi & Legalitas:
+5. Kontak, Rekening Resmi & Legalitas:
    - Payung Hukum Resmi: LEMBAGA RESEARCH EMPOWERMENT LEARNING AND REPLACE INSTITUTE
    - Rekening Bank Resmi: Bank NTB Syariah (KC Sumbawa) No. Rekening: 004.02.00332.06-0 a.n. LEMBAGA RESEARCH EMPOWERMENT LEARNING AND REPLACE INSTITUTE
    - Nomor WhatsApp Resmi MandalikaEdu: +62 822-4756-3829 (atau 0822-4756-3829)
@@ -89,6 +111,10 @@ ATURAN TANDA BACA & TATA BAHASA INDONESIA (WAJIB DIPATUHI):
 - Gunakan kata hubung bahasa Indonesia yang baik dan benar (seperti: "yaitu", "seperti", "termasuk", "antara lain"), tanda koma (,), tanda kurung (()), atau tanda titik dua (:).
 - Contoh yang DILARANG: "Indonesia—termasuk"
 - Contoh yang BENAR: "Indonesia, termasuk" atau "Indonesia (termasuk)"`;
+
+function getDynamicSystemInstruction(): string {
+  return BASE_SYSTEM_INSTRUCTION + buildLiveScholarshipsKnowledge();
+}
 
 /**
  * Filter pembersih untuk menjamin 0% simbol em dash / en dash dapat lolos ke pengguna
@@ -129,12 +155,12 @@ app.post('/api/chat', async (req, res) => {
     }));
 
     const response = await ai.models.generateContent({
-      model: 'gemini-3.5-flash-lite',
+      model: 'gemini-3.8-flash',
       contents: contents,
       config: {
-        systemInstruction: SYSTEM_INSTRUCTION,
+        systemInstruction: getDynamicSystemInstruction(),
         temperature: 0.7,
-        maxOutputTokens: 260,
+        maxOutputTokens: 600,
       }
     });
 
@@ -152,7 +178,7 @@ app.post('/api/chat', async (req, res) => {
     if (lastMsg.includes('pesan') || lastMsg.includes('booking') || lastMsg.includes('biaya') || lastMsg.includes('paket')) {
       friendlyFallback = 'Siap Kak! MandalikaEdu menyediakan paket mulai dari Sesi Discovery Gratis (Rp 0), Roadmap Beasiswa (Rp 199k), Essay & CV Lab (Rp 499k), hingga Mentorship 360 (Rp 1.490k). Mau kami bantu jadwalkan atau konsultasi via WhatsApp resmi kami?';
     } else if (lastMsg.includes('beasiswa') || lastMsg.includes('mext') || lastMsg.includes('daad') || lastMsg.includes('aas') || lastMsg.includes('lpdp')) {
-      friendlyFallback = 'MandalikaEdu merangkum 15+ beasiswa fully funded ramah anak daerah seperti MEXT Jepang, DAAD Jerman, AAS Australia, Chevening UK, dan LPDP. Mau cari jenjang S1, S2, atau S3 Kak?';
+      friendlyFallback = `MandalikaEdu merangkum ${SCHOLARSHIPS_DATA.length} beasiswa fully funded ramah anak daerah seperti MEXT Jepang, DAAD Jerman, AAS Australia, Chevening UK, dan LPDP. Mau cari jenjang S1, S2, atau S3 Kak?`;
     }
 
     return res.json({ 

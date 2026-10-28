@@ -11,6 +11,7 @@ import {
   setActiveWhatsAppNumber, 
   CONTACT_CONFIG 
 } from '../config/contact';
+import { SCHOLARSHIPS_DATA } from '../data/scholarships';
 
 interface Message {
   id: string;
@@ -166,7 +167,7 @@ export const WhatsAppAiBot: React.FC<WhatsAppAiBotProps> = ({
         text: 'Halo Kak! Tentu saja **boleh sekali** 😊.\n\nSilakan, ada yang ingin Kakak tanyakan atau diskusikan seputar:\n• Rekomendasi beasiswa (Jepang, Jerman, Australia, UK, Turki, dll.)\n• Bimbingan pembuatan Motivation Letter & CV internasional\n• Biaya dan pemesanan paket bimbingan (atau klaim sesi Discovery Rp 0)\n• Informasi rekrutmen mentor luar negeri\n\nKira-kira jenjang apa (S1/S2/S3) atau negara mana yang sedang Kakak minati?',
         actionButtons: [
           { label: '🆓 Klaim Sesi Discovery Gratis (Rp 0)', type: 'booking', packageId: 'discovery-free' },
-          { label: '🔍 Lihat Database 15+ Beasiswa', type: 'tab', target: 'beasiswa' },
+          { label: `🔍 Database Beasiswa (${SCHOLARSHIPS_DATA.length} Beasiswa)`, type: 'tab', target: 'beasiswa' },
           { label: '📦 Cek Paket Bimbingan', type: 'tab', target: 'paket' },
           { label: '💬 Hubungi WhatsApp Resmi', type: 'whatsapp', target: 'Halo MandalikaEdu, saya ingin berdiskusi seputar peluang beasiswa kuliah luar negeri.' }
         ]
@@ -235,13 +236,44 @@ export const WhatsAppAiBot: React.FC<WhatsAppAiBotProps> = ({
       };
     }
 
-    // 5. Rekomendasi Beasiswa & Negara
-    if (q.includes('beasiswa') || q.includes('mext') || q.includes('daad') || q.includes('aas') || q.includes('chevening') || q.includes('lpdp') || q.includes('jepang') || q.includes('jerman') || q.includes('turki') || q.includes('australia') || q.includes('korea') || q.includes('gks') || q.includes('inggris') || q.includes('uk')) {
+    // 5. Rekomendasi & Pencarian Beasiswa Real-Time (Single Source of Truth)
+    // Dinamis membaca SCHOLARSHIPS_DATA: perubahan 1 huruf atau penambahan data otomatis terbaca
+    const matchingScholarships = SCHOLARSHIPS_DATA.filter(s => {
+      const qLower = q.trim();
+      const nameMatch = s.name.toLowerCase().includes(qLower) || (qLower.length > 3 && s.name.toLowerCase().includes(qLower));
+      const countryMatch = s.country.toLowerCase().includes(qLower) || qLower.includes(s.country.toLowerCase());
+      const regionMatch = s.regionGroup.toLowerCase().includes(qLower) || qLower.includes(s.regionGroup.toLowerCase());
+      const fieldMatch = s.fieldsOfStudy.some(f => qLower.includes(f.toLowerCase()) || f.toLowerCase().includes(qLower));
+      return nameMatch || countryMatch || regionMatch || fieldMatch;
+    });
+
+    if (matchingScholarships.length > 0) {
+      const topMatches = matchingScholarships.slice(0, 3);
+      const listText = topMatches.map(s => {
+        const levels = s.level.join('/');
+        const age = s.requirements.maxAge ? ` · Usia maks ${s.requirements.maxAge}` : '';
+        const note = s.educationalNote ? `\n  ⚠️ ${s.educationalNote}` : '';
+        return `• **${s.name}** (${s.country} ${s.flag}) - ${levels} (${s.fundingType})\n  Syarat: IPK min ${s.requirements.gpa}, Bahasa ${s.requirements.language}${age}.${note}`;
+      }).join('\n\n');
+
       return {
-        text: 'MandalikaEdu merangkum 15+ beasiswa fully funded yang sangat ramah pelamar daerah!\n\nBeberapa opsi beasiswa favorit:\n• **MEXT (Jepang)**: Bebas biaya kuliah 100% + tunjangan ~144.000 JPY/bln.\n• **DAAD EPOS (Jerman)**: Kuliah gratis di Jerman + uang saku 934 EUR/bln untuk yang berpengalaman kerja 2 thn.\n• **Australia Awards (AAS)**: Memiliki kuota afirmasi geografis khusus kawasan Indonesia Timur (NTB, NTT, Papua, Maluku, dll).\n• **Türkiye Bursları (Turki)**: Termasuk kursus bahasa Turki gratis 1 thn, asrama, tiket PP, dan uang saku.\n• **Chevening (Inggris/UK)**: Beasiswa Master 1 thn di kampus ternama UK.\n• **LPDP (Afirmasi & Reguler)**: Kuota afirmasi daerah 3T dengan syarat bahasa lebih fleksibel.',
+        text: `Berdasarkan database aktif MandalikaEdu (${SCHOLARSHIPS_DATA.length} beasiswa resmi), berikut rekomendasi yang cocok untuk pencarian Kakak:\n\n${listText}\n\nKira-kira Kakak sedang merencanakan jenjang apa? Mau kami bantu cek kelayakan profil di Sesi Discovery Gratis?`,
         actionButtons: [
-          { label: '🔍 Buka Database Beasiswa Lengkap', type: 'tab', target: 'beasiswa' },
-          { label: '🎯 Kuis Pencocokan Beasiswa (3 Menit)', type: 'tab', target: 'kuis' },
+          { label: `🔍 Buka Database (${SCHOLARSHIPS_DATA.length} Beasiswa)`, type: 'tab', target: 'beasiswa' },
+          { label: '🆓 Klaim Sesi Discovery (Rp 0)', type: 'booking', packageId: 'discovery-free' },
+          { label: '💬 Konsultasi via WhatsApp', type: 'whatsapp', target: `Halo Admin, saya tertarik dengan rekomendasi beasiswa untuk: "${raw}"` }
+        ]
+      };
+    }
+
+    if (q.includes('beasiswa') || q.includes('kuliah luar') || q.includes('fully funded') || q.includes('studi luar') || q.includes('luar negeri')) {
+      const topPicks = SCHOLARSHIPS_DATA.slice(0, 4);
+      const picksText = topPicks.map(s => `• **${s.name}** (${s.country} ${s.flag}): ${s.fundingType} (${s.level.join('/')})`).join('\n');
+      return {
+        text: `MandalikaEdu merangkum **${SCHOLARSHIPS_DATA.length} beasiswa fully funded** resmi yang ramah pelamar daerah di 12 kawasan dunia!\n\nBeberapa opsi unggulan:\n${picksText}\n• dan puluhan pilihan lainnya.\n\nKira-kira negara mana atau jenjang apa (S1/S2/S3) yang paling Kakak minati?`,
+        actionButtons: [
+          { label: `🔍 Buka Database (${SCHOLARSHIPS_DATA.length} Beasiswa)`, type: 'tab', target: 'beasiswa' },
+          { label: '🎯 Kuis Pencocokan Beasiswa', type: 'tab', target: 'kuis' },
           { label: '💬 Diskusi Kelayakan Profil di WhatsApp', type: 'whatsapp', target: 'Halo Admin, saya ingin mengecek kelayakan profil saya untuk beasiswa luar negeri.' }
         ]
       };
@@ -298,7 +330,7 @@ export const WhatsAppAiBot: React.FC<WhatsAppAiBotProps> = ({
         text: 'Kabar baik banget untuk putra-putri daerah Kalimantan! 🌲\n\nUntuk anak daerah dari Kalimantan, ada beberapa jalur istimewa yang bisa dimanfaatkan:\n1. **LPDP Afirmasi Daerah 3T**: Kabupaten di Kalimantan (seperti pedalaman Kalbar, Kaltara, Kaltim, Kalteng) masuk jalur afirmasi dengan syarat TOEFL/IELTS & IPK yang jauh lebih fleksibel daripada jalur reguler.\n2. **Beasiswa Pemda (Kaltim Tuntas / APBD)**: Bantuan kuliah jenjang D3/S1/S2/S3 dari Pemprov/Pemkab.\n3. **AAS (Australia Awards)** & **MEXT Jepang**: Komite beasiswa sangat menyukai pelamar yang mengangkat isu pembangunan daerah Kalimantan (seperti kelestarian hutan, transisi energi, hilirisasi, atau IKN) di dalam Motivation Letter.\n\nKakak sedang merencanakan jenjang S1 atau S2? Mau kami bantu petakan kampusnya?',
         actionButtons: [
           { label: '🆓 Klaim Sesi Discovery Gratis (Rp 0)', type: 'booking', packageId: 'discovery-free' },
-          { label: '🔍 Cek Database 15+ Beasiswa', type: 'tab', target: 'beasiswa' },
+          { label: `🔍 Cek Database (${SCHOLARSHIPS_DATA.length} Beasiswa)`, type: 'tab', target: 'beasiswa' },
           { label: '💬 Diskusi via WhatsApp Resmi', type: 'whatsapp', target: 'Halo MandalikaEdu, saya dari Kalimantan ingin tanya beasiswa yang cocok.' }
         ]
       };
@@ -378,22 +410,31 @@ export const WhatsAppAiBot: React.FC<WhatsAppAiBotProps> = ({
     setIsTyping(true);
 
     try {
-      // 1. Try Cloudflare Worker or server-side Gemini Flash API call
+      // 1. Try server-side Gemini Flash API endpoint (/api/chat) with live SCHOLARSHIPS_DATA
       const conversationHistory = newMessages.map(m => ({
         role: m.sender === 'ai' ? 'model' : 'user',
         content: m.text
       }));
 
-      const targetEndpoint = cfWorkerUrl ? cfWorkerUrl.trim().replace(/\/+$/, '') : '/api/chat';
       const controller = new AbortController();
       const timeoutId = setTimeout(() => controller.abort(), 20000);
 
-      const res = await fetch(targetEndpoint, {
+      let res = await fetch('/api/chat', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ messages: conversationHistory }),
         signal: controller.signal
       }).catch(() => null);
+
+      // Fallback to Cloudflare Worker if /api/chat is not available (e.g. static hosting)
+      if ((!res || !res.ok) && cfWorkerUrl && cfWorkerUrl !== '/api/chat') {
+        res = await fetch(cfWorkerUrl, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ messages: conversationHistory }),
+          signal: controller.signal
+        }).catch(() => null);
+      }
 
       clearTimeout(timeoutId);
 
