@@ -1,10 +1,10 @@
 import React, { useState, useMemo } from 'react';
-import { Scholarship, SCHOLARSHIPS_DATA } from '../data/scholarships';
+import { Scholarship, SCHOLARSHIPS_DATA, SCHOLARSHIP_SEASONS } from '../data/scholarships';
 import { COUNTRIES_DATA } from '../data/countries';
 import { 
   Search, Filter, Calendar, ExternalLink, Bookmark, BookmarkCheck, 
   Bell, CheckCircle2, AlertCircle, Sparkles, ChevronRight, X,
-  ArrowRight, ShieldCheck, Clock, Award, FileText, Globe2
+  ArrowRight, ShieldCheck, Clock, Award, FileText, Globe2, AlertTriangle, Compass
 } from 'lucide-react';
 
 interface ScholarshipDatabaseProps {
@@ -17,6 +17,8 @@ export const ScholarshipDatabase: React.FC<ScholarshipDatabaseProps> = ({
   onExploreCountry
 }) => {
   const [selectedCountry, setSelectedCountry] = useState<string>('all');
+  const [selectedRegion, setSelectedRegion] = useState<string>('all');
+  const [selectedSeason, setSelectedSeason] = useState<string>('all');
   const [searchQuery, setSearchQuery] = useState<string>('');
   const [selectedLevel, setSelectedLevel] = useState<string>('all');
   const [selectedFunding, setSelectedFunding] = useState<string>('all');
@@ -68,16 +70,49 @@ export const ScholarshipDatabase: React.FC<ScholarshipDatabaseProps> = ({
   };
 
   const countryFilterList = [
-    { id: 'all', name: 'Semua Negara', flag: '🌍' },
-    { id: 'Jepang', name: 'Jepang', flag: '🇯🇵' },
-    { id: 'Jerman', name: 'Jerman', flag: '🇩🇪' },
+    { id: 'all', name: 'Semua', flag: '🌍' },
+    { id: 'Indonesia', name: 'Indonesia', flag: '🇮🇩' },
     { id: 'Inggris', name: 'Inggris (UK)', flag: '🇬🇧' },
-    { id: 'Australia', name: 'Australia', flag: '🇦🇺' },
-    { id: 'Turki', name: 'Turki', flag: '🇹🇷' },
-    { id: 'Korea Selatan', name: 'Korea Selatan', flag: '🇰🇷' },
-    { id: 'Uni Eropa', name: 'Uni Eropa', flag: '🇪🇺' },
-    { id: 'Belanda', name: 'Belanda', flag: '🇳🇱' },
     { id: 'Amerika Serikat', name: 'Amerika Serikat', flag: '🇺🇸' },
+    { id: 'Australia', name: 'Australia', flag: '🇦🇺' },
+    { id: 'Jepang', name: 'Jepang', flag: '🇯🇵' },
+    { id: 'Korea Selatan', name: 'Korea Selatan', flag: '🇰🇷' },
+    { id: 'Tiongkok', name: 'Tiongkok', flag: '🇨🇳' },
+    { id: 'Taiwan', name: 'Taiwan', flag: '🇹🇼' },
+    { id: 'Hong Kong', name: 'Hong Kong', flag: '🇭🇰' },
+    { id: 'Selandia Baru', name: 'Selandia Baru', flag: '🇳🇿' },
+    { id: 'Kanada', name: 'Kanada', flag: '🇨🇦' },
+    { id: 'Singapura', name: 'Singapura', flag: '🇸🇬' },
+    { id: 'Malaysia', name: 'Malaysia', flag: '🇲🇾' },
+    { id: 'Jerman', name: 'Jerman', flag: '🇩🇪' },
+    { id: 'Austria', name: 'Austria', flag: '🇦🇹' },
+    { id: 'Hungaria', name: 'Hungaria', flag: '🇭🇺' },
+    { id: 'Swiss', name: 'Swiss', flag: '🇨🇭' },
+    { id: 'Prancis', name: 'Prancis', flag: '🇫🇷' },
+    { id: 'Belgia', name: 'Belgia', flag: '🇧🇪' },
+    { id: 'Belanda', name: 'Belanda', flag: '🇳🇱' },
+    { id: 'Italia', name: 'Italia', flag: '🇮🇹' },
+    { id: 'Swedia', name: 'Swedia', flag: '🇸🇪' },
+    { id: 'Rusia', name: 'Rusia', flag: '🇷🇺' },
+    { id: 'Turki', name: 'Turki', flag: '🇹🇷' },
+    { id: 'Arab Saudi', name: 'Timur Tengah', flag: '🇸🇦' },
+    { id: 'Lintas Negara', name: 'Lintas Negara', flag: '🌐' }
+  ];
+
+  const regionFilterList = [
+    { id: 'all', name: 'Semua Kawasan (12 Bagian Dokumen Resmi)' },
+    { id: 'Indonesia', name: '1. Indonesia (Dalam & Luar Negeri)' },
+    { id: 'Inggris', name: '2. Inggris (UK)' },
+    { id: 'Amerika Serikat', name: '3. Amerika Serikat' },
+    { id: 'Australia', name: '4. Australia' },
+    { id: 'Selandia Baru & Kanada', name: '5. Selandia Baru & Kanada' },
+    { id: 'Jepang', name: '6. Jepang' },
+    { id: 'Korea, Tiongkok, Taiwan & HK', name: '7. Korea, Tiongkok, Taiwan & HK' },
+    { id: 'Singapura, Malaysia & Asia Lainnya', name: '8. Singapura, Malaysia & Asia Lainnya' },
+    { id: 'Jerman, Austria, Swiss & Eropa Tengah', name: '9. Jerman, Austria, Swiss & Eropa Tengah' },
+    { id: 'Eropa Barat, Skandinavia & Turki', name: '10. Prancis, Belgia, Belanda, Italia, Swedia, Rusia, Turki' },
+    { id: 'Timur Tengah', name: '11. Timur Tengah (Arab Saudi, UAE, Mesir)' },
+    { id: 'Lintas Negara', name: '12. Lintas Negara (Erasmus, ADB, WB, Rotary)' }
   ];
 
   const fieldOptions = [
@@ -99,6 +134,20 @@ export const ScholarshipDatabase: React.FC<ScholarshipDatabaseProps> = ({
         }
       }
 
+      // Region match
+      if (selectedRegion !== 'all') {
+        if (sch.regionGroup !== selectedRegion) {
+          return false;
+        }
+      }
+
+      // Season pattern match
+      if (selectedSeason !== 'all') {
+        if (sch.seasonPattern !== selectedSeason) {
+          return false;
+        }
+      }
+
       // Search match
       if (searchQuery.trim()) {
         const query = searchQuery.toLowerCase();
@@ -107,7 +156,9 @@ export const ScholarshipDatabase: React.FC<ScholarshipDatabaseProps> = ({
         const matchesCountry = sch.country.toLowerCase().includes(query);
         const matchesSummary = sch.summary.toLowerCase().includes(query);
         const matchesFields = sch.fieldsOfStudy.some((f) => f.toLowerCase().includes(query));
-        if (!matchesName && !matchesOrg && !matchesCountry && !matchesSummary && !matchesFields) {
+        const matchesStatusNote = sch.statusNote ? sch.statusNote.toLowerCase().includes(query) : false;
+        const matchesRegion = sch.regionGroup.toLowerCase().includes(query);
+        if (!matchesName && !matchesOrg && !matchesCountry && !matchesSummary && !matchesFields && !matchesStatusNote && !matchesRegion) {
           return false;
         }
       }
@@ -139,10 +190,12 @@ export const ScholarshipDatabase: React.FC<ScholarshipDatabaseProps> = ({
 
       return true;
     });
-  }, [selectedCountry, searchQuery, selectedLevel, selectedFunding, selectedField, selectedDeadlineStatus]);
+  }, [selectedCountry, selectedRegion, selectedSeason, searchQuery, selectedLevel, selectedFunding, selectedField, selectedDeadlineStatus]);
 
   const resetFilters = () => {
     setSelectedCountry('all');
+    setSelectedRegion('all');
+    setSelectedSeason('all');
     setSearchQuery('');
     setSelectedLevel('all');
     setSelectedFunding('all');
@@ -155,7 +208,7 @@ export const ScholarshipDatabase: React.FC<ScholarshipDatabaseProps> = ({
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         
         {/* Section Header */}
-        <div className="mb-12 text-center max-w-3xl mx-auto">
+        <div className="mb-8 text-center max-w-3xl mx-auto">
           <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-indigo-50 border border-indigo-100 text-indigo-700 text-xs font-bold tracking-wide uppercase mb-3">
             <Sparkles className="w-3.5 h-3.5 text-indigo-600" />
             <span>Pusat Kurasi Beasiswa Terverifikasi</span>
@@ -164,43 +217,95 @@ export const ScholarshipDatabase: React.FC<ScholarshipDatabaseProps> = ({
             Database <span className="text-indigo-600">Beasiswa</span> Kuliah Luar Negeri
           </h1>
           <p className="text-base text-slate-600 leading-relaxed max-w-2xl mx-auto">
-            Pilih negara target Anda atau gunakan filter multi-parameter. Setiap beasiswa telah diverifikasi batas pendaftaran, syarat bahasa, dan peluang afirmasi untuk talenta daerah.
+            Kurasi 100% lengkap beasiswa Fully Funded untuk Warga Negara Indonesia (WNI), mencakup jadwal pendaftaran, syarat bahasa, dan panduan afirmasi talenta daerah.
           </p>
+        </div>
+
+
+
+        {/* Pola Musim Pendaftaran (Kalender Umum) */}
+        <div className="mb-8 bg-white border border-slate-200/90 rounded-3xl p-6 shadow-xs">
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 mb-4">
+            <div className="flex items-center gap-2">
+              <Calendar className="w-4 h-4 text-indigo-600" />
+              <span className="text-xs font-bold uppercase tracking-wider text-slate-500">
+                Pola Musim Pendaftaran (Kalender Umum Dokumen)
+              </span>
+            </div>
+            {selectedSeason !== 'all' && (
+              <button
+                onClick={() => setSelectedSeason('all')}
+                className="text-xs font-bold text-indigo-600 hover:text-indigo-700 underline cursor-pointer"
+              >
+                Lihat Semua Musim
+              </button>
+            )}
+          </div>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-3">
+            {SCHOLARSHIP_SEASONS.map((s) => {
+              const isSelected = selectedSeason === s.id;
+              return (
+                <button
+                  key={s.id}
+                  onClick={() => setSelectedSeason(s.id)}
+                  className={`p-3.5 rounded-2xl border text-left transition-all cursor-pointer flex flex-col justify-between gap-1.5 ${
+                    isSelected
+                      ? 'bg-amber-400 text-slate-950 border-amber-400 font-bold shadow-xs scale-[1.01] ring-2 ring-amber-400/20'
+                      : 'bg-slate-50/70 text-slate-700 border-slate-200/80 hover:bg-white hover:border-indigo-300 hover:shadow-xs'
+                  }`}
+                >
+                  <div className="flex items-center justify-between">
+                    <span className="text-xs font-bold">{s.label}</span>
+                    {s.id === 'all' && (
+                      <span className="text-[10px] px-1.5 py-0.5 rounded-md bg-slate-200/80 text-slate-800 font-bold">
+                        {SCHOLARSHIPS_DATA.length}
+                      </span>
+                    )}
+                  </div>
+                  {s.desc && (
+                    <span className="text-[11px] text-slate-500 line-clamp-2 leading-snug">
+                      {s.desc}
+                    </span>
+                  )}
+                </button>
+              );
+            })}
+          </div>
         </div>
 
         {/* Step 1: Country Quick Selector Cards */}
         <div className="mb-8">
           <div className="flex items-center justify-between mb-3">
             <span className="text-xs font-bold uppercase tracking-wider text-slate-400">
-              Pilih Negara Tujuan Favorit
+              Pilih Negara / Wilayah Tujuan
             </span>
             {selectedCountry !== 'all' && (
               <button
                 onClick={() => setSelectedCountry('all')}
-                className="text-xs font-bold text-indigo-600 hover:text-indigo-700 underline"
+                className="text-xs font-bold text-indigo-600 hover:text-indigo-700 underline cursor-pointer"
               >
                 Lihat Semua Negara
               </button>
             )}
           </div>
 
-          <div className="grid grid-cols-2 sm:grid-cols-5 lg:grid-cols-10 gap-2.5">
+          <div className="flex gap-2 overflow-x-auto pb-2 scrollbar-thin">
             {countryFilterList.map((c) => {
               const isSelected = selectedCountry === c.id;
               return (
                 <button
                   key={c.id}
                   onClick={() => setSelectedCountry(c.id)}
-                  className={`p-3 rounded-2xl border text-center transition-all cursor-pointer flex flex-col items-center justify-center gap-1.5 ${
+                  className={`px-3.5 py-2.5 rounded-2xl border text-center transition-all cursor-pointer flex items-center gap-2 shrink-0 ${
                     isSelected
-                      ? 'bg-amber-400 text-slate-950 border-amber-400 font-bold shadow-xs scale-[1.02] ring-2 ring-amber-400/20'
+                      ? 'bg-amber-400 text-slate-950 border-amber-400 font-bold shadow-xs ring-2 ring-amber-400/20'
                       : 'bg-white text-slate-700 border-slate-200/90 hover:border-indigo-300 hover:text-indigo-600 hover:shadow-xs font-medium'
                   }`}
                 >
-                  <span className="text-2xl" role="img" aria-label={c.name}>
+                  <span className="text-lg" role="img" aria-label={c.name}>
                     {c.flag}
                   </span>
-                  <span className="text-xs whitespace-nowrap truncate w-full">
+                  <span className="text-xs whitespace-nowrap">
                     {c.name}
                   </span>
                 </button>
@@ -214,13 +319,13 @@ export const ScholarshipDatabase: React.FC<ScholarshipDatabaseProps> = ({
           <div className="grid grid-cols-1 md:grid-cols-12 gap-4 items-center">
             
             {/* Search Input */}
-            <div className="md:col-span-5 relative">
+            <div className="md:col-span-4 relative">
               <Search className="w-4 h-4 text-slate-400 absolute left-3.5 top-1/2 -translate-y-1/2" />
               <input
                 type="text"
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                placeholder="Cari beasiswa (misal: MEXT, DAAD, S2 Teknik, Tanpa IELTS)..."
+                placeholder="Cari beasiswa (LPDP, Chevening, MEXT, AAS, dll)..."
                 className="w-full pl-10 pr-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm text-slate-900 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-all font-medium"
               />
               {searchQuery && (
@@ -231,6 +336,19 @@ export const ScholarshipDatabase: React.FC<ScholarshipDatabaseProps> = ({
                   <X className="w-4 h-4" />
                 </button>
               )}
+            </div>
+
+            {/* Kawasan Dokumen Dropdown */}
+            <div className="md:col-span-3">
+              <select
+                value={selectedRegion}
+                onChange={(e) => setSelectedRegion(e.target.value)}
+                className="w-full px-3 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm text-slate-700 font-medium focus:outline-none focus:ring-2 focus:ring-indigo-500 truncate"
+              >
+                {regionFilterList.map(r => (
+                  <option key={r.id} value={r.id}>{r.name}</option>
+                ))}
+              </select>
             </div>
 
             {/* Jenjang Dropdown */}
@@ -261,25 +379,11 @@ export const ScholarshipDatabase: React.FC<ScholarshipDatabaseProps> = ({
               </select>
             </div>
 
-            {/* Status Deadline */}
-            <div className="md:col-span-2">
-              <select
-                value={selectedDeadlineStatus}
-                onChange={(e) => setSelectedDeadlineStatus(e.target.value)}
-                className="w-full px-3 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm text-slate-700 font-medium focus:outline-none focus:ring-2 focus:ring-indigo-500"
-              >
-                <option value="all">Semua Status</option>
-                <option value="open">Buka Sekarang</option>
-                <option value="closing_soon">Segera Tutup</option>
-                <option value="upcoming">Akan Datang</option>
-              </select>
-            </div>
-
             {/* Reset Action */}
             <div className="md:col-span-1 text-center">
               <button
                 onClick={resetFilters}
-                className="text-xs text-slate-500 hover:text-indigo-600 hover:bg-indigo-50 font-bold py-2.5 px-3 rounded-xl transition-colors border border-transparent hover:border-indigo-100"
+                className="text-xs text-slate-500 hover:text-indigo-600 hover:bg-indigo-50 font-bold py-2.5 px-3 rounded-xl transition-colors border border-transparent hover:border-indigo-100 cursor-pointer"
                 title="Reset seluruh filter"
               >
                 Reset
@@ -313,10 +417,16 @@ export const ScholarshipDatabase: React.FC<ScholarshipDatabaseProps> = ({
             {selectedCountry !== 'all' && (
               <span> untuk negara <strong className="text-slate-800">{selectedCountry}</strong></span>
             )}
+            {selectedRegion !== 'all' && (
+              <span> · Kawasan: <strong className="text-slate-800">{selectedRegion}</strong></span>
+            )}
+            {selectedSeason !== 'all' && (
+              <span> · Musim: <strong className="text-slate-800">{selectedSeason}</strong></span>
+            )}
           </div>
           <div className="flex items-center gap-2 text-xs">
-            <ShieldCheck className="w-4 h-4 text-slate-500" />
-            <span>Data diverifikasi berkala oleh Tim Riset MandalikaEdu</span>
+            <ShieldCheck className="w-4 h-4 text-indigo-600" />
+            <span className="font-medium">Data Beasiswa Terkurasi</span>
           </div>
         </div>
 
@@ -349,8 +459,8 @@ export const ScholarshipDatabase: React.FC<ScholarshipDatabaseProps> = ({
                 >
                   <div>
                     {/* Top Header Row */}
-                    <div className="flex items-start justify-between gap-3 mb-3">
-                      <div className="flex items-center gap-2 text-xs text-slate-500">
+                    <div className="flex items-start justify-between gap-3 mb-2.5">
+                      <div className="flex items-center gap-2 text-xs text-slate-500 flex-wrap">
                         <span className="text-xl" role="img" aria-label={sch.country}>{sch.flag}</span>
                         <span className="font-bold text-slate-800">{sch.country}</span>
                         <span aria-hidden="true" className="text-slate-300">·</span>
@@ -360,7 +470,7 @@ export const ScholarshipDatabase: React.FC<ScholarshipDatabaseProps> = ({
                       {/* Bookmark Button */}
                       <button
                         onClick={(e) => toggleBookmark(sch.id, e)}
-                        className="text-slate-400 hover:text-indigo-600 p-1.5 rounded-xl hover:bg-indigo-50 transition-colors"
+                        className="text-slate-400 hover:text-indigo-600 p-1.5 rounded-xl hover:bg-indigo-50 transition-colors shrink-0"
                         title={isBookmarked ? 'Hapus dari simpanan' : 'Simpan beasiswa'}
                       >
                         {isBookmarked ? (
@@ -371,36 +481,56 @@ export const ScholarshipDatabase: React.FC<ScholarshipDatabaseProps> = ({
                       </button>
                     </div>
 
+
+
+                    {/* Educational Note Alert Banner */}
+                    {sch.educationalNote && (
+                      <div className="p-2.5 bg-amber-50 border border-amber-200 rounded-xl text-[11px] text-amber-900 font-semibold mb-3 flex items-start gap-1.5">
+                        <AlertTriangle className="w-3.5 h-3.5 text-amber-600 shrink-0 mt-0.5" />
+                        <span>{sch.educationalNote}</span>
+                      </div>
+                    )}
+
                     {/* Scholarship Title */}
                     <h3 className="text-lg font-bold text-slate-900 group-hover:text-indigo-600 transition-colors mb-1 line-clamp-2">
                       {sch.name}
                     </h3>
 
                     {/* Organizer */}
-                    <p className="text-xs text-slate-500 mb-4 line-clamp-1 font-medium">
+                    <p className="text-xs text-slate-500 mb-3.5 line-clamp-1 font-medium">
                       {sch.organizer}
                     </p>
 
                     {/* Metadata Row */}
-                    <div className="flex flex-wrap items-center gap-1.5 text-xs text-slate-600 mb-4 pb-4 border-b border-slate-100">
+                    <div className="flex flex-wrap items-center gap-1.5 text-xs text-slate-600 mb-3.5 pb-3.5 border-b border-slate-100">
                       <span className="bg-indigo-50 text-indigo-700 border border-indigo-100 font-bold px-2.5 py-0.5 rounded-full text-[11px]">
                         {sch.fundingType}
                       </span>
+                      {sch.seasonPattern && (
+                        <span className="bg-amber-50 text-amber-900 border border-amber-200 font-bold px-2 py-0.5 rounded-full text-[10px]">
+                          Musim: {sch.seasonPattern}
+                        </span>
+                      )}
                       <span className="bg-slate-100 text-slate-600 font-medium px-2 py-0.5 rounded-full text-[11px]">
                         Kesulitan: {sch.difficulty}
                       </span>
-                      <span className="bg-slate-100 text-slate-600 font-medium px-2 py-0.5 rounded-full text-[11px]">
-                        Kuota: {sch.quota}
-                      </span>
                     </div>
+
+                    {/* Status Note from Document */}
+                    {sch.statusNote && (
+                      <div className="p-2.5 bg-slate-50 border border-slate-200/80 rounded-xl text-[11px] text-slate-700 mb-3 leading-relaxed">
+                        <strong className="text-slate-900 font-bold block mb-0.5">Jadwal & Status Resmi:</strong>
+                        <span>{sch.statusNote}</span>
+                      </div>
+                    )}
 
                     {/* Key Coverage Snippet */}
                     <div className="space-y-1.5 mb-4 text-xs text-slate-600">
                       <div className="font-bold text-slate-700 mb-1">Cakupan Utama:</div>
-                      {sch.coverage.slice(0, 3).map((cov, idx) => (
+                      {sch.coverage.slice(0, 2).map((cov, idx) => (
                         <div key={idx} className="flex items-start gap-1.5">
                           <CheckCircle2 className="w-3.5 h-3.5 text-emerald-500 shrink-0 mt-0.5" />
-                          <span className="line-clamp-1">{cov}</span>
+                          <span className="line-clamp-2">{cov}</span>
                         </div>
                       ))}
                     </div>
@@ -416,10 +546,10 @@ export const ScholarshipDatabase: React.FC<ScholarshipDatabaseProps> = ({
                   <div className="pt-4 border-t border-slate-100 flex items-center justify-between gap-2 mt-auto">
                     <div className="text-xs text-slate-500">
                       <div className="font-medium text-slate-600">Deadline:</div>
-                      <span className="font-bold text-slate-900">{sch.applicationPeriod.deadline}</span>
+                      <span className="font-bold text-slate-900 line-clamp-1">{sch.applicationPeriod.deadline}</span>
                     </div>
 
-                    <div className="flex items-center gap-2">
+                    <div className="flex items-center gap-2 shrink-0">
                       <button
                         onClick={(e) => {
                           e.stopPropagation();
@@ -433,7 +563,7 @@ export const ScholarshipDatabase: React.FC<ScholarshipDatabaseProps> = ({
 
                       <button
                         onClick={() => setActiveModalScholarship(sch)}
-                        className="px-3.5 py-2 text-xs font-bold text-slate-950 bg-amber-400 hover:bg-amber-300 rounded-xl transition-colors flex items-center gap-1 shadow-xs"
+                        className="px-3.5 py-2 text-xs font-bold text-slate-950 bg-amber-400 hover:bg-amber-300 rounded-xl transition-colors flex items-center gap-1 shadow-xs cursor-pointer"
                       >
                         Detail
                         <ChevronRight className="w-3.5 h-3.5" />
@@ -507,6 +637,36 @@ export const ScholarshipDatabase: React.FC<ScholarshipDatabaseProps> = ({
             {/* Modal Body */}
             <div className="px-6 sm:px-8 py-6 space-y-6">
               
+              {/* Official Status and Verified Banner */}
+              <div className="p-4 rounded-2xl bg-slate-50 border border-slate-200/90 space-y-2">
+                <div className="flex flex-wrap items-center justify-between gap-2">
+                  <div className="flex items-center gap-2">
+                    <span className="text-xs font-bold text-slate-500 uppercase tracking-wider">Kawasan:</span>
+                    <span className="px-2.5 py-0.5 rounded-full bg-indigo-50 border border-indigo-100 text-indigo-700 text-xs font-bold">
+                      {activeModalScholarship.regionGroup}
+                    </span>
+                  </div>
+                </div>
+
+                {activeModalScholarship.statusNote && (
+                  <div className="text-xs text-slate-700 pt-1 leading-relaxed border-t border-slate-200/70 mt-2">
+                    <strong className="text-slate-900 block font-semibold mb-0.5">Jadwal & Status:</strong>
+                    {activeModalScholarship.statusNote}
+                  </div>
+                )}
+              </div>
+
+              {/* Educational Note if available */}
+              {activeModalScholarship.educationalNote && (
+                <div className="p-4 bg-amber-50 border border-amber-200 rounded-2xl text-xs text-amber-900 font-medium flex items-start gap-2.5">
+                  <AlertTriangle className="w-4 h-4 text-amber-600 shrink-0 mt-0.5" />
+                  <div>
+                    <strong className="font-bold block mb-0.5 text-amber-950">Catatan Regulasi WNI:</strong>
+                    {activeModalScholarship.educationalNote}
+                  </div>
+                </div>
+              )}
+
               {/* Summary */}
               <div>
                 <h4 className="text-xs font-bold uppercase tracking-wider text-slate-400 mb-2">
