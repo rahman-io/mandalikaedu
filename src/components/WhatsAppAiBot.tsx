@@ -530,24 +530,36 @@ export const WhatsAppAiBot: React.FC<WhatsAppAiBotProps> = ({
           </div>
         )}
 
-        {/* Circular Blue Gradient Trigger Button with '1' Notification Badge & Green Online Indicator */}
+        {/* Circular Trigger Button with Animated Mandu Character Mascot */}
         <button
           type="button"
           onClick={() => setIsOpen(!isOpen)}
-          aria-label="Buka Chat Mandu AI Agent MandalikaEdu"
-          className="relative group w-14 h-14 sm:w-16 sm:h-16 rounded-full bg-gradient-to-r from-sky-500 to-blue-600 hover:from-sky-600 hover:to-blue-700 active:scale-95 text-white flex items-center justify-center shadow-xl shadow-blue-500/30 transition-all duration-200 cursor-pointer"
+          aria-label={isOpen ? "Tutup Chat Mandu AI" : "Buka Chat Mandu • AI Agent MandalikaEdu"}
+          className={`relative group w-14 h-14 sm:w-16 sm:h-16 rounded-full transition-all duration-300 cursor-pointer shadow-xl ${
+            isOpen
+              ? 'bg-gradient-to-r from-slate-900 to-slate-800 hover:from-slate-800 hover:to-slate-700 text-white shadow-slate-900/30 rotate-0 hover:rotate-90'
+              : 'p-1 bg-gradient-to-tr from-sky-400 via-blue-600 to-indigo-600 shadow-blue-500/40 hover:shadow-blue-500/60 hover:scale-105 active:scale-95'
+          } flex items-center justify-center`}
         >
           {isOpen ? (
-            <X className="w-7 h-7 transition-transform group-hover:rotate-90 duration-200" />
+            <X className="w-7 h-7 text-white transition-transform duration-200" />
           ) : (
             <>
               {/* Floating notification badge '1' */}
-              <span className="absolute -top-1 -right-1 w-5 h-5 bg-rose-500 border-2 border-white rounded-full text-white text-[11px] font-bold flex items-center justify-center shadow-xs">
+              <span className="absolute -top-1 -right-1 z-20 w-5 h-5 bg-gradient-to-r from-rose-500 to-red-600 border-2 border-white rounded-full text-white text-[11px] font-bold flex items-center justify-center shadow-md animate-pulse">
                 1
               </span>
-              {/* Online Green Indicator Dot */}
-              <span className="absolute bottom-0.5 right-0.5 w-3.5 h-3.5 bg-emerald-500 border-2 border-white rounded-full shadow-xs"></span>
-              <MessageCircle className="w-7 h-7 sm:w-8 sm:h-8 fill-white" />
+
+              {/* Online Green Indicator Dot with Ping */}
+              <span className="absolute bottom-0 right-0 z-20 flex h-4 w-4 items-center justify-center">
+                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+                <span className="relative inline-flex rounded-full h-3.5 w-3.5 bg-emerald-500 border-2 border-white shadow-xs"></span>
+              </span>
+
+              {/* Mandu Live Animated Mascot Avatar */}
+              <div className="w-full h-full rounded-full overflow-hidden bg-white border border-white/90 shadow-inner flex items-center justify-center">
+                <SafiyaAvatar className="w-full h-full transform transition-transform duration-300 group-hover:scale-110" />
+              </div>
             </>
           )}
         </button>
