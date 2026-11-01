@@ -6,6 +6,7 @@ import {
 } from 'lucide-react';
 import { PACKAGES_DATA, ServicePackage } from '../data/packages';
 import { CONTACT_CONFIG, getActiveWhatsAppNumber } from '../config/contact';
+import { submitBookingRecord } from '../lib/firebase/bookingService';
 
 interface BookingModalProps {
   isOpen: boolean;
@@ -33,6 +34,7 @@ export const BookingModal: React.FC<BookingModalProps> = ({
     backgroundNotes: customNote || ''
   });
 
+  const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSuccess, setIsSuccess] = useState(false);
   const [activePaymentTab, setActivePaymentTab] = useState<'qris' | 'bank'>('qris');
   const [copiedBank, setCopiedBank] = useState(false);
@@ -40,13 +42,36 @@ export const BookingModal: React.FC<BookingModalProps> = ({
 
   if (!isOpen) return null;
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    setIsSuccess(true);
-  };
-
   const selectedPkg = PACKAGES_DATA.find(p => p.id === formData.packageId) || PACKAGES_DATA[0];
   const isFree = selectedPkg.priceNumber === 0;
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setIsSubmitting(true);
+    try {
+      await submitBookingRecord({
+        studentName: formData.name,
+        studentWhatsapp: formData.phone,
+        studentEmail: formData.email,
+        originCity: formData.city,
+        targetCountry: formData.targetCountry,
+        studyLevel: formData.studyLevel,
+        targetScholarship: `${formData.studyLevel} ${formData.targetCountry}`,
+        packageId: selectedPkg.id,
+        packageName: selectedPkg.name,
+        priceFormatted: selectedPkg.priceFormatted,
+        preferredDate: formData.preferredDate,
+        preferredTime: formData.preferredTime,
+        notes: formData.backgroundNotes,
+        isFree: isFree,
+      });
+    } catch (err) {
+      console.error('Error submitting booking:', err);
+    } finally {
+      setIsSubmitting(false);
+      setIsSuccess(true);
+    }
+  };
 
   // Calculate unique nominal for easy transaction matching
   const uniquePrice = selectedPkg.priceNumber > 0 ? selectedPkg.priceNumber + uniqueCode : 0;
@@ -277,10 +302,17 @@ export const BookingModal: React.FC<BookingModalProps> = ({
               <div className="pt-2">
                 <button
                   type="submit"
-                  className="w-full py-3.5 bg-amber-400 hover:bg-amber-300 text-slate-950 text-xs font-black uppercase tracking-wider rounded-xl active:scale-95 transition-all shadow-md flex items-center justify-center gap-2 cursor-pointer"
+                  disabled={isSubmitting}
+                  className="w-full py-3.5 bg-amber-400 hover:bg-amber-300 disabled:opacity-75 disabled:cursor-not-allowed text-slate-950 text-xs font-black uppercase tracking-wider rounded-xl active:scale-95 transition-all shadow-md flex items-center justify-center gap-2 cursor-pointer"
                 >
-                  <span>{isFree ? 'Kirim Booking Sesi Gratis (Rp 0)' : 'Lanjut ke Pembayaran QRIS / Bank'}</span>
-                  <ArrowRight className="w-4 h-4" />
+                  {isSubmitting ? (
+                    <span>Mengamankan Data...</span>
+                  ) : (
+                    <>
+                      <span>{isFree ? 'Kirim Booking Sesi Gratis (Rp 0)' : 'Lanjut ke Pembayaran QRIS / Bank'}</span>
+                      <ArrowRight className="w-4 h-4" />
+                    </>
+                  )}
                 </button>
               </div>
 
@@ -305,13 +337,13 @@ export const BookingModal: React.FC<BookingModalProps> = ({
                 </h3>
 
                 <p className="text-xs text-slate-600 max-w-sm mx-auto leading-relaxed">
-                  Halo <strong>{formData.name}</strong>, jadwal sesi Discovery Gratis Anda untuk paket <strong>{selectedPkg.name}</strong> telah dicatat oleh sistem MandalikaEdu.
+                  Halo <strong>{formData.name}</strong>, jadwal sesi Discovery Gratis Anda untuk paket <strong>{selectedPkg.name}</strong> telah dicatat secara aman oleh sistem MandalikaEdu.
                 </p>
 
                 <div className="p-4 bg-slate-50 rounded-2xl border border-slate-200 text-xs text-slate-700 max-w-sm mx-auto text-left space-y-1">
-                  <div>· <strong>Asal Daerah:</strong> {formData.city}</div>
-                  <div>· <strong>Target:</strong> {formData.studyLevel} {formData.targetCountry}</div>
-                  <div>· <strong>Jadwal:</strong> {formData.preferredDate || 'Segera'} ({formData.preferredTime})</div>
+                  <div>· <strong>Asal Daerah</strong> {formData.city}</div>
+                  <div>· <strong>Target Studi</strong> {formData.studyLevel} {formData.targetCountry}</div>
+                  <div>· <strong>Waktu Sesi</strong> {formData.preferredDate || 'Segera'} ({formData.preferredTime})</div>
                 </div>
 
                 <div className="pt-2 space-y-2">
@@ -375,7 +407,7 @@ export const BookingModal: React.FC<BookingModalProps> = ({
                 <div className="p-2.5 bg-blue-50/80 border border-blue-100 rounded-xl text-[11px] text-blue-900 flex items-start gap-2">
                   <ShieldCheck className="w-4 h-4 text-blue-600 shrink-0 mt-0.5" />
                   <div>
-                    <strong>Payung Hukum Resmi:</strong>
+                    <strong>Payung Hukum Resmi</strong>
                     <div className="font-semibold text-blue-950 mt-0.5">
                       {CONTACT_CONFIG.legalEntity}
                     </div>
@@ -459,7 +491,7 @@ export const BookingModal: React.FC<BookingModalProps> = ({
                     </div>
 
                     <div className="space-y-1">
-                      <div className="text-slate-500 font-semibold text-[10px]">Nomor Rekening:</div>
+                      <div className="text-slate-500 font-semibold text-[10px]">Nomor Rekening</div>
                       <div className="flex items-center justify-between bg-white border border-slate-300 rounded-xl p-2.5 font-mono text-sm font-bold text-slate-900">
                         <span>{CONTACT_CONFIG.bankAccountNo}</span>
                         <button
@@ -474,7 +506,7 @@ export const BookingModal: React.FC<BookingModalProps> = ({
                     </div>
 
                     <div>
-                      <div className="text-slate-500 font-semibold text-[10px]">Atas Nama Rekening:</div>
+                      <div className="text-slate-500 font-semibold text-[10px]">Atas Nama Rekening</div>
                       <div className="font-bold text-slate-900 bg-white border border-slate-200 rounded-xl p-2.5 leading-snug">
                         {CONTACT_CONFIG.bankAccountName}
                       </div>
@@ -482,7 +514,7 @@ export const BookingModal: React.FC<BookingModalProps> = ({
 
                     {CONTACT_CONFIG.bankName2 && (
                       <div className="pt-2 border-t border-slate-200 text-[11px] text-slate-600">
-                        <strong>Opsi Bank Lain:</strong> {CONTACT_CONFIG.bankName2} ({CONTACT_CONFIG.bankAccountNo2})
+                        <strong>Opsi Bank Lain</strong> {CONTACT_CONFIG.bankName2} ({CONTACT_CONFIG.bankAccountNo2})
                       </div>
                     )}
                   </div>

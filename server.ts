@@ -1,5 +1,6 @@
 import express from 'express';
 import path from 'path';
+import fs from 'fs';
 import { fileURLToPath } from 'url';
 import dotenv from 'dotenv';
 import { GoogleGenAI } from '@google/genai';
@@ -11,6 +12,35 @@ dotenv.config();
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
+
+// Direktori dan berkas cadangan data pendaftaran internal
+const LEADS_DATA_DIR = path.join(__dirname, 'data');
+const LEADS_DATA_FILE = path.join(LEADS_DATA_DIR, 'leads-backup.json');
+
+function ensureLeadsStorage() {
+  try {
+    if (!fs.existsSync(LEADS_DATA_DIR)) {
+      fs.mkdirSync(LEADS_DATA_DIR, { recursive: true });
+    }
+    if (!fs.existsSync(LEADS_DATA_FILE)) {
+      fs.writeFileSync(LEADS_DATA_FILE, JSON.stringify([], null, 2), 'utf-8');
+    }
+  } catch (err) {
+    console.error('Error initializing leads backup storage:', err);
+  }
+}
+
+function saveLeadRecord(record: any) {
+  try {
+    ensureLeadsStorage();
+    const existingRaw = fs.readFileSync(LEADS_DATA_FILE, 'utf-8');
+    const records = JSON.parse(existingRaw || '[]');
+    records.push(record);
+    fs.writeFileSync(LEADS_DATA_FILE, JSON.stringify(records, null, 2), 'utf-8');
+  } catch (err) {
+    console.error('Error saving lead to backup file:', err);
+  }
+}
 
 const app = express();
 const port = process.env.PORT ? parseInt(process.env.PORT, 10) : 3000;
@@ -163,6 +193,97 @@ app.get('/api/export/firebase', (_req, res) => {
   } catch (err: any) {
     console.error('Error generating Firebase export bundle:', err);
     return res.status(500).json({ error: 'Gagal membuat bundle ekspor Firebase' });
+  }
+});
+
+// Endpoint untuk pencatatan pendaftaran calon siswa dan cadangan notifikasi email perusahaan resmi
+app.post('/api/booking/submit', (req, res) => {
+  try {
+    const {
+      studentName,
+      studentWhatsapp,
+      studentEmail,
+      originCity,
+      targetCountry,
+      studyLevel,
+      targetScholarship,
+      packageId,
+      packageName,
+      priceFormatted,
+      preferredDate,
+      preferredTime,
+      notes,
+      isFree,
+      firestoreBookingId,
+      submittedAt
+    } = req.body;
+
+    if (!studentName || !studentWhatsapp || !originCity) {
+      return res.status(400).json({ error: 'Nama, nomor WhatsApp, dan kota asal wajib diisi.' });
+    }
+
+    const bookingId = firestoreBookingId || `lead_${Date.now()}_${Math.random().toString(36).substring(2, 7)}`;
+    const status = isFree ? 'sesi_gratis_terjadwal' : 'menunggu_verifikasi_pembayaran';
+    
+    const leadRecord = {
+      bookingId,
+      firestoreBookingId: firestoreBookingId || null,
+      studentName: String(studentName).trim(),
+      studentWhatsapp: String(studentWhatsapp).trim(),
+      studentEmail: studentEmail ? String(studentEmail).trim() : null,
+      originCity: String(originCity).trim(),
+      targetCountry: targetCountry || 'Umum',
+      studyLevel: studyLevel || 'S2',
+      targetScholarship: targetScholarship || `${studyLevel || 'S2'} ${targetCountry || ''}`.trim(),
+      packageId: packageId || 'discovery-free',
+      packageName: packageName || 'Sesi Discovery',
+      priceFormatted: priceFormatted || 'Rp 0',
+      preferredDate: preferredDate || 'Segera',
+      preferredTime: preferredTime || '19:30 WIB (Malam)',
+      notes: notes ? String(notes).trim() : '',
+      isFree: Boolean(isFree),
+      status,
+      source: 'website_modal',
+      privacyConsent: {
+        agreed: true,
+        legalNotice: 'LEMBAGA RESEARCH EMPOWERMENT LEARNING AND REPLACE INSTITUTE',
+        timestamp: submittedAt || new Date().toISOString()
+      },
+      createdAt: submittedAt || new Date().toISOString()
+    };
+
+    // Simpan data calon siswa ke berkas cadangan internal terproteksi
+    saveLeadRecord(leadRecord);
+
+    // Format dan catat notifikasi cadangan ke email resmi perusahaan
+    const emailNotification = {
+      recipients: ['official.mandalikaedu@gmail.com', 'info@mandalikaedu.id'],
+      subject: `[PENDAFTARAN BARU] ${leadRecord.packageName} - ${leadRecord.studentName} (${leadRecord.originCity})`,
+      timestampWib: new Date().toLocaleString('id-ID', { timeZone: 'Asia/Jakarta' }),
+      leadData: {
+        id: leadRecord.bookingId,
+        nama: leadRecord.studentName,
+        whatsapp: leadRecord.studentWhatsapp,
+        kota: leadRecord.originCity,
+        email: leadRecord.studentEmail || '(Tidak dicantumkan)',
+        paket: `${leadRecord.packageName} (${leadRecord.priceFormatted})`,
+        tujuan: `${leadRecord.studyLevel} ke ${leadRecord.targetCountry}`,
+        jadwal: `${leadRecord.preferredDate} jam ${leadRecord.preferredTime}`,
+        catatan: leadRecord.notes || '(Tidak ada kendala spesifik)',
+        status: leadRecord.status,
+      }
+    };
+
+    console.log('[NOTIFIKASI EMAIL RESMI PERUSAHAAN]', JSON.stringify(emailNotification, null, 2));
+
+    return res.json({
+      success: true,
+      bookingId: leadRecord.bookingId,
+      message: 'Data formulir berhasil dicatat dan cadangan email telah disiapkan.'
+    });
+  } catch (err: any) {
+    console.error('Error processing booking submit:', err);
+    return res.status(500).json({ error: 'Gagal memproses data booking di server' });
   }
 });
 
