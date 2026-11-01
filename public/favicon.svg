@@ -1,0 +1,25 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" fill="none">
+  <!-- MandalikaEdu Brand Crest Favicon -->
+  <!-- Golden Arc -->
+  <path d="M 16 42 A 40 40 0 0 1 82 28" stroke="#F59E0B" stroke-width="3.5" stroke-linecap="round"/>
+  
+  <!-- Four-pointed Star -->
+  <path d="M 92 12 Q 92 18 97 18 Q 92 18 92 24 Q 92 18 87 18 Q 92 18 92 12 Z" fill="#F59E0B"/>
+  
+  <!-- Three Growth Bars -->
+  <rect x="70" y="38" width="5.5" height="15" rx="1.5" fill="#F59E0B"/>
+  <rect x="78" y="30" width="5.5" height="23" rx="1.5" fill="#F59E0B"/>
+  <rect x="86" y="20" width="5.5" height="33" rx="1.5" fill="#F59E0B"/>
+  
+  <!-- Upper Blue Wave / Leap -->
+  <path d="M 5 46 C 18 48 26 40 40 32 C 54 24 64 27 72 31 C 66 35 62 38 56 38 C 42 38 30 46 22 56 C 14 56 8 50 5 46 Z" fill="#0EA5E9"/>
+  
+  <!-- Main Ocean Wave Swoosh -->
+  <path d="M 12 70 C 18 58 32 46 54 46 C 60 46 63 53 58 57 C 50 63 43 65 38 72 C 34 78 35 84 41 87 C 50 91 62 88 71 80 C 82 70 88 54 94 38 C 96 58 88 78 72 89 C 58 98 38 98 24 88 C 17 83 14 77 12 70 Z" fill="#0284C7"/>
+  
+  <!-- Inner Wave Curl & Shadow -->
+  <path d="M 24 88 C 34 94 48 95 60 90 C 72 84 81 74 86 62 C 78 74 66 82 52 83 C 40 84 34 77 38 68 C 42 60 49 56 56 55 C 46 56 36 63 32 72 C 28 80 26 84 24 88 Z" fill="#0369A1"/>
+  
+  <!-- Wave White Foam Line -->
+  <path d="M 23 68 C 32 54 44 50 56 52 C 58 52 59 55 56 56 C 45 56 36 64 30 76 C 26 73 24 70 23 68 Z" fill="#FFFFFF"/>
+</svg>
