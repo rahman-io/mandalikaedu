@@ -50,16 +50,16 @@ const FRAMES: Record<SafiyaExpression, string> = {
 };
 const ALL = Object.keys(FRAMES) as SafiyaExpression[];
 
-// All frames are aligned to the same face; these give the tilted poses their head angle back
-const TILT: Partial<Record<SafiyaExpression, number>> = { manja: -14, bangga: -6, berpikir: -3 };
+// All frames are aligned to the same face; gentle tilt without lifting bottom edges
+const TILT: Partial<Record<SafiyaExpression, number>> = { manja: -6, bangga: -3, berpikir: -2 };
 
-// Expressions with a calm closed mouth can blink (the "rileks" frame has eyes closed)
+// Expressions with a calm closed mouth can blink using dedicated berkedip frame
 const CAN_BLINK: SafiyaExpression[] = ['sahaja', 'tersenyum', 'malu', 'khawatir', 'sedih'];
 
 // Friendly moods shown on her own while idle
 const IDLE_SEQUENCE: SafiyaExpression[] = [
-  'tersenyum', 'berkedip', 'penasaran', 'senang', 'manja', 'berpikir', 'tersenyum',
-  'malu', 'kagum', 'bangga', 'ngambek', 'tertawa', 'tersenyum', 'terkejut', 'mengantuk',
+  'tersenyum', 'penasaran', 'senang', 'manja', 'berpikir', 'tersenyum',
+  'malu', 'kagum', 'bangga', 'tersenyum', 'tertawa', 'penasaran', 'terkejut', 'mengantuk',
 ];
 
 // Lip movement while speaking
@@ -107,7 +107,7 @@ export const SafiyaAvatar: React.FC<SafiyaAvatarProps> = ({ talking = false, las
   const [reaction, setReaction] = useState<SafiyaExpression | null>(null);
   const [talkFrame, setTalkFrame] = useState<SafiyaExpression | null>(null);
   const [hovered, setHovered] = useState(false);
-  const [blinking, setBlinking] = useState(false);
+  const [blinkFrame, setBlinkFrame] = useState<SafiyaExpression | null>(null);
   const breatheRef = useRef<HTMLDivElement>(null);
   const seenMessage = useRef(lastMessage?.id);
   const reactionTimer = useRef<ReturnType<typeof setTimeout> | undefined>(undefined);
@@ -128,39 +128,51 @@ export const SafiyaAvatar: React.FC<SafiyaAvatarProps> = ({ talking = false, las
   };
   useEffect(() => () => { clearTimeout(reactionTimer.current); clearTimeout(queueTimer.current); }, []);
 
-  // Breathing: slow rise and fall
+  // Breathing: gentle anchored expansion from bottom, never pulling the base upward
   useEffect(() => {
     const el = breatheRef.current;
     if (!el || reduceMotion || typeof el.animate !== 'function') return;
     const anim = el.animate(
       [
-        { transform: 'translateY(0%) scale(1.04)' },
-        { transform: 'translateY(-1.5%) scale(1.065)' },
-        { transform: 'translateY(0%) scale(1.04)' },
+        { transform: 'translateY(2.2%) scale(1.16)' },
+        { transform: 'translateY(0.8%) scale(1.19)' },
+        { transform: 'translateY(2.2%) scale(1.16)' },
       ],
       { duration: 4200, iterations: Infinity, easing: 'ease-in-out' }
     );
     return () => anim.cancel();
   }, [reduceMotion]);
 
-  // Blinking at natural, irregular intervals
+  // Natural human blinking: ~88% of blinks close both eyes (rileks) quickly (140ms),
+  // while ~12% are rare playful 1-eye winks (berkedip, 280ms).
   useEffect(() => {
     const timers: ReturnType<typeof setTimeout>[] = [];
     let cancelled = false;
     const schedule = () => {
       if (cancelled) return;
       timers.push(setTimeout(() => {
-        setBlinking(true);
+        // Natural human: mostly both eyes closed ('rileks'), rarely 1-eye wink ('berkedip')
+        const isWink = Math.random() < 0.12;
+        const targetFrame: SafiyaExpression = isWink ? 'berkedip' : 'rileks';
+        const duration = isWink ? 280 : 140;
+
+        setBlinkFrame(targetFrame);
         timers.push(setTimeout(() => {
-          setBlinking(false);
-          if (Math.random() < 0.18) {
+          setBlinkFrame(null);
+          // Rapid natural double-blink for 2-eye blinks (~18% of the time)
+          if (!isWink && Math.random() < 0.18) {
             timers.push(setTimeout(() => {
-              setBlinking(true);
-              timers.push(setTimeout(() => { setBlinking(false); schedule(); }, 130));
-            }, 170));
-          } else schedule();
-        }, 130));
-      }, rand(2300, 5200)));
+              setBlinkFrame('rileks');
+              timers.push(setTimeout(() => {
+                setBlinkFrame(null);
+                schedule();
+              }, 130));
+            }, 140));
+          } else {
+            schedule();
+          }
+        }, duration));
+      }, rand(2600, 5200)));
     };
     schedule();
     return () => { cancelled = true; timers.forEach(clearTimeout); };
@@ -178,7 +190,7 @@ export const SafiyaAvatar: React.FC<SafiyaAvatarProps> = ({ talking = false, las
     const express = () => {
       const next = IDLE_SEQUENCE[step++ % IDLE_SEQUENCE.length];
       setIdle(next);
-      timer = setTimeout(rest, next === 'berkedip' ? 900 : rand(2200, 3200));
+      timer = setTimeout(rest, rand(2200, 3200));
     };
     timer = setTimeout(express, rand(2500, 4000));
     return () => clearTimeout(timer);
@@ -211,17 +223,21 @@ export const SafiyaAvatar: React.FC<SafiyaAvatarProps> = ({ talking = false, las
 
   const base: SafiyaExpression =
     expression ?? reaction ?? talkFrame ?? (hovered ? 'manja' : idle);
-  const shown: SafiyaExpression = blinking && CAN_BLINK.includes(base) ? 'rileks' : base;
+  // Use rileks (both eyes) for natural blinks, berkedip for rare winks
+  const shown: SafiyaExpression = blinkFrame && CAN_BLINK.includes(base) ? blinkFrame : base;
   const tilt = reduceMotion ? 0 : TILT[shown] ?? 0;
+  const isBlinkFrame = Boolean(blinkFrame) || shown === 'berkedip' || shown === 'rileks';
   const fast = talkFrame !== null && !reaction && !expression;
-  const fade = blinking || shown === 'rileks' ? 70 : fast ? 110 : 280;
+  // Blinking uses instant transition (0ms) to prevent semi-transparent white flash
+  const fade = isBlinkFrame ? 0 : fast ? 110 : 260;
 
-  // The previous frame stays fully visible underneath while the new one fades in on top,
-  // so the face never looks washed out mid-transition.
+  // Track previous frame for crossfade (except during blinks where instant frame replacement is crisp)
   const lastShown = useRef<SafiyaExpression>(shown);
   const under = useRef<SafiyaExpression>(shown);
   if (lastShown.current !== shown) {
-    under.current = lastShown.current;
+    if (!isBlinkFrame) {
+      under.current = lastShown.current;
+    }
     lastShown.current = shown;
   }
 
@@ -229,17 +245,21 @@ export const SafiyaAvatar: React.FC<SafiyaAvatarProps> = ({ talking = false, las
     <div
       role="img"
       aria-label={`Mandu AI (${shown})`}
-      className={`relative w-full h-full overflow-hidden rounded-full bg-white ${className}`}
+      className={`relative w-full h-full overflow-hidden rounded-full bg-gradient-to-b from-sky-50 via-white to-blue-50/40 ${className}`}
       onPointerEnter={() => setHovered(true)}
       onPointerLeave={() => setHovered(false)}
     >
-      <div ref={breatheRef} className="absolute inset-0" style={{ transformOrigin: '50% 100%', transform: 'scale(1.04)' }}>
+      <div
+        ref={breatheRef}
+        className="absolute inset-0"
+        style={{ transformOrigin: '50% 90%', transform: 'translateY(2.2%) scale(1.16)' }}
+      >
         <div
           className="absolute inset-0"
           style={{
-            transformOrigin: '50% 85%',
+            transformOrigin: '50% 65%',
             transform: `rotate(${tilt}deg)`,
-            transition: 'transform 450ms cubic-bezier(0.34, 1.4, 0.64, 1)',
+            transition: 'transform 400ms cubic-bezier(0.34, 1.4, 0.64, 1)',
           }}
         >
           {ALL.map((name) => (
@@ -251,8 +271,8 @@ export const SafiyaAvatar: React.FC<SafiyaAvatarProps> = ({ talking = false, las
               decoding="async"
               className="absolute inset-0 w-full h-full select-none pointer-events-none"
               style={{
-                opacity: name === shown || name === under.current ? 1 : 0,
-                transition: name === shown ? `opacity ${fade}ms ease-out` : 'none',
+                opacity: name === shown ? 1 : name === under.current && !isBlinkFrame ? 1 : 0,
+                transition: name === shown ? (fade === 0 ? 'none' : `opacity ${fade}ms ease-out`) : 'none',
                 zIndex: name === shown ? 3 : name === under.current ? 2 : 1,
               }}
             />

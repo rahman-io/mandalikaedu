@@ -557,8 +557,8 @@ export const WhatsAppAiBot: React.FC<WhatsAppAiBotProps> = ({
               </span>
 
               {/* Mandu Live Animated Mascot Avatar */}
-              <div className="w-full h-full rounded-full overflow-hidden bg-white border border-white/90 shadow-inner flex items-center justify-center">
-                <SafiyaAvatar className="w-full h-full transform transition-transform duration-300 group-hover:scale-110" />
+              <div className="w-full h-full rounded-full overflow-hidden bg-gradient-to-b from-sky-50 via-white to-blue-50/40 border border-white/90 shadow-inner flex items-center justify-center">
+                <SafiyaAvatar className="w-full h-full transform transition-transform duration-300 group-hover:scale-105" />
               </div>
             </>
           )}
