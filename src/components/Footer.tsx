@@ -33,13 +33,13 @@ export const Footer: React.FC<FooterProps> = ({ onNavClick, onOpenBooking, onOpe
             </div>
 
             <p className="text-slate-400 text-xs leading-relaxed max-w-sm">
-              Layanan bimbingan studi dan beasiswa kuliah luar negeri yang berpihak pada talenta daerah luar kota metropolitan: didampingi dari nol berkas, persiapan bahasa, review esai, hingga persiapan keberangkatan.
+              Layanan bimbingan studi dan beasiswa kuliah luar negeri yang berpihak pada talenta daerah luar kota metropolitan, didampingi dari nol berkas, persiapan bahasa, review esai, hingga persiapan keberangkatan.
             </p>
 
             <div className="space-y-1.5 text-slate-400 text-[11px]">
               <div className="flex items-center gap-2">
                 <MapPin className="w-3.5 h-3.5 text-slate-500 shrink-0" />
-                <span>Headquarters: Mataram, Lombok, Nusa Tenggara Barat</span>
+                <span>Kantor Pusat di Mataram, Lombok, Nusa Tenggara Barat</span>
               </div>
               <a 
                 href={`https://wa.me/${getActiveWhatsAppNumber()}`} 
@@ -48,11 +48,11 @@ export const Footer: React.FC<FooterProps> = ({ onNavClick, onOpenBooking, onOpe
                 className="flex items-center gap-2 hover:text-white transition-colors"
               >
                 <Phone className="w-3.5 h-3.5 text-slate-500 shrink-0" />
-                <span>WhatsApp: {getActiveWhatsAppDisplay()} (Fast Response)</span>
+                <span>WhatsApp {getActiveWhatsAppDisplay()} (Respon Cepat)</span>
               </a>
               <div className="flex items-center gap-2">
                 <Mail className="w-3.5 h-3.5 text-slate-500 shrink-0" />
-                <span>Email: halo@mandalikaedu.id</span>
+                <span>Email resmi salam@mandalikaedu.id</span>
               </div>
             </div>
           </div>
@@ -152,7 +152,7 @@ export const Footer: React.FC<FooterProps> = ({ onNavClick, onOpenBooking, onOpe
         <div className="pt-8 border-t border-slate-800 text-[11px] text-slate-500 space-y-2">
           <div className="flex items-center gap-1.5 text-slate-400 font-medium">
             <ShieldCheck className="w-4 h-4 text-slate-400 shrink-0" />
-            <span>Pernyataan Etis & Penafian Tanggung Jawab (Bab 8 Panduan MandalikaEdu):</span>
+            <span>Pernyataan Etis dan Penafian Tanggung Jawab Bab 8 Panduan MandalikaEdu</span>
           </div>
           <p className="leading-relaxed">
             MandalikaEdu adalah konsultan bimbingan pendidikan independen. Kami mendampingi proses persiapan aplikasi secara profesional dan transparan, tanpa memberikan jaminan kelulusan mutlak (beasiswa atau universitas). Keputusan penerimaan sepenuhnya berada pada hak prerogatif komite seleksi resmi masing-masing penyelenggara beasiswa. Informasi data beasiswa, biaya, dan tautan resmi diverifikasi secara berkala namun dapat berubah sewaktu-waktu oleh pihak penyelenggara.

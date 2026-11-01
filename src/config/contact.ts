@@ -1,8 +1,8 @@
 // Centralized Contact & WhatsApp & Legal Payment Configuration
 export const CONTACT_CONFIG = {
-  // Ganti dengan nomor WhatsApp aktif Anda (format internasional tanpa tanda +, contoh: '6281234567890')
-  whatsappNumber: '6281234567890', 
-  whatsappDisplay: '+62 812-3456-7890',
+  // Nomor WhatsApp resmi MandalikaEdu (+6287753935810)
+  whatsappNumber: '6287753935810', 
+  whatsappDisplay: '+62 877-5393-5810',
   email: 'salam@mandalikaedu.id',
   address: 'Mataram, Nusa Tenggara Barat, Indonesia',
   legalEntity: 'LEMBAGA RESEARCH EMPOWERMENT LEARNING AND REPLACE INSTITUTE',
@@ -25,7 +25,7 @@ export const CONTACT_CONFIG = {
 export const getActiveWhatsAppNumber = (): string => {
   if (typeof window !== 'undefined') {
     const saved = localStorage.getItem('mandalika_whatsapp_number');
-    if (saved) return saved.replace(/[^0-9]/g, '');
+    if (saved && saved !== '6281234567890' && saved !== '6282247563829') return saved.replace(/[^0-9]/g, '');
   }
   return CONTACT_CONFIG.whatsappNumber;
 };
@@ -33,7 +33,7 @@ export const getActiveWhatsAppNumber = (): string => {
 export const getActiveWhatsAppDisplay = (): string => {
   if (typeof window !== 'undefined') {
     const saved = localStorage.getItem('mandalika_whatsapp_display');
-    if (saved) return saved;
+    if (saved && !saved.includes('812-3456') && !saved.includes('822-4756')) return saved;
   }
   return CONTACT_CONFIG.whatsappDisplay;
 };

@@ -87,22 +87,22 @@ export const BookingModal: React.FC<BookingModalProps> = ({
   // Generate WhatsApp Payment Confirmation Link
   const waText = encodeURIComponent(
     isFree
-      ? `Halo Tim MandalikaEdu, saya ingin mendaftar Sesi Discovery Gratis:\n\n` +
-        `• Nama: ${formData.name}\n` +
-        `• Asal Kota/Daerah: ${formData.city}\n` +
-        `• Jenjang & Negara Target: ${formData.studyLevel} - ${formData.targetCountry}\n` +
-        `• Paket Layanan: ${selectedPkg.name} (${selectedPkg.priceFormatted})\n` +
-        `• Pilihan Waktu: ${formData.preferredDate || 'Segera'} jam ${formData.preferredTime}\n` +
-        (formData.backgroundNotes ? `• Catatan: ${formData.backgroundNotes}\n` : '') +
+      ? `Halo Tim MandalikaEdu, saya ingin mendaftar Sesi Discovery Gratis\n\n` +
+        `• Nama ${formData.name}\n` +
+        `• Asal Kota atau Daerah ${formData.city}\n` +
+        `• Jenjang dan Negara Target ${formData.studyLevel} - ${formData.targetCountry}\n` +
+        `• Paket Layanan ${selectedPkg.name} (${selectedPkg.priceFormatted})\n` +
+        `• Pilihan Waktu ${formData.preferredDate || 'Segera'} jam ${formData.preferredTime}\n` +
+        (formData.backgroundNotes ? `• Catatan ${formData.backgroundNotes}\n` : '') +
         `\nMohon konfirmasi jadwal ketersediaan mentor. Terima kasih!`
-      : `Halo Admin MandalikaEdu & ${CONTACT_CONFIG.legalEntity},\n\nSaya telah melakukan pemesanan paket bimbingan di website:\n\n` +
-        `• Nama Pemesan: ${formData.name}\n` +
-        `• Nomor WA: ${formData.phone}\n` +
-        `• Asal Kota/Daerah: ${formData.city}\n` +
-        `• Paket Dipilih: ${selectedPkg.name}\n` +
-        `• Total Tagihan: ${uniquePriceFormatted}\n` +
-        `• Metode Pembayaran: ${activePaymentTab === 'qris' ? 'QRIS All Payment' : 'Transfer Bank (' + CONTACT_CONFIG.bankName + ')'}\n` +
-        `• Pilihan Jadwal Sesi: ${formData.preferredDate || 'Segera'} (${formData.preferredTime})\n\n` +
+      : `Halo Admin MandalikaEdu dan ${CONTACT_CONFIG.legalEntity},\n\nSaya telah melakukan pemesanan paket bimbingan di website\n\n` +
+        `• Nama Pemesan ${formData.name}\n` +
+        `• Nomor WhatsApp ${formData.phone}\n` +
+        `• Asal Kota atau Daerah ${formData.city}\n` +
+        `• Paket Dipilih ${selectedPkg.name}\n` +
+        `• Total Tagihan ${uniquePriceFormatted}\n` +
+        `• Metode Pembayaran ${activePaymentTab === 'qris' ? 'QRIS All Payment' : 'Transfer Bank (' + CONTACT_CONFIG.bankName + ')'}\n` +
+        `• Pilihan Jadwal Sesi ${formData.preferredDate || 'Segera'} (${formData.preferredTime})\n\n` +
         `Berikut saya lampirkan bukti transfer pembayaran. Mohon verifikasi dan konfirmasi jadwal sesi. Terima kasih!`
   );
 

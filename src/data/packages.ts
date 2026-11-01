@@ -42,7 +42,7 @@ export const PACKAGES_DATA: ServicePackage[] = [
   },
   {
     id: 'starter-consultation',
-    name: 'Starter: Konsultasi',
+    name: 'Starter Konsultasi',
     badge: 'Paling Fleksibel',
     tagline: 'Bedah Roadmap Studi & Pemilihan Kampus Terarah',
     priceFormatted: 'Rp 350.000',
@@ -62,7 +62,7 @@ export const PACKAGES_DATA: ServicePackage[] = [
       'Rekaman video sesi konsultasi'
     ],
     targetAudience: 'Kandidat yang sudah memiliki niat kuat dan ingin memiliki rencana langkah demi langkah yang rapi.',
-    whatsappMessage: 'Halo Tim MandalikaEdu, saya tertarik mengambil Paket Starter: Konsultasi (Rp 350.000). Mohon informasi jadwal yang tersedia.'
+    whatsappMessage: 'Halo Tim MandalikaEdu, saya tertarik mengambil Paket Starter Konsultasi (Rp 350.000). Mohon informasi jadwal yang tersedia.'
   },
   {
     id: 'essay-document-review',

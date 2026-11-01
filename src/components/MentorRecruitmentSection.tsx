@@ -56,16 +56,16 @@ export const MentorRecruitmentSection: React.FC<MentorRecruitmentSectionProps> =
   };
 
   const waText = encodeURIComponent(
-    `Halo Tim MandalikaEdu, saya ingin mendaftar sebagai Mentor:\n\n` +
-    `• Nama: ${formData.fullName}\n` +
-    `• Asal: ${formData.originCity}\n` +
-    `• Kampus & Negara: ${formData.university} (${formData.country})\n` +
-    `• Jenjang & Jurusan: ${formData.level} - ${formData.major}\n` +
-    `• Beasiswa: ${formData.scholarship || 'Mandiri / Jalur Lain'}\n` +
-    `• Keahlian Bimbingan: ${formData.skills.join(', ')}\n` +
-    `• Ketersediaan: ${formData.hoursPerWeek}\n` +
-    `• Profil: ${formData.linkedinOrIg}\n\n` +
-    `Mohon informasi tahap review berkas & wawancara singkat. Terima kasih!`
+    `Halo Tim MandalikaEdu, saya ingin mendaftar sebagai Mentor\n\n` +
+    `• Nama ${formData.fullName}\n` +
+    `• Asal ${formData.originCity}\n` +
+    `• Kampus dan Negara ${formData.university} (${formData.country})\n` +
+    `• Jenjang dan Jurusan ${formData.level} - ${formData.major}\n` +
+    `• Beasiswa ${formData.scholarship || 'Mandiri atau Jalur Lain'}\n` +
+    `• Keahlian Bimbingan ${formData.skills.join(', ')}\n` +
+    `• Ketersediaan ${formData.hoursPerWeek}\n` +
+    `• Profil ${formData.linkedinOrIg}\n\n` +
+    `Mohon informasi tahap review berkas dan wawancara singkat. Terima kasih!`
   );
 
   const waUrl = `https://wa.me/${getActiveWhatsAppNumber()}?text=${waText}`;
@@ -78,10 +78,10 @@ export const MentorRecruitmentSection: React.FC<MentorRecruitmentSectionProps> =
         <div className="text-center max-w-3xl mx-auto">
           <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-blue-50 border border-blue-100 text-blue-700 text-xs font-bold tracking-wide uppercase mb-3">
             <Sparkles className="w-3.5 h-3.5 text-blue-600" />
-            <span>Kemitraan & Rekrutmen Mentor MandalikaEdu</span>
+            <span>Kemitraan dan Rekrutmen Mentor MandalikaEdu</span>
           </div>
           <h1 className="text-3xl sm:text-4xl lg:text-5xl font-black text-slate-900 tracking-tight mb-4">
-            Bergabung Jadi Mentor: Bimbing <span className="text-blue-600">Talenta Daerah</span> ke Kampus Dunia
+            Bergabung Jadi Mentor dan Bimbing <span className="text-blue-600">Talenta Daerah</span> ke Kampus Dunia
           </h1>
           <p className="text-base text-slate-600 leading-relaxed max-w-2xl mx-auto">
             Apakah Anda mahasiswa aktif atau alumni Indonesia di luar negeri? Mari perluas akses pendidikan tinggi dunia bagi adik-adik di daerah dengan skema kerja sama fleksibel dan transparan.
