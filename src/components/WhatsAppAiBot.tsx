@@ -71,7 +71,7 @@ export const WhatsAppAiBot: React.FC<WhatsAppAiBotProps> = ({
     {
       id: 'welcome-1',
       sender: 'ai',
-      text: 'Halo Kak! Selamat datang di MandalikaEdu 🎓\n\nSaya **Safiya**, asisten cerdas AI MandalikaEdu. Saya siap menemani diskusi Kakak seputar kuliah luar negeri, rekomendasi beasiswa, atau pemesanan paket bimbingan.',
+      text: 'Halo Kak! Selamat datang di MandalikaEdu 🎓\n\nSaya **Mandu**, asisten cerdas AI MandalikaEdu. Saya siap menemani diskusi Kakak seputar kuliah luar negeri, rekomendasi beasiswa, atau pemesanan paket bimbingan.',
       timestamp: 'Baru saja',
       actionButtons: [
         { label: '🆓 Klaim Sesi Discovery Gratis (Rp 0)', type: 'booking', packageId: 'discovery-free' },
@@ -118,7 +118,7 @@ export const WhatsAppAiBot: React.FC<WhatsAppAiBotProps> = ({
       {
         id: `welcome-${Date.now()}`,
         sender: 'ai',
-        text: 'Halo Kak! Selamat datang di MandalikaEdu 🎓\n\nSaya **Safiya**, asisten cerdas AI MandalikaEdu. Saya siap menemani diskusi Kakak seputar kuliah luar negeri, rekomendasi beasiswa, atau pemesanan paket bimbingan.',
+        text: 'Halo Kak! Selamat datang di MandalikaEdu 🎓\n\nSaya **Mandu**, asisten cerdas AI MandalikaEdu. Saya siap menemani diskusi Kakak seputar kuliah luar negeri, rekomendasi beasiswa, atau pemesanan paket bimbingan.',
         timestamp: new Date().toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit' }),
         actionButtons: [
           { label: '🆓 Klaim Sesi Discovery Gratis (Rp 0)', type: 'booking', packageId: 'discovery-free' },
@@ -130,7 +130,7 @@ export const WhatsAppAiBot: React.FC<WhatsAppAiBotProps> = ({
     ]);
   };
 
-  // Context-aware agentic response engine (matches Safiya natural conversational CX)
+  // Context-aware agentic response engine (matches Mandu natural conversational CX)
   const generateAgenticResponse = (query: string): { text: string; actionButtons?: Message['actionButtons'] } => {
     const raw = query.trim();
     const q = raw.toLowerCase();
@@ -139,7 +139,7 @@ export const WhatsAppAiBot: React.FC<WhatsAppAiBotProps> = ({
     const isOffTopic = /sayur|masak|resep|makan|minum|baju|motor|mobil|bengkel|politik|pemilu|presiden|artis|gosip|pacar|jodoh|game|slot|cuaca|lirik lagu/i.test(q);
     if (isOffTopic && !q.includes('beasiswa') && !q.includes('kuliah') && !q.includes('studi') && !q.includes('kampus')) {
       return {
-        text: 'Maaf ya Kak, Safiya khusus dirancang untuk mendampingi persiapan beasiswa, kuliah luar negeri, dan layanan bimbingan MandalikaEdu 😊.\n\nAda yang bisa kami bantu seputar riset beasiswa, review esai, atau klaim Sesi Discovery Gratis (Rp 0)?',
+        text: 'Maaf ya Kak, Mandu khusus dirancang untuk mendampingi persiapan beasiswa, kuliah luar negeri, dan layanan bimbingan MandalikaEdu 😊.\n\nAda yang bisa kami bantu seputar riset beasiswa, review esai, atau klaim Sesi Discovery Gratis (Rp 0)?',
         actionButtons: [
           { label: '🆓 Klaim Sesi Discovery Gratis (Rp 0)', type: 'booking', packageId: 'discovery-free' },
           { label: '🔍 Cari Rekomendasi Beasiswa', type: 'tab', target: 'beasiswa' },
@@ -174,12 +174,12 @@ export const WhatsAppAiBot: React.FC<WhatsAppAiBotProps> = ({
       };
     }
 
-    // 2. Pertanyaan seputar Safiya / Safiya AI
-    if (q.includes('safiya') || q.includes('haloai') || q.includes('halo ai') || q.includes('haloai.app')) {
+    // 2. Pertanyaan seputar Mandu / Mandu AI
+    if (q.includes('mandu') || q.includes('safiya') || q.includes('haloai') || q.includes('halo ai') || q.includes('haloai.app')) {
       return {
-        text: 'Halo Kak! Saya **Safiya**, asisten AI cerdas resmi MandalikaEdu yang siap menemani diskusi Kakak 24/7 seputar beasiswa dan persiapan kuliah luar negeri 😊.\n\nKakak bisa berdiskusi langsung di sini atau melanjutkan obrolan ke WhatsApp resmi MandalikaEdu di **' + getActiveWhatsAppDisplay() + '**.',
+        text: 'Halo Kak! Saya **Mandu AI**, asisten AI cerdas resmi MandalikaEdu yang siap menemani diskusi Kakak 24/7 seputar beasiswa dan persiapan kuliah luar negeri 😊.\n\nKakak bisa berdiskusi langsung di sini atau melanjutkan obrolan ke WhatsApp resmi MandalikaEdu di **' + getActiveWhatsAppDisplay() + '**.',
         actionButtons: [
-          { label: '💬 Chat Safiya di WhatsApp Resmi', type: 'whatsapp', target: 'Halo Safiya & Tim MandalikaEdu, saya ingin berkonsultasi.' },
+          { label: '💬 Chat Mandu di WhatsApp Resmi', type: 'whatsapp', target: 'Halo Mandu & Tim MandalikaEdu, saya ingin berkonsultasi.' },
           { label: '🆓 Klaim Sesi Discovery Gratis (Rp 0)', type: 'booking', packageId: 'discovery-free' }
         ]
       };
@@ -448,7 +448,7 @@ export const WhatsAppAiBot: React.FC<WhatsAppAiBotProps> = ({
             timestamp: new Date().toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit' }),
             actionButtons: [
               { label: '🆓 Jadwalkan Sesi Discovery Gratis', type: 'booking', packageId: 'discovery-free' },
-              { label: '💬 Lanjut ke WhatsApp Resmi Safiya AI', type: 'whatsapp', target: `Halo Admin MandalikaEdu via Safiya AI, saya ingin konsultasi lanjutan: "${text}"` }
+              { label: '💬 Lanjut ke WhatsApp Resmi Mandu AI', type: 'whatsapp', target: `Halo Admin MandalikaEdu via Mandu AI, saya ingin konsultasi lanjutan: "${text}"` }
             ]
           };
           setMessages(prev => [...prev, aiMessage]);
@@ -485,7 +485,7 @@ export const WhatsAppAiBot: React.FC<WhatsAppAiBotProps> = ({
     if (btn.type === 'whatsapp') {
       safeOpenWhatsApp(btn.target || 'Halo MandalikaEdu, saya ingin berkonsultasi seputar beasiswa luar negeri.');
     } else if (btn.type === 'booking') {
-      onOpenBooking(btn.packageId || 'discovery-free', `Melalui Safiya AI Bot: ${btn.label}`);
+      onOpenBooking(btn.packageId || 'discovery-free', `Melalui Mandu AI Bot: ${btn.label}`);
       setIsOpen(false);
     } else if (btn.type === 'tab' && btn.target) {
       onNavigateTab(btn.target);
@@ -506,8 +506,14 @@ export const WhatsAppAiBot: React.FC<WhatsAppAiBotProps> = ({
             <div className="w-2.5 h-2.5 rounded-full bg-sky-400 shrink-0 mt-1 animate-pulse" />
             <div className="space-y-1">
               <div className="font-bold text-white flex items-center gap-1.5">
-                <span>Safiya • AI Agent MandalikaEdu</span>
-                <span className="text-[10px] px-1.5 py-0.2 bg-emerald-500/20 text-emerald-300 rounded font-medium">Online</span>
+                <span>Mandu • AI Agent MandalikaEdu</span>
+                <span className="inline-flex items-center gap-1 text-[10px] px-1.5 py-0.5 bg-emerald-500/20 text-emerald-300 rounded-full font-medium">
+                  <span className="relative flex h-1.5 w-1.5">
+                    <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+                    <span className="relative inline-flex rounded-full h-1.5 w-1.5 bg-emerald-500"></span>
+                  </span>
+                  Online
+                </span>
               </div>
               <p className="text-slate-300 text-[11px] leading-relaxed">
                 Tanya beasiswa atau pesan paket bimbingan di sini! 💬
@@ -524,11 +530,11 @@ export const WhatsAppAiBot: React.FC<WhatsAppAiBotProps> = ({
           </div>
         )}
 
-        {/* Circular Blue Gradient Trigger Button with '1' Notification Badge */}
+        {/* Circular Blue Gradient Trigger Button with '1' Notification Badge & Green Online Indicator */}
         <button
           type="button"
           onClick={() => setIsOpen(!isOpen)}
-          aria-label="Buka Chat Safiya AI Agent MandalikaEdu"
+          aria-label="Buka Chat Mandu AI Agent MandalikaEdu"
           className="relative group w-14 h-14 sm:w-16 sm:h-16 rounded-full bg-gradient-to-r from-sky-500 to-blue-600 hover:from-sky-600 hover:to-blue-700 active:scale-95 text-white flex items-center justify-center shadow-xl shadow-blue-500/30 transition-all duration-200 cursor-pointer"
         >
           {isOpen ? (
@@ -539,6 +545,8 @@ export const WhatsAppAiBot: React.FC<WhatsAppAiBotProps> = ({
               <span className="absolute -top-1 -right-1 w-5 h-5 bg-rose-500 border-2 border-white rounded-full text-white text-[11px] font-bold flex items-center justify-center shadow-xs">
                 1
               </span>
+              {/* Online Green Indicator Dot */}
+              <span className="absolute bottom-0.5 right-0.5 w-3.5 h-3.5 bg-emerald-500 border-2 border-white rounded-full shadow-xs"></span>
               <MessageCircle className="w-7 h-7 sm:w-8 sm:h-8 fill-white" />
             </>
           )}
@@ -559,13 +567,25 @@ export const WhatsAppAiBot: React.FC<WhatsAppAiBotProps> = ({
           {/* Pure White Header */}
           <div className="bg-white px-5 py-3.5 flex items-center justify-between border-b border-slate-100 shrink-0">
             <div className="flex items-center gap-3">
-              {/* Brand Logo Avatar */}
-              <div className="w-12 h-12 rounded-full bg-white border border-slate-200 flex items-center justify-center overflow-hidden shadow-2xs shrink-0">
-                <SafiyaAvatar talking={isTyping} lastMessage={messages[messages.length - 1]} />
+              {/* Brand Logo Avatar with Green Online Dot Indicator */}
+              <div className="relative shrink-0">
+                <div className="w-12 h-12 rounded-full bg-white border border-slate-200 flex items-center justify-center overflow-hidden shadow-2xs">
+                  <SafiyaAvatar talking={isTyping} lastMessage={messages[messages.length - 1]} />
+                </div>
+                {/* Round green online status dot */}
+                <span className="absolute bottom-0 right-0 w-3.5 h-3.5 bg-emerald-500 border-2 border-white rounded-full flex items-center justify-center shadow-xs" title="Online">
+                  <span className="w-1.5 h-1.5 bg-white rounded-full"></span>
+                </span>
               </div>
               <div>
-                <h3 className="font-bold text-slate-900 text-base leading-tight">Safiya AI</h3>
-                <p className="text-xs text-slate-400 font-normal mt-0.5">Online</p>
+                <h3 className="font-bold text-slate-900 text-base leading-tight">Mandu AI</h3>
+                <div className="flex items-center gap-1.5 mt-0.5">
+                  <span className="relative flex h-2 w-2">
+                    <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+                    <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
+                  </span>
+                  <p className="text-xs text-emerald-600 font-semibold">Online</p>
+                </div>
               </div>
             </div>
 
@@ -581,7 +601,7 @@ export const WhatsAppAiBot: React.FC<WhatsAppAiBotProps> = ({
               </button>
               <button
                 type="button"
-                onClick={() => safeOpenWhatsApp('Halo Tim MandalikaEdu via Halo AI! Saya ingin berdiskusi.')}
+                onClick={() => safeOpenWhatsApp('Halo Tim MandalikaEdu via Mandu AI! Saya ingin berdiskusi.')}
                 title="Chat via WhatsApp Resmi"
                 className="p-1 rounded-md hover:text-slate-700 hover:bg-slate-100 transition-colors cursor-pointer"
               >

@@ -228,7 +228,7 @@ export const SafiyaAvatar: React.FC<SafiyaAvatarProps> = ({ talking = false, las
   return (
     <div
       role="img"
-      aria-label={`Safiya AI (${shown})`}
+      aria-label={`Mandu AI (${shown})`}
       className={`relative w-full h-full overflow-hidden rounded-full bg-white ${className}`}
       onPointerEnter={() => setHovered(true)}
       onPointerLeave={() => setHovered(false)}
