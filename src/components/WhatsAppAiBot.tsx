@@ -4,6 +4,13 @@ import {
   ExternalLink, Sparkles, ChevronRight, Phone, RefreshCw, Calendar, Award, ShieldCheck, Settings, Edit3,
   Cloud, Key, Check, AlertCircle, Loader2, FileText, Maximize2, Minimize2, ArrowUp, SquarePen
 } from 'lucide-react';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { 
+  faGift, faBoxOpen, faMagnifyingGlass, faCircleQuestion, 
+  faGamepad, faMobileScreen, faBullseye, faUsers, 
+  faFilePen, faStar, faCalendarCheck, faArrowRight, faComments 
+} from '@fortawesome/free-solid-svg-icons';
+import { faWhatsapp } from '@fortawesome/free-brands-svg-icons';
 import { SafiyaAvatar } from './SafiyaAvatar';
 import { 
   getActiveWhatsAppNumber, 
@@ -33,6 +40,27 @@ interface WhatsAppAiBotProps {
 
 const HALOAI_URL = CONTACT_CONFIG.haloAiUrl;
 
+
+const cleanLabel = (text: string): string => {
+  if (!text) return text;
+  return text.replace(/^[\u{1F300}-\u{1FAFF}\u{2600}-\u{26FF}\u{2700}-\u{27BF}\u{FE0F}\s]+/u, '').trim();
+};
+
+const getActionIcon = (btn: { label: string; type: string; target?: string; packageId?: string }) => {
+  if (btn.type === 'whatsapp') return faWhatsapp;
+  if (btn.type === 'booking') return faCalendarCheck;
+  if (btn.type === 'external') {
+    if (btn.target && btn.target.includes('diglosa')) return faGamepad;
+    return faMobileScreen;
+  }
+  if (btn.target === 'beasiswa') return faMagnifyingGlass;
+  if (btn.target === 'paket') return faBoxOpen;
+  if (btn.target === 'kuis') return faBullseye;
+  if (btn.target === 'tentang') return faUsers;
+  if (btn.target === 'kisah') return faStar;
+  return faArrowRight;
+};
+
 export const sanitizePunctuation = (text: string): string => {
   if (!text) return text;
   return text
@@ -42,6 +70,7 @@ export const sanitizePunctuation = (text: string): string => {
     .replace(/–/g, ' - ')
     .replace(/,\s*,/g, ', ')
     .replace(/,\s*\./g, '.')
+    .replace(/[\u{1F300}-\u{1FAFF}\u{2600}-\u{26FF}\u{2700}-\u{27BF}\u{FE0F}]/gu, '')
     .replace(/\s{2,}/g, ' ')
     .trim();
 };
@@ -71,27 +100,27 @@ export const WhatsAppAiBot: React.FC<WhatsAppAiBotProps> = ({
     {
       id: 'welcome-1',
       sender: 'ai',
-      text: 'Halo Kak! Selamat datang di MandalikaEdu 🎓\n\nSaya **Mandu**, asisten cerdas AI MandalikaEdu. Saya siap menemani diskusi Kakak seputar kuliah luar negeri, rekomendasi beasiswa, atau pemesanan paket bimbingan.',
+      text: 'Halo Kak! Selamat datang di MandalikaEdu \n\nSaya **Mandu**, asisten cerdas AI MandalikaEdu. Saya siap menemani diskusi Kakak seputar kuliah luar negeri, rekomendasi beasiswa, atau pemesanan paket bimbingan.',
       timestamp: 'Baru saja',
       actionButtons: [
-        { label: '🆓 Klaim Sesi Discovery Gratis (Rp 0)', type: 'booking', packageId: 'discovery-free' },
-        { label: '📦 Tanya Pilihan Paket & Biaya', type: 'tab', target: 'paket' },
-        { label: '🔍 Cari Rekomendasi Beasiswa', type: 'tab', target: 'beasiswa' },
-        { label: '💬 Chat di WhatsApp Resmi', type: 'whatsapp', target: 'Halo Tim MandalikaEdu, saya ingin konsultasi seputar persiapan kuliah luar negeri.' }
+        { label: ' Klaim Sesi Discovery Gratis (Rp 0)', type: 'booking', packageId: 'discovery-free' },
+        { label: ' Tanya Pilihan Paket & Biaya', type: 'tab', target: 'paket' },
+        { label: ' Cari Rekomendasi Beasiswa', type: 'tab', target: 'beasiswa' },
+        { label: ' Chat di WhatsApp Resmi', type: 'whatsapp', target: 'Halo Tim MandalikaEdu, saya ingin konsultasi seputar persiapan kuliah luar negeri.' }
       ]
     }
   ]);
 
   const quickPrompts = [
-    'Boleh bertanya?',
-    '🎮 Game Vocab Diglosa',
-    '📱 Grammar AI TenseGO',
-    '🎯 Rekomendasi beasiswa untuk saya',
-    '📦 Berapa biaya & paket bimbingan?',
-    '🆓 Mau booking Discovery Gratis (Rp 0)',
-    '👨‍🏫 Siapa saja mentor di MandalikaEdu?',
-    '📝 Review esai & Motivation Letter',
-    '💬 Hubungi WhatsApp Resmi'
+    { label: 'Boleh bertanya?', icon: faCircleQuestion },
+    { label: 'Game Vocab Diglosa', icon: faGamepad },
+    { label: 'Grammar AI TenseGO', icon: faMobileScreen },
+    { label: 'Rekomendasi beasiswa untuk saya', icon: faBullseye },
+    { label: 'Berapa biaya & paket bimbingan?', icon: faBoxOpen },
+    { label: 'Mau booking Discovery Gratis (Rp 0)', icon: faGift },
+    { label: 'Siapa saja mentor di MandalikaEdu?', icon: faUsers },
+    { label: 'Review esai & Motivation Letter', icon: faFilePen },
+    { label: 'Hubungi WhatsApp Resmi', icon: faWhatsapp }
   ];
 
   const scrollToBottom = () => {
@@ -118,13 +147,13 @@ export const WhatsAppAiBot: React.FC<WhatsAppAiBotProps> = ({
       {
         id: `welcome-${Date.now()}`,
         sender: 'ai',
-        text: 'Halo Kak! Selamat datang di MandalikaEdu 🎓\n\nSaya **Mandu**, asisten cerdas AI MandalikaEdu. Saya siap menemani diskusi Kakak seputar kuliah luar negeri, rekomendasi beasiswa, atau pemesanan paket bimbingan.',
+        text: 'Halo Kak! Selamat datang di MandalikaEdu \n\nSaya **Mandu**, asisten cerdas AI MandalikaEdu. Saya siap menemani diskusi Kakak seputar kuliah luar negeri, rekomendasi beasiswa, atau pemesanan paket bimbingan.',
         timestamp: new Date().toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit' }),
         actionButtons: [
-          { label: '🆓 Klaim Sesi Discovery Gratis (Rp 0)', type: 'booking', packageId: 'discovery-free' },
-          { label: '📦 Tanya Pilihan Paket & Biaya', type: 'tab', target: 'paket' },
-          { label: '🔍 Cari Rekomendasi Beasiswa', type: 'tab', target: 'beasiswa' },
-          { label: '💬 Chat di WhatsApp Resmi', type: 'whatsapp', target: 'Halo Tim MandalikaEdu, saya ingin konsultasi seputar persiapan kuliah luar negeri.' }
+          { label: ' Klaim Sesi Discovery Gratis (Rp 0)', type: 'booking', packageId: 'discovery-free' },
+          { label: ' Tanya Pilihan Paket & Biaya', type: 'tab', target: 'paket' },
+          { label: ' Cari Rekomendasi Beasiswa', type: 'tab', target: 'beasiswa' },
+          { label: ' Chat di WhatsApp Resmi', type: 'whatsapp', target: 'Halo Tim MandalikaEdu, saya ingin konsultasi seputar persiapan kuliah luar negeri.' }
         ]
       }
     ]);
@@ -139,11 +168,11 @@ export const WhatsAppAiBot: React.FC<WhatsAppAiBotProps> = ({
     const isOffTopic = /sayur|masak|resep|makan|minum|baju|motor|mobil|bengkel|politik|pemilu|presiden|artis|gosip|pacar|jodoh|game|slot|cuaca|lirik lagu/i.test(q);
     if (isOffTopic && !q.includes('beasiswa') && !q.includes('kuliah') && !q.includes('studi') && !q.includes('kampus')) {
       return {
-        text: 'Maaf ya Kak, Mandu khusus dirancang untuk mendampingi persiapan beasiswa, kuliah luar negeri, dan layanan bimbingan MandalikaEdu 😊.\n\nAda yang bisa kami bantu seputar riset beasiswa, review esai, atau klaim Sesi Discovery Gratis (Rp 0)?',
+        text: 'Maaf ya Kak, Mandu khusus dirancang untuk mendampingi persiapan beasiswa, kuliah luar negeri, dan layanan bimbingan MandalikaEdu .\n\nAda yang bisa kami bantu seputar riset beasiswa, review esai, atau klaim Sesi Discovery Gratis (Rp 0)?',
         actionButtons: [
-          { label: '🆓 Klaim Sesi Discovery Gratis (Rp 0)', type: 'booking', packageId: 'discovery-free' },
-          { label: '🔍 Cari Rekomendasi Beasiswa', type: 'tab', target: 'beasiswa' },
-          { label: '💬 Chat di WhatsApp Resmi', type: 'whatsapp', target: 'Halo MandalikaEdu, saya ingin konsultasi beasiswa.' }
+          { label: ' Klaim Sesi Discovery Gratis (Rp 0)', type: 'booking', packageId: 'discovery-free' },
+          { label: ' Cari Rekomendasi Beasiswa', type: 'tab', target: 'beasiswa' },
+          { label: ' Chat di WhatsApp Resmi', type: 'whatsapp', target: 'Halo MandalikaEdu, saya ingin konsultasi beasiswa.' }
         ]
       };
     }
@@ -164,12 +193,12 @@ export const WhatsAppAiBot: React.FC<WhatsAppAiBotProps> = ({
 
     if (isGreetingOrAskingPermission && !q.includes('biaya') && !q.includes('beasiswa') && !q.includes('paket') && !q.includes('mentor')) {
       return {
-        text: 'Halo Kak! Tentu saja **boleh sekali** 😊.\n\nSilakan, ada yang ingin Kakak tanyakan atau diskusikan seputar:\n• Rekomendasi beasiswa (Jepang, Jerman, Australia, UK, Turki, dll.)\n• Bimbingan pembuatan Motivation Letter & CV internasional\n• Biaya dan pemesanan paket bimbingan (atau klaim sesi Discovery Rp 0)\n• Informasi rekrutmen mentor luar negeri\n\nKira-kira jenjang apa (S1/S2/S3) atau negara mana yang sedang Kakak minati?',
+        text: 'Halo Kak! Tentu saja **boleh sekali** .\n\nSilakan, ada yang ingin Kakak tanyakan atau diskusikan seputar:\n• Rekomendasi beasiswa (Jepang, Jerman, Australia, UK, Turki, dll.)\n• Bimbingan pembuatan Motivation Letter & CV internasional\n• Biaya dan pemesanan paket bimbingan (atau klaim sesi Discovery Rp 0)\n• Informasi rekrutmen mentor luar negeri\n\nKira-kira jenjang apa (S1/S2/S3) atau negara mana yang sedang Kakak minati?',
         actionButtons: [
-          { label: '🆓 Klaim Sesi Discovery Gratis (Rp 0)', type: 'booking', packageId: 'discovery-free' },
-          { label: `🔍 Database Beasiswa (${SCHOLARSHIPS_DATA.length} Beasiswa)`, type: 'tab', target: 'beasiswa' },
-          { label: '📦 Cek Paket Bimbingan', type: 'tab', target: 'paket' },
-          { label: '💬 Hubungi WhatsApp Resmi', type: 'whatsapp', target: 'Halo MandalikaEdu, saya ingin berdiskusi seputar peluang beasiswa kuliah luar negeri.' }
+          { label: ' Klaim Sesi Discovery Gratis (Rp 0)', type: 'booking', packageId: 'discovery-free' },
+          { label: ` Database Beasiswa (${SCHOLARSHIPS_DATA.length} Beasiswa)`, type: 'tab', target: 'beasiswa' },
+          { label: ' Cek Paket Bimbingan', type: 'tab', target: 'paket' },
+          { label: ' Hubungi WhatsApp Resmi', type: 'whatsapp', target: 'Halo MandalikaEdu, saya ingin berdiskusi seputar peluang beasiswa kuliah luar negeri.' }
         ]
       };
     }
@@ -177,10 +206,10 @@ export const WhatsAppAiBot: React.FC<WhatsAppAiBotProps> = ({
     // 2. Pertanyaan seputar Mandu / Mandu AI
     if (q.includes('mandu') || q.includes('safiya') || q.includes('haloai') || q.includes('halo ai') || q.includes('haloai.app')) {
       return {
-        text: 'Halo Kak! Saya **Mandu AI**, asisten AI cerdas resmi MandalikaEdu yang siap menemani diskusi Kakak 24/7 seputar beasiswa dan persiapan kuliah luar negeri 😊.\n\nKakak bisa berdiskusi langsung di sini atau melanjutkan obrolan ke WhatsApp resmi MandalikaEdu di **' + getActiveWhatsAppDisplay() + '**.',
+        text: 'Halo Kak! Saya **Mandu AI**, asisten AI cerdas resmi MandalikaEdu yang siap menemani diskusi Kakak 24/7 seputar beasiswa dan persiapan kuliah luar negeri .\n\nKakak bisa berdiskusi langsung di sini atau melanjutkan obrolan ke WhatsApp resmi MandalikaEdu di **' + getActiveWhatsAppDisplay() + '**.',
         actionButtons: [
-          { label: '💬 Chat Mandu di WhatsApp Resmi', type: 'whatsapp', target: 'Halo Mandu & Tim MandalikaEdu, saya ingin berkonsultasi.' },
-          { label: '🆓 Klaim Sesi Discovery Gratis (Rp 0)', type: 'booking', packageId: 'discovery-free' }
+          { label: ' Chat Mandu di WhatsApp Resmi', type: 'whatsapp', target: 'Halo Mandu & Tim MandalikaEdu, saya ingin berkonsultasi.' },
+          { label: ' Klaim Sesi Discovery Gratis (Rp 0)', type: 'booking', packageId: 'discovery-free' }
         ]
       };
     }
@@ -191,8 +220,8 @@ export const WhatsAppAiBot: React.FC<WhatsAppAiBotProps> = ({
         return {
           text: 'Siap Kak! **Paket Roadmap Beasiswa (Rp 199.000)** sangat pas untuk memetakan timeline 90 hari, kurasi 3 kampus & beasiswa impian, serta strategi persiapan dari nol.\n\nSilakan klik tombol di bawah untuk isi formulir pemesanan web atau chat WhatsApp resmi kami:',
           actionButtons: [
-            { label: '📝 Buka Form Pemesanan Roadmap (Web)', type: 'booking', packageId: 'roadmap-90' },
-            { label: '💬 Pesan via WhatsApp Resmi', type: 'whatsapp', target: 'Halo Admin MandalikaEdu, saya ingin memesan Paket Roadmap Beasiswa (Rp 199.000).' }
+            { label: ' Buka Form Pemesanan Roadmap (Web)', type: 'booking', packageId: 'roadmap-90' },
+            { label: ' Pesan via WhatsApp Resmi', type: 'whatsapp', target: 'Halo Admin MandalikaEdu, saya ingin memesan Paket Roadmap Beasiswa (Rp 199.000).' }
           ]
         };
       }
@@ -200,8 +229,8 @@ export const WhatsAppAiBot: React.FC<WhatsAppAiBotProps> = ({
         return {
           text: 'Pilihan tepat Kak! **Paket Essay & CV Lab (Rp 499.000)** memberikan 3x review mendalam baris-per-baris untuk Motivation Letter, Statement of Purpose, atau Europass CV oleh mentor alumni luar negeri.\n\nSilakan pilih jalur pemesanan yang Kakak sukai:',
           actionButtons: [
-            { label: '📝 Buka Form Pemesanan Essay Lab (Web)', type: 'booking', packageId: 'essay-lab' },
-            { label: '💬 Pesan via WhatsApp Resmi', type: 'whatsapp', target: 'Halo Admin MandalikaEdu, saya ingin memesan Paket Essay & CV Lab (Rp 499.000).' }
+            { label: ' Buka Form Pemesanan Essay Lab (Web)', type: 'booking', packageId: 'essay-lab' },
+            { label: ' Pesan via WhatsApp Resmi', type: 'whatsapp', target: 'Halo Admin MandalikaEdu, saya ingin memesan Paket Essay & CV Lab (Rp 499.000).' }
           ]
         };
       }
@@ -209,8 +238,8 @@ export const WhatsAppAiBot: React.FC<WhatsAppAiBotProps> = ({
         return {
           text: 'Pilihan terbaik! **Paket Mentorship 360 (Rp 1.490.000)** adalah program pendampingan end-to-end lengkap dari nol hingga pengumuman:\n• Review esai & dokumen tanpa batas\n• 2x sesi simulasi wawancara (Mock Interview)\n• Panduan visa, blocked account & akomodasi\n• Akses grup WhatsApp eksklusif dengan mentor.\n\nKuota dibatasi maksimal 15 siswa per batch per bulan.',
           actionButtons: [
-            { label: '🌟 Ambil Slot Mentorship 360 (Web)', type: 'booking', packageId: 'mentorship-360' },
-            { label: '💬 Daftar via WhatsApp Resmi', type: 'whatsapp', target: 'Halo Admin MandalikaEdu, saya ingin mendaftar program intensif Mentorship 360.' }
+            { label: ' Ambil Slot Mentorship 360 (Web)', type: 'booking', packageId: 'mentorship-360' },
+            { label: ' Daftar via WhatsApp Resmi', type: 'whatsapp', target: 'Halo Admin MandalikaEdu, saya ingin mendaftar program intensif Mentorship 360.' }
           ]
         };
       }
@@ -218,9 +247,9 @@ export const WhatsAppAiBot: React.FC<WhatsAppAiBotProps> = ({
       return {
         text: 'Kakak ingin memesan layanan MandalikaEdu? Kami menyediakan opsi berjenjang:\n\n1. **Sesi Discovery (20 Menit)**: Rp 0 (100% GRATIS)\n2. **Roadmap Beasiswa**: Rp 199.000\n3. **Essay & CV Lab (3x Review)**: Rp 499.000\n4. **Mentorship 360 (All-in End to End)**: Rp 1.490.000\n\nKakak bisa booking langsung lewat form web atau konfirmasi ke WhatsApp kami:',
         actionButtons: [
-          { label: '🆓 Ambil Sesi Discovery Gratis (Web)', type: 'booking', packageId: 'discovery-free' },
-          { label: '📋 Lihat Detail Semua Paket', type: 'tab', target: 'paket' },
-          { label: '💬 Konfirmasi Pemesanan ke WhatsApp', type: 'whatsapp', target: 'Halo Admin MandalikaEdu, saya ingin berkonsultasi mengenai pemesanan paket bimbingan.' }
+          { label: ' Ambil Sesi Discovery Gratis (Web)', type: 'booking', packageId: 'discovery-free' },
+          { label: ' Lihat Detail Semua Paket', type: 'tab', target: 'paket' },
+          { label: ' Konfirmasi Pemesanan ke WhatsApp', type: 'whatsapp', target: 'Halo Admin MandalikaEdu, saya ingin berkonsultasi mengenai pemesanan paket bimbingan.' }
         ]
       };
     }
@@ -228,10 +257,10 @@ export const WhatsAppAiBot: React.FC<WhatsAppAiBotProps> = ({
     // 4. Tanya Sesi Gratis / Discovery Session
     if (q.includes('gratis') || q.includes('discovery') || q.includes('free') || q.includes('coba')) {
       return {
-        text: 'Kabar gembira! MandalikaEdu menyediakan **Sesi Discovery 20 Menit GRATIS (Rp 0)** untuk seluruh putra-putri daerah di Indonesia 🇮🇩.\n\nDalam sesi ini, Kakak akan:\n• Mengecek kecocokan profil akademik dengan beasiswa impian\n• Membedah 2-3 pilihan beasiswa yang paling realistis ditembus\n• Mendapatkan roadmap langkah awal tanpa kewajiban membeli paket berbayar apa pun.',
+        text: 'Kabar gembira! MandalikaEdu menyediakan **Sesi Discovery 20 Menit GRATIS (Rp 0)** untuk seluruh putra-putri daerah di Indonesia .\n\nDalam sesi ini, Kakak akan:\n• Mengecek kecocokan profil akademik dengan beasiswa impian\n• Membedah 2-3 pilihan beasiswa yang paling realistis ditembus\n• Mendapatkan roadmap langkah awal tanpa kewajiban membeli paket berbayar apa pun.',
         actionButtons: [
-          { label: '📅 Jadwalkan Sesi Discovery Rp 0', type: 'booking', packageId: 'discovery-free' },
-          { label: '💬 Klaim via WhatsApp Admin', type: 'whatsapp', target: 'Halo MandalikaEdu, saya ingin klaim Sesi Discovery Gratis 20 Menit.' }
+          { label: ' Jadwalkan Sesi Discovery Rp 0', type: 'booking', packageId: 'discovery-free' },
+          { label: ' Klaim via WhatsApp Admin', type: 'whatsapp', target: 'Halo MandalikaEdu, saya ingin klaim Sesi Discovery Gratis 20 Menit.' }
         ]
       };
     }
@@ -252,16 +281,16 @@ export const WhatsAppAiBot: React.FC<WhatsAppAiBotProps> = ({
       const listText = topMatches.map(s => {
         const levels = s.level.join('/');
         const age = s.requirements.maxAge ? ` · Usia maks ${s.requirements.maxAge}` : '';
-        const note = s.educationalNote ? `\n  ⚠️ ${s.educationalNote}` : '';
+        const note = s.educationalNote ? `\n   ${s.educationalNote}` : '';
         return `• **${s.name}** (${s.country} ${s.flag}) - ${levels} (${s.fundingType})\n  Syarat: IPK min ${s.requirements.gpa}, Bahasa ${s.requirements.language}${age}.${note}`;
       }).join('\n\n');
 
       return {
         text: `Berdasarkan database aktif MandalikaEdu (${SCHOLARSHIPS_DATA.length} beasiswa resmi), berikut rekomendasi yang cocok untuk pencarian Kakak:\n\n${listText}\n\nKira-kira Kakak sedang merencanakan jenjang apa? Mau kami bantu cek kelayakan profil di Sesi Discovery Gratis?`,
         actionButtons: [
-          { label: `🔍 Buka Database (${SCHOLARSHIPS_DATA.length} Beasiswa)`, type: 'tab', target: 'beasiswa' },
-          { label: '🆓 Klaim Sesi Discovery (Rp 0)', type: 'booking', packageId: 'discovery-free' },
-          { label: '💬 Konsultasi via WhatsApp', type: 'whatsapp', target: `Halo Admin, saya tertarik dengan rekomendasi beasiswa untuk: "${raw}"` }
+          { label: ` Buka Database (${SCHOLARSHIPS_DATA.length} Beasiswa)`, type: 'tab', target: 'beasiswa' },
+          { label: ' Klaim Sesi Discovery (Rp 0)', type: 'booking', packageId: 'discovery-free' },
+          { label: ' Konsultasi via WhatsApp', type: 'whatsapp', target: `Halo Admin, saya tertarik dengan rekomendasi beasiswa untuk: "${raw}"` }
         ]
       };
     }
@@ -272,9 +301,9 @@ export const WhatsAppAiBot: React.FC<WhatsAppAiBotProps> = ({
       return {
         text: `MandalikaEdu merangkum **${SCHOLARSHIPS_DATA.length} beasiswa fully funded** resmi yang ramah pelamar daerah di 12 kawasan dunia!\n\nBeberapa opsi unggulan:\n${picksText}\n• dan puluhan pilihan lainnya.\n\nKira-kira negara mana atau jenjang apa (S1/S2/S3) yang paling Kakak minati?`,
         actionButtons: [
-          { label: `🔍 Buka Database (${SCHOLARSHIPS_DATA.length} Beasiswa)`, type: 'tab', target: 'beasiswa' },
-          { label: '🎯 Kuis Pencocokan Beasiswa', type: 'tab', target: 'kuis' },
-          { label: '💬 Diskusi Kelayakan Profil di WhatsApp', type: 'whatsapp', target: 'Halo Admin, saya ingin mengecek kelayakan profil saya untuk beasiswa luar negeri.' }
+          { label: ` Buka Database (${SCHOLARSHIPS_DATA.length} Beasiswa)`, type: 'tab', target: 'beasiswa' },
+          { label: ' Kuis Pencocokan Beasiswa', type: 'tab', target: 'kuis' },
+          { label: ' Diskusi Kelayakan Profil di WhatsApp', type: 'whatsapp', target: 'Halo Admin, saya ingin mengecek kelayakan profil saya untuk beasiswa luar negeri.' }
         ]
       };
     }
@@ -284,8 +313,8 @@ export const WhatsAppAiBot: React.FC<WhatsAppAiBotProps> = ({
       return {
         text: 'Tim mentor kami adalah alumni penerima beasiswa luar negeri yang juga berasal dari daerah di Indonesia:\n\n• **Dr. Ilham Ramdani, Ph.D.** (Asal Lombok NTB, S3 di The University of Tokyo, penerima MEXT Jepang)\n• **Nadia Salsabila, M.Sc.** (Asal Padang Sumbar, S2 RWTH Aachen, penerima DAAD EPOS Jerman)\n• **Kevin Jonathan, M.P.P.** (Asal Kupang NTT, Master di Oxford University, penerima Chevening UK)\n• **Ratih Puspadewi, M.Ed.** (Asal Purwokerto Jateng, S2 Melbourne University, penerima AAS Australia)\n\nKakak bisa berkonsultasi 1-on-1 langsung dengan mentor sesuai negara tujuan!',
         actionButtons: [
-          { label: '👥 Profil Tim Mentor', type: 'tab', target: 'tentang' },
-          { label: '📅 Booking Sesi dengan Mentor', type: 'booking', packageId: 'discovery-free' }
+          { label: ' Profil Tim Mentor', type: 'tab', target: 'tentang' },
+          { label: ' Booking Sesi dengan Mentor', type: 'booking', packageId: 'discovery-free' }
         ]
       };
     }
@@ -293,10 +322,10 @@ export const WhatsAppAiBot: React.FC<WhatsAppAiBotProps> = ({
     // 7. TenseGO / Aplikasi Belajar Grammar AI & AR (Kemitraan Resmi)
     if (q.includes('tensego') || q.includes('tense go') || q.includes('cosmo') || q.includes('grammar') || q.includes('tenses')) {
       return {
-        text: 'Untuk mengasah kemampuan Grammar & Tenses Bahasa Inggris secara cepat dan interaktif, MandalikaEdu merekomendasikan mitra resmi kami **TenseGO** (Aplikasi Belajar Grammar AI & AR) 🚀!\n\nFitur unggulan TenseGO:\n• **Tutor AI Cosmo 24/7**: Tanya jawab tenses & grammar kapan saja.\n• **Kamera AR Cosmo**: Sorot benda di sekitarmu dengan kamera HP dan ubah menjadi kelas bahasa Inggris interaktif.\n• **Personalized Paths**: Materi disesuaikan dengan gaya belajar kamu.',
+        text: 'Untuk mengasah kemampuan Grammar & Tenses Bahasa Inggris secara cepat dan interaktif, MandalikaEdu merekomendasikan mitra resmi kami **TenseGO** (Aplikasi Belajar Grammar AI & AR) !\n\nFitur unggulan TenseGO:\n• **Tutor AI Cosmo 24/7**: Tanya jawab tenses & grammar kapan saja.\n• **Kamera AR Cosmo**: Sorot benda di sekitarmu dengan kamera HP dan ubah menjadi kelas bahasa Inggris interaktif.\n• **Personalized Paths**: Materi disesuaikan dengan gaya belajar kamu.',
         actionButtons: [
-          { label: '📱 Coba Demo TenseGO (Web/AR Gratis)', type: 'external', target: 'https://tensego.replaceid.org/' },
-          { label: '🎮 Coba Juga Game Vocab Diglosa', type: 'external', target: 'https://diglosa.replaceid.org/' }
+          { label: ' Coba Demo TenseGO (Web/AR Gratis)', type: 'external', target: 'https://tensego.replaceid.org/' },
+          { label: ' Coba Juga Game Vocab Diglosa', type: 'external', target: 'https://diglosa.replaceid.org/' }
         ]
       };
     }
@@ -304,10 +333,10 @@ export const WhatsAppAiBot: React.FC<WhatsAppAiBotProps> = ({
     // 8. Diglosa / Game Petualangan Kata (Kemitraan Resmi)
     if (q.includes('diglosa') || q.includes('game') || q.includes('kata') || q.includes('kosa kata') || q.includes('vocab')) {
       return {
-        text: 'Untuk menambah penguasaan Kosa Kata (Vocabulary) Bahasa Inggris dengan cara yang sangat seru dan tidak membosankan, Kakak bisa mencoba mitra resmi kami **Diglosa (Petualangan Kata)** 🏰🎮!\n\nFitur seru Diglosa:\n• **Game Petualangan RPG**: Naik level sambil menaklukkan tantangan kosa kata.\n• **Peta & Trofi**: Kumpulkan trofi dan pantau kemajuan kosa kata akademikmu.\n• **Seru & Gratis**: Sangat cocok sebagai pendamping latihan IELTS & TOEFL!',
+        text: 'Untuk menambah penguasaan Kosa Kata (Vocabulary) Bahasa Inggris dengan cara yang sangat seru dan tidak membosankan, Kakak bisa mencoba mitra resmi kami **Diglosa (Petualangan Kata)** !\n\nFitur seru Diglosa:\n• **Game Petualangan RPG**: Naik level sambil menaklukkan tantangan kosa kata.\n• **Peta & Trofi**: Kumpulkan trofi dan pantau kemajuan kosa kata akademikmu.\n• **Seru & Gratis**: Sangat cocok sebagai pendamping latihan IELTS & TOEFL!',
         actionButtons: [
-          { label: '🎮 Mainkan Diglosa (Game Vocabulary)', type: 'external', target: 'https://diglosa.replaceid.org/' },
-          { label: '📱 Coba TenseGO (Grammar AI & AR)', type: 'external', target: 'https://tensego.replaceid.org/' }
+          { label: ' Mainkan Diglosa (Game Vocabulary)', type: 'external', target: 'https://diglosa.replaceid.org/' },
+          { label: ' Coba TenseGO (Grammar AI & AR)', type: 'external', target: 'https://tensego.replaceid.org/' }
         ]
       };
     }
@@ -317,9 +346,9 @@ export const WhatsAppAiBot: React.FC<WhatsAppAiBotProps> = ({
       return {
         text: 'Jangan khawatir Kak! Tidak semua beasiswa mewajibkan skor IELTS tinggi di awal:\n• **Turki (Türkiye Bursları)**: Menyediakan kelas persiapan bahasa gratis 1 tahun di Turki.\n• **Jepang (MEXT Jalur Kedutaan)**: Seleksi tahap awal menggunakan ujian tertulis matematika & bahasa Inggris mandiri MEXT.\n• **AAS & LPDP Afirmasi**: Menerima sertifikat TOEFL ITP dengan standar skor lebih ringan untuk anak daerah.\n\nUntuk latihan harian yang menyenangkan, Kakak bisa menggunakan 2 tools mitra resmi kami:\n• **TenseGO**: Belajar Grammar & Tenses via AI & AR\n• **Diglosa**: Game Petualangan Kosa Kata (Vocabulary)',
         actionButtons: [
-          { label: '📱 Coba TenseGO (Grammar AI & AR)', type: 'external', target: 'https://tensego.replaceid.org/' },
-          { label: '🎮 Mainkan Diglosa (Game Vocab)', type: 'external', target: 'https://diglosa.replaceid.org/' },
-          { label: '🆓 Diskusi Strategi Bahasa di Sesi Discovery', type: 'booking', packageId: 'discovery-free' }
+          { label: ' Coba TenseGO (Grammar AI & AR)', type: 'external', target: 'https://tensego.replaceid.org/' },
+          { label: ' Mainkan Diglosa (Game Vocab)', type: 'external', target: 'https://diglosa.replaceid.org/' },
+          { label: ' Diskusi Strategi Bahasa di Sesi Discovery', type: 'booking', packageId: 'discovery-free' }
         ]
       };
     }
@@ -327,11 +356,11 @@ export const WhatsAppAiBot: React.FC<WhatsAppAiBotProps> = ({
     // 8. Anak Daerah Kalimantan, NTB/NTT, Papua, Sumatra, Sulawesi
     if (q.includes('kalimantan') || q.includes('borneo') || q.includes('samarinda') || q.includes('balikpapan') || q.includes('pontianak') || q.includes('banjarmasin') || q.includes('kaltim') || q.includes('kalbar') || q.includes('kalteng') || q.includes('kalsel') || q.includes('kaltara')) {
       return {
-        text: 'Kabar baik banget untuk putra-putri daerah Kalimantan! 🌲\n\nUntuk anak daerah dari Kalimantan, ada beberapa jalur istimewa yang bisa dimanfaatkan:\n1. **LPDP Afirmasi Daerah 3T**: Kabupaten di Kalimantan (seperti pedalaman Kalbar, Kaltara, Kaltim, Kalteng) masuk jalur afirmasi dengan syarat TOEFL/IELTS & IPK yang jauh lebih fleksibel daripada jalur reguler.\n2. **Beasiswa Pemda (Kaltim Tuntas / APBD)**: Bantuan kuliah jenjang D3/S1/S2/S3 dari Pemprov/Pemkab.\n3. **AAS (Australia Awards)** & **MEXT Jepang**: Komite beasiswa sangat menyukai pelamar yang mengangkat isu pembangunan daerah Kalimantan (seperti kelestarian hutan, transisi energi, hilirisasi, atau IKN) di dalam Motivation Letter.\n\nKakak sedang merencanakan jenjang S1 atau S2? Mau kami bantu petakan kampusnya?',
+        text: 'Kabar baik banget untuk putra-putri daerah Kalimantan! \n\nUntuk anak daerah dari Kalimantan, ada beberapa jalur istimewa yang bisa dimanfaatkan:\n1. **LPDP Afirmasi Daerah 3T**: Kabupaten di Kalimantan (seperti pedalaman Kalbar, Kaltara, Kaltim, Kalteng) masuk jalur afirmasi dengan syarat TOEFL/IELTS & IPK yang jauh lebih fleksibel daripada jalur reguler.\n2. **Beasiswa Pemda (Kaltim Tuntas / APBD)**: Bantuan kuliah jenjang D3/S1/S2/S3 dari Pemprov/Pemkab.\n3. **AAS (Australia Awards)** & **MEXT Jepang**: Komite beasiswa sangat menyukai pelamar yang mengangkat isu pembangunan daerah Kalimantan (seperti kelestarian hutan, transisi energi, hilirisasi, atau IKN) di dalam Motivation Letter.\n\nKakak sedang merencanakan jenjang S1 atau S2? Mau kami bantu petakan kampusnya?',
         actionButtons: [
-          { label: '🆓 Klaim Sesi Discovery Gratis (Rp 0)', type: 'booking', packageId: 'discovery-free' },
-          { label: `🔍 Cek Database (${SCHOLARSHIPS_DATA.length} Beasiswa)`, type: 'tab', target: 'beasiswa' },
-          { label: '💬 Diskusi via WhatsApp Resmi', type: 'whatsapp', target: 'Halo MandalikaEdu, saya dari Kalimantan ingin tanya beasiswa yang cocok.' }
+          { label: ' Klaim Sesi Discovery Gratis (Rp 0)', type: 'booking', packageId: 'discovery-free' },
+          { label: ` Cek Database (${SCHOLARSHIPS_DATA.length} Beasiswa)`, type: 'tab', target: 'beasiswa' },
+          { label: ' Diskusi via WhatsApp Resmi', type: 'whatsapp', target: 'Halo MandalikaEdu, saya dari Kalimantan ingin tanya beasiswa yang cocok.' }
         ]
       };
     }
@@ -340,9 +369,9 @@ export const WhatsAppAiBot: React.FC<WhatsAppAiBotProps> = ({
       return {
         text: 'Halo Kak! Sebagai sesama putra daerah NTB & NTT, MandalikaEdu lahir langsung di Mataram, NTB!\n\nPeluang emas untuk anak daerah NTB & NTT:\n1. **AAS (Australia Awards)**: Punya kuota Targeted Geographic Area khusus NTB & NTT dengan syarat IELTS minimal hanya 5.0.\n2. **MEXT Jepang**: Fully funded tanpa ikatan dinas, seperti yang diraih Co-Founder kami Dr. Ilham Ramdani asal NTB (The University of Tokyo).\n3. **LPDP Afirmasi Daerah**: Pendanaan 100% kuliah luar negeri dengan kuota daerah khusus.\n4. **Türkiye Bursları**: Bebas biaya hidup, asrama, dan kursus bahasa Turki 1 tahun gratis.\n\nKakak mau kami bantu review dokumen atau mapping beasiswa dari nol?',
         actionButtons: [
-          { label: '🆓 Klaim Sesi Discovery Gratis (Rp 0)', type: 'booking', packageId: 'discovery-free' },
-          { label: '📦 Paket Roadmap Beasiswa (Rp 199k)', type: 'booking', packageId: 'roadmap-90' },
-          { label: '💬 Chat WhatsApp Resmi MandalikaEdu', type: 'whatsapp', target: 'Halo MandalikaEdu, saya dari NTB/NTT ingin konsultasi beasiswa.' }
+          { label: ' Klaim Sesi Discovery Gratis (Rp 0)', type: 'booking', packageId: 'discovery-free' },
+          { label: ' Paket Roadmap Beasiswa (Rp 199k)', type: 'booking', packageId: 'roadmap-90' },
+          { label: ' Chat WhatsApp Resmi MandalikaEdu', type: 'whatsapp', target: 'Halo MandalikaEdu, saya dari NTB/NTT ingin konsultasi beasiswa.' }
         ]
       };
     }
@@ -352,9 +381,9 @@ export const WhatsAppAiBot: React.FC<WhatsAppAiBotProps> = ({
       return {
         text: 'Caranya sangat mudah dan bertahap Kak! Berikut langkah persiapan di MandalikaEdu dari nol:\n\n1. **Langkah 1 (Cek Peluang)**: Ikuti Sesi Discovery (20 Menit) secara 100% Gratis untuk cek kecocokan profil & beasiswa target.\n2. **Langkah 2 (Roadmap 90 Hari)**: Tentukan 3 kampus impian, timeline pendaftaran, dan syarat sertifikat bahasa (IELTS/Duolingo).\n3. **Langkah 3 (Bedah Dokumen)**: Bimbingan intensif menulis Motivation Letter, Europass CV, dan Surat Rekomendasi bersama mentor alumni beasiswa luar negeri.\n4. **Langkah 4 (Submit & Mock Interview)**: Simulasi wawancara beasiswa hingga siap 100% menghadapi interviewer.\n\nMau mulai dari **Sesi Discovery Gratis (Rp 0)** dulu Kak?',
         actionButtons: [
-          { label: '🆓 Ambil Sesi Discovery Gratis (Rp 0)', type: 'booking', packageId: 'discovery-free' },
-          { label: '📦 Cek Paket Lengkap Mentorship', type: 'tab', target: 'paket' },
-          { label: '💬 Tanya Langsung di WhatsApp Resmi', type: 'whatsapp', target: 'Halo Admin MandalikaEdu, saya mau tahu cara mulai bimbingan beasiswa.' }
+          { label: ' Ambil Sesi Discovery Gratis (Rp 0)', type: 'booking', packageId: 'discovery-free' },
+          { label: ' Cek Paket Lengkap Mentorship', type: 'tab', target: 'paket' },
+          { label: ' Tanya Langsung di WhatsApp Resmi', type: 'whatsapp', target: 'Halo Admin MandalikaEdu, saya mau tahu cara mulai bimbingan beasiswa.' }
         ]
       };
     }
@@ -364,8 +393,8 @@ export const WhatsAppAiBot: React.FC<WhatsAppAiBotProps> = ({
       return {
         text: 'Peluang Kakak sangat terbuka! Komite beasiswa internasional saat ini sangat menghargai komitmen kontribusi dan keterikatan emosional dengan pembangunan daerah asal.\n\nBanyak alumni bimbingan MandalikaEdu yang berasal dari kampus non-top di luar Jawa dan berhasil menembus MEXT, DAAD, dan AAS berkat kekuatan Motivation Letter serta pemetaan masalah daerah yang otentik!',
         actionButtons: [
-          { label: '🆓 Cek Peluang di Sesi Discovery Gratis', type: 'booking', packageId: 'discovery-free' },
-          { label: '🌟 Baca Kisah Sukses Anak Daerah', type: 'tab', target: 'kisah' }
+          { label: ' Cek Peluang di Sesi Discovery Gratis', type: 'booking', packageId: 'discovery-free' },
+          { label: ' Baca Kisah Sukses Anak Daerah', type: 'tab', target: 'kisah' }
         ]
       };
     }
@@ -373,21 +402,21 @@ export const WhatsAppAiBot: React.FC<WhatsAppAiBotProps> = ({
     // 10. Terima Kasih / Closing
     if (q.includes('terima kasih') || q.includes('makasih') || q.includes('thanks') || q.includes('ok') || q.includes('oke') || q.includes('siap') || q.includes('baiklah')) {
       return {
-        text: 'Sama-sama Kak! Senang sekali bisa membantu 😊.\n\nJika nanti ada hal yang ingin ditanyakan lagi atau ingin langsung memulai persiapan dokumen bersama mentor, silakan hubungi kami kapan saja ya. Sukses selalu untuk rencana studinya! 🎓',
+        text: 'Sama-sama Kak! Senang sekali bisa membantu .\n\nJika nanti ada hal yang ingin ditanyakan lagi atau ingin langsung memulai persiapan dokumen bersama mentor, silakan hubungi kami kapan saja ya. Sukses selalu untuk rencana studinya! ',
         actionButtons: [
-          { label: '💬 Simpan Kontak WhatsApp Resmi', type: 'whatsapp', target: 'Halo MandalikaEdu, saya simpan nomor ini untuk konsultasi beasiswa.' },
-          { label: '🆓 Jadwalkan Sesi Discovery', type: 'booking', packageId: 'discovery-free' }
+          { label: ' Simpan Kontak WhatsApp Resmi', type: 'whatsapp', target: 'Halo MandalikaEdu, saya simpan nomor ini untuk konsultasi beasiswa.' },
+          { label: ' Jadwalkan Sesi Discovery', type: 'booking', packageId: 'discovery-free' }
         ]
       };
     }
 
     // Default polite intelligent response
     return {
-      text: `Pertanyaan yang bagus Kak! Di MandalikaEdu, kami mendampingi putra-putri daerah mulai dari riset beasiswa ramah daerah, bedah esai (Motivation Letter), hingga simulasi wawancara bersama mentor alumni luar negeri.\n\nBiar kami bisa beri rekomendasi yang paling tepat: saat ini Kakak sedang merencanakan kuliah ke negara mana atau jenjang apa (S1/S2/S3)?`,
+      text: `Pertanyaan yang bagus Kak! Di MandalikaEdu, kami mendampingi putra-putri daerah mulai dari riset beasiswa ramah daerah, bedah esai (Motivation Letter), hingga simulasi wawancara bersama mentor alumni luar negeri.\n\nBiar kami bisa beri rekomendasi yang paling tepat, saat ini Kakak sedang merencanakan kuliah ke negara mana atau jenjang apa (S1/S2/S3)?`,
       actionButtons: [
-        { label: '🆓 Jadwalkan Sesi Discovery Gratis', type: 'booking', packageId: 'discovery-free' },
-        { label: '📦 Lihat Pilihan Paket Bimbingan', type: 'tab', target: 'paket' },
-        { label: '💬 Diskusi Lanjut di WhatsApp', type: 'whatsapp', target: `Halo MandalikaEdu, saya ingin bertanya: "${raw}"` }
+        { label: ' Jadwalkan Sesi Discovery Gratis', type: 'booking', packageId: 'discovery-free' },
+        { label: ' Lihat Pilihan Paket Bimbingan', type: 'tab', target: 'paket' },
+        { label: ' Diskusi Lanjut di WhatsApp', type: 'whatsapp', target: `Halo MandalikaEdu, saya ingin bertanya: "${raw}"` }
       ]
     };
   };
@@ -447,8 +476,8 @@ export const WhatsAppAiBot: React.FC<WhatsAppAiBotProps> = ({
             text: sanitizePunctuation(data.reply),
             timestamp: new Date().toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit' }),
             actionButtons: [
-              { label: '🆓 Jadwalkan Sesi Discovery Gratis', type: 'booking', packageId: 'discovery-free' },
-              { label: '💬 Lanjut ke WhatsApp Resmi Mandu AI', type: 'whatsapp', target: `Halo Admin MandalikaEdu via Mandu AI, saya ingin konsultasi lanjutan: "${text}"` }
+              { label: ' Jadwalkan Sesi Discovery Gratis', type: 'booking', packageId: 'discovery-free' },
+              { label: ' Lanjut ke WhatsApp Resmi Mandu AI', type: 'whatsapp', target: `Halo Admin MandalikaEdu via Mandu AI, saya ingin konsultasi lanjutan: "${text}"` }
             ]
           };
           setMessages(prev => [...prev, aiMessage]);
@@ -515,8 +544,9 @@ export const WhatsAppAiBot: React.FC<WhatsAppAiBotProps> = ({
                   Online
                 </span>
               </div>
-              <p className="text-slate-300 text-[11px] leading-relaxed">
-                Tanya beasiswa atau pesan paket bimbingan di sini! 💬
+              <p className="text-slate-300 text-[11px] leading-relaxed flex items-center gap-1.5">
+                <span>Tanya beasiswa atau pesan paket bimbingan di sini!</span>
+                <FontAwesomeIcon icon={faComments} className="text-sky-400 text-xs shrink-0" />
               </p>
             </div>
             <button 
@@ -682,7 +712,10 @@ export const WhatsAppAiBot: React.FC<WhatsAppAiBotProps> = ({
                           onClick={() => handleActionButtonClick(btn)}
                           className="w-full text-left px-3.5 py-2.5 bg-white hover:bg-sky-50 active:bg-sky-100 border border-slate-200/80 hover:border-sky-300 rounded-xl text-xs font-semibold text-slate-800 hover:text-blue-950 flex items-center justify-between transition-colors shadow-2xs group cursor-pointer"
                         >
-                          <span>{btn.label}</span>
+                          <span className="flex items-center gap-2">
+                            <FontAwesomeIcon icon={getActionIcon(btn)} className="text-sky-600 text-xs shrink-0" />
+                            <span>{cleanLabel(btn.label)}</span>
+                          </span>
                           <ChevronRight className="w-3.5 h-3.5 text-slate-400 group-hover:text-blue-600 transition-transform group-hover:translate-x-0.5" />
                         </button>
                       ))}
@@ -716,10 +749,11 @@ export const WhatsAppAiBot: React.FC<WhatsAppAiBotProps> = ({
               <button
                 key={idx}
                 type="button"
-                onClick={() => handleSendMessage(p)}
-                className="shrink-0 text-[11px] font-medium bg-white hover:bg-sky-50 text-slate-600 hover:text-blue-700 border border-slate-200/80 hover:border-sky-300 rounded-full px-3 py-1 transition-all cursor-pointer shadow-2xs"
+                onClick={() => handleSendMessage(p.label)}
+                className="shrink-0 text-[11px] font-medium bg-white hover:bg-sky-50 text-slate-700 hover:text-blue-700 border border-slate-200/80 hover:border-sky-300 rounded-full px-3 py-1.5 transition-all cursor-pointer shadow-2xs inline-flex items-center gap-1.5"
               >
-                {p}
+                <FontAwesomeIcon icon={p.icon} className="text-sky-600 text-[10px] shrink-0" />
+                <span>{p.label}</span>
               </button>
             ))}
           </div>

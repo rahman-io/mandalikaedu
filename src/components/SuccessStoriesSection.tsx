@@ -32,7 +32,7 @@ export const SuccessStoriesSection: React.FC<SuccessStoriesSectionProps> = ({ on
             Kisah Sukses <span className="text-blue-600">Talenta Daerah</span> Menembus Kampus Impian Dunia
           </h1>
           <p className="text-base text-slate-600 leading-relaxed max-w-2xl mx-auto">
-            Mereka berawal dari kampus dan kota yang sama seperti Anda: menghadapi keraguan, keterbatasan informasi, dan minimnya bimbingan lokal. Bersama MandalikaEdu, mereka membuktikan bahwa anak daerah mampu berdiri setara di panggung akademik global.
+            Mereka berawal dari kampus dan kota yang sama seperti Anda, dengan perjuangan menghadapi keraguan, keterbatasan informasi, dan minimnya bimbingan lokal. Bersama MandalikaEdu, mereka membuktikan bahwa anak daerah mampu berdiri setara di panggung akademik global.
           </p>
 
           {/* Filter Bar */}

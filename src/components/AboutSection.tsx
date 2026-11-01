@@ -52,11 +52,11 @@ const FAQS = [
   },
   {
     q: 'Bahasa Inggris saya masih pas-pasan, apakah saya harus les mahal dulu sebelum mulai konsultasi?',
-    a: 'Tidak perlu les mahal puluhan juta. Dalam sesi Discovery gratis kami, kami akan mengevaluasi kemampuan awal Anda dan memberikan roadmap bertahap: kapan harus fokus bahasa, bahan belajar gratis Cambridge yang tepat, serta pilihan negara seperti Turki, Jerman, atau Jepang yang memiliki jalur kursus bahasa gratis 1 tahun dari beasiswa.'
+    a: 'Tidak perlu les mahal puluhan juta. Dalam sesi Discovery gratis kami, kami akan mengevaluasi kemampuan awal Anda dan memberikan roadmap bertahap, mulai dari penentuan waktu fokus belajar bahasa, bahan belajar gratis Cambridge yang tepat, serta pilihan negara seperti Turki, Jerman, atau Jepang yang memiliki jalur kursus bahasa gratis 1 tahun dari beasiswa.'
   },
   {
     q: 'Apakah MandalikaEdu menjanjikan 100% pasti diterima beasiswa atau kampus?',
-    a: 'TIDAK. Sesuai kode etik resmi kami (Bab 8 Panduan MandalikaEdu), kami tidak pernah membuat janji palsu "pasti lulus". Keputusan mutlak ada di tangan komite beasiswa dan universitas. Komitmen kami adalah mendampingi proses persiapan secara profesional dari nol: membedah berkas, memaksimalkan kekuatan esai, dan memastikan aplikasi Anda tidak ditolak karena kesalahan administrasi.'
+    a: 'TIDAK. Sesuai kode etik resmi kami (Bab 8 Panduan MandalikaEdu), kami tidak pernah membuat janji palsu "pasti lulus". Keputusan mutlak ada di tangan komite beasiswa dan universitas. Komitmen kami adalah mendampingi proses persiapan secara profesional dari nol, mulai dari membedah berkas, memaksimalkan kekuatan esai, hingga memastikan aplikasi Anda tidak ditolak karena kesalahan administrasi.'
   },
   {
     q: 'Apakah MandalikaEdu konsultan independen atau agen resmi kampus?',

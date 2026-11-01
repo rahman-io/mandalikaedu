@@ -11,6 +11,8 @@ import { PACKAGES_DATA, ServicePackage } from '../data/packages';
 import { TESTIMONIALS_DATA } from '../data/testimonials';
 import { BLOG_POSTS_DATA } from '../data/blogPosts';
 import { WebinarSection } from './WebinarSection';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faMobileScreen, faGamepad } from '@fortawesome/free-solid-svg-icons';
 
 interface HomeSectionProps {
   onNavigateTab: (tab: string) => void;
@@ -81,7 +83,7 @@ export const HomeSection: React.FC<HomeSectionProps> = ({
 
               {/* Value Proposition Body */}
               <p className="text-base sm:text-lg text-slate-600 leading-relaxed max-w-xl">
-                Kuliah ke luar negeri dari mana saja, kami dampingi dari nol. Buka peluang beasiswa dunia bagi putra-putri daerah: kurasi beasiswa fully funded, bimbingan IELTS realistis, bedah esai mendalam, hingga persiapan visa dan keberangkatan bersama mentor alumni kampus top dunia.
+                Mimpi kuliah di luar negeri bukan cuma milik kota besar. Dari mana pun asalmu, kami dampingi perjuanganmu dari nol bersama mentor alumni, mulai dari kurasi beasiswa tepat sasaran, bedah esai mendalam, hingga siap berangkat ke kampus impian.
               </p>
 
               {/* Primary Action Buttons */}
@@ -592,8 +594,9 @@ export const HomeSection: React.FC<HomeSectionProps> = ({
           <div className="bg-gradient-to-br from-slate-950 via-slate-900 to-blue-950 rounded-3xl p-7 sm:p-9 text-white shadow-xl relative overflow-hidden border border-blue-500/20 flex flex-col justify-between space-y-6">
             <div className="space-y-4">
               <div className="flex items-center justify-between gap-2">
-                <span className="px-3 py-1 bg-blue-500/20 border border-blue-400/30 text-blue-300 text-[11px] font-bold rounded-full">
-                  📱 TenseGO · Grammar AI & AR
+                <span className="px-3 py-1 bg-blue-500/20 border border-blue-400/30 text-blue-300 text-[11px] font-bold rounded-full inline-flex items-center gap-1.5">
+                  <FontAwesomeIcon icon={faMobileScreen} className="text-xs" />
+                  <span>TenseGO · Grammar AI & AR</span>
                 </span>
                 <span className="text-[10px] text-slate-400 font-semibold">Mitra Eksternal</span>
               </div>
@@ -633,8 +636,9 @@ export const HomeSection: React.FC<HomeSectionProps> = ({
           <div className="bg-gradient-to-br from-amber-950 via-amber-900/90 to-slate-950 rounded-3xl p-7 sm:p-9 text-white shadow-xl relative overflow-hidden border border-amber-500/20 flex flex-col justify-between space-y-6">
             <div className="space-y-4">
               <div className="flex items-center justify-between gap-2">
-                <span className="px-3 py-1 bg-amber-500/20 border border-amber-400/30 text-amber-300 text-[11px] font-bold rounded-full">
-                  🏰 Diglosa · Game Petualangan Kata
+                <span className="px-3 py-1 bg-amber-500/20 border border-amber-400/30 text-amber-300 text-[11px] font-bold rounded-full inline-flex items-center gap-1.5">
+                  <FontAwesomeIcon icon={faGamepad} className="text-xs" />
+                  <span>Diglosa · Game Petualangan Kata</span>
                 </span>
                 <span className="text-[10px] text-slate-400 font-semibold">Mitra Eksternal</span>
               </div>

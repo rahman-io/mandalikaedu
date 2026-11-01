@@ -5,6 +5,7 @@ import dotenv from 'dotenv';
 import { GoogleGenAI } from '@google/genai';
 import { SCHOLARSHIPS_DATA } from './src/data/scholarships';
 import { generateFirebaseExportBundle } from './src/lib/firebase/firestoreExport';
+import { generateOgPngBuffer } from './src/lib/ogImageGenerator';
 
 dotenv.config();
 
@@ -132,6 +133,25 @@ function sanitizePunctuation(text: string): string {
     .replace(/\s{2,}/g, ' ')
     .trim();
 }
+
+// Real-time Dynamic OpenGraph Image endpoint (1200x630 pixel-perfect WhatsApp & Social Share Banner)
+app.get(['/og-image.png', '/api/og', '/api/og.png'], (req, res) => {
+  try {
+    const { headline, subheadline, count } = req.query;
+    const pngBuffer = generateOgPngBuffer({
+      headline: typeof headline === 'string' ? headline : undefined,
+      subheadline: typeof subheadline === 'string' ? subheadline : undefined,
+      scholarshipsCount: typeof count === 'string' ? count : undefined,
+    });
+
+    res.setHeader('Content-Type', 'image/png');
+    res.setHeader('Cache-Control', 'public, max-age=60, s-maxage=60, stale-while-revalidate=30');
+    return res.end(pngBuffer);
+  } catch (err: any) {
+    console.error('Error generating dynamic OG image:', err);
+    return res.sendFile(path.join(__dirname, 'public/og-image.png'));
+  }
+});
 
 // API endpoint to export all platform data wrapped in Firebase Firestore format
 app.get('/api/export/firebase', (_req, res) => {
