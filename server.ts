@@ -4,6 +4,7 @@ import { fileURLToPath } from 'url';
 import dotenv from 'dotenv';
 import { GoogleGenAI } from '@google/genai';
 import { SCHOLARSHIPS_DATA } from './src/data/scholarships';
+import { generateFirebaseExportBundle } from './src/lib/firebase/firestoreExport';
 
 dotenv.config();
 
@@ -131,6 +132,19 @@ function sanitizePunctuation(text: string): string {
     .replace(/\s{2,}/g, ' ')
     .trim();
 }
+
+// API endpoint to export all platform data wrapped in Firebase Firestore format
+app.get('/api/export/firebase', (_req, res) => {
+  try {
+    const bundle = generateFirebaseExportBundle();
+    res.setHeader('Content-Type', 'application/json');
+    res.setHeader('Content-Disposition', 'attachment; filename="mandalikaedu-firestore-export.json"');
+    return res.json(bundle);
+  } catch (err: any) {
+    console.error('Error generating Firebase export bundle:', err);
+    return res.status(500).json({ error: 'Gagal membuat bundle ekspor Firebase' });
+  }
+});
 
 // API endpoint for Halo AI WhatsApp Bot
 app.post('/api/chat', async (req, res) => {

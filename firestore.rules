@@ -1,0 +1,77 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    
+    // Helper function: Check if request is authenticated
+    function isAuthenticated() {
+      return request.auth != null;
+    }
+    
+    // Helper function: Check if user is an authorized admin
+    function isAdmin() {
+      return isAuthenticated() && 
+        (request.auth.token.admin == true || 
+         request.auth.token.role == 'admin');
+    }
+    
+    // 1. Scholarships Collection (Public Read, Admin Write)
+    match /scholarships/{scholarshipId} {
+      allow read: if true;
+      allow write: if isAdmin();
+    }
+    
+    // 2. Packages Collection (Public Read, Admin Write)
+    match /packages/{packageId} {
+      allow read: if true;
+      allow write: if isAdmin();
+    }
+    
+    // 3. Mentors Collection (Public Read, Admin Write)
+    match /mentors/{mentorId} {
+      allow read: if true;
+      allow write: if isAdmin();
+    }
+    
+    // 4. Testimonials Collection (Public Read, Admin Write)
+    match /testimonials/{testimonialId} {
+      allow read: if true;
+      allow write: if isAdmin();
+    }
+    
+    // 5. Countries Collection (Public Read, Admin Write)
+    match /countries/{countryId} {
+      allow read: if true;
+      allow write: if isAdmin();
+    }
+    
+    // 6. Blog Posts Collection (Public Read, Admin Write)
+    match /blogPosts/{postId} {
+      allow read: if true;
+      allow write: if isAdmin();
+    }
+    
+    // 7. Bookings Collection (Public Create with validation, Admin Read & Manage)
+    match /bookings/{bookingId} {
+      allow create: if request.resource.data.studentName is string &&
+                       request.resource.data.studentName.size() > 0 &&
+                       request.resource.data.studentWhatsapp is string &&
+                       request.resource.data.studentWhatsapp.size() > 0 &&
+                       request.resource.data.status in ['pending', 'confirmed'];
+      allow read, update, delete: if isAdmin();
+    }
+    
+    // 8. Lead Magnets Collection (Public Create with validation, Admin Read & Manage)
+    match /leadMagnets/{leadId} {
+      allow create: if request.resource.data.name is string &&
+                       request.resource.data.name.size() > 0 &&
+                       request.resource.data.whatsapp is string &&
+                       request.resource.data.whatsapp.size() > 0;
+      allow read, update, delete: if isAdmin();
+    }
+    
+    // 9. User profiles (Owner access only)
+    match /users/{userId} {
+      allow read, write: if isAuthenticated() && request.auth.uid == userId;
+    }
+  }
+}

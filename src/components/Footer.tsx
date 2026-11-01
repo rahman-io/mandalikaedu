@@ -164,7 +164,7 @@ export const Footer: React.FC<FooterProps> = ({ onNavClick, onOpenBooking, onOpe
           <div>
             © {new Date().getFullYear()} MandalikaEdu. Program resmi di bawah naungan <strong>Lembaga Research Empowerment and Learning Centre Institute</strong>.
           </div>
-          <div className="flex items-center gap-4">
+          <div className="flex flex-wrap items-center gap-4">
             <button onClick={() => onNavClick('tentang')} className="hover:text-slate-400">
               Kebijakan Privasi
             </button>

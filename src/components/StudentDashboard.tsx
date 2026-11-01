@@ -100,12 +100,12 @@ export const StudentDashboard: React.FC<StudentDashboardProps> = ({ onOpenBookin
         <div className="mb-12">
           <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
             <div>
-              <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-indigo-50 border border-indigo-100 text-indigo-700 text-xs font-bold tracking-wide uppercase mb-3">
-                <Sparkles className="w-3.5 h-3.5 text-indigo-600" />
+              <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-blue-50 border border-blue-100 text-blue-700 text-xs font-bold tracking-wide uppercase mb-3">
+                <Sparkles className="w-3.5 h-3.5 text-blue-600" />
                 <span>Portal Mandiri & Tracking Persiapan</span>
               </div>
               <h1 className="text-3xl sm:text-4xl lg:text-5xl font-black text-slate-900 tracking-tight">
-                Roadmap & <span className="text-indigo-600">Dashboard Persiapan</span> Siswa
+                Roadmap & <span className="text-blue-600">Dashboard Persiapan</span> Siswa
               </h1>
               <p className="text-sm text-slate-600 mt-2 max-w-2xl leading-relaxed">
                 Pantau setiap tahapan persiapan beasiswa dan aplikasi kuliah luar negeri Anda agar tidak ada berkas penting yang terlewat.
@@ -130,7 +130,7 @@ export const StudentDashboard: React.FC<StudentDashboardProps> = ({ onOpenBookin
             
             <div className="md:col-span-8 space-y-3">
               <div className="flex items-center justify-between text-xs font-bold text-slate-600">
-                <span className="text-indigo-600">Kelengkapan Berkas & Kesiapan Aplikasi</span>
+                <span className="text-blue-600">Kelengkapan Berkas & Kesiapan Aplikasi</span>
                 <span className="tabular-nums font-black text-slate-900 bg-amber-100 text-amber-900 px-3 py-0.5 rounded-full text-xs">
                   {completedCount} dari {checklist.length} Tugas Selesai ({progressPercent}%)
                 </span>
@@ -152,17 +152,17 @@ export const StudentDashboard: React.FC<StudentDashboardProps> = ({ onOpenBookin
               </p>
             </div>
 
-            <div className="md:col-span-4 bg-indigo-50/70 rounded-2xl p-5 border border-indigo-100 text-xs space-y-2">
-              <div className="font-bold text-indigo-950 flex items-center gap-1.5">
-                <Sparkles className="w-4 h-4 text-indigo-600" />
+            <div className="md:col-span-4 bg-blue-50/70 rounded-2xl p-5 border border-blue-100 text-xs space-y-2">
+              <div className="font-bold text-blue-950 flex items-center gap-1.5">
+                <Sparkles className="w-4 h-4 text-blue-600" />
                 <span>Status Pendampingan</span>
               </div>
-              <div className="text-indigo-950/80 font-medium">
+              <div className="text-blue-950/80 font-medium">
                 Belum terhubung ke mentor bimbingan resmi?
               </div>
               <button
                 onClick={onOpenBooking}
-                className="text-indigo-700 font-bold hover:text-indigo-900 hover:underline flex items-center gap-1 pt-1"
+                className="text-blue-700 font-bold hover:text-blue-900 hover:underline flex items-center gap-1 pt-1"
               >
                 Klaim Konsultasi Discovery Gratis (20 Mnt)
                 <ArrowRight className="w-3.5 h-3.5" />
@@ -187,7 +187,7 @@ export const StudentDashboard: React.FC<StudentDashboardProps> = ({ onOpenBookin
                     <h3 className="text-sm font-bold text-slate-900">
                       {stageName}
                     </h3>
-                    <span className="text-xs text-indigo-600 tabular-nums font-bold bg-indigo-50 border border-indigo-100 px-2.5 py-0.5 rounded-full">
+                    <span className="text-xs text-blue-600 tabular-nums font-bold bg-blue-50 border border-blue-100 px-2.5 py-0.5 rounded-full">
                       {stageCompleted} / {stageItems.length} Selesai
                     </span>
                   </div>
@@ -200,7 +200,7 @@ export const StudentDashboard: React.FC<StudentDashboardProps> = ({ onOpenBookin
                         className={`p-4 rounded-2xl border text-left transition-all cursor-pointer flex items-start gap-3.5 ${
                           item.isCompleted
                             ? 'bg-slate-50/70 border-slate-200/70 text-slate-500'
-                            : 'bg-white border-slate-200/90 hover:border-indigo-300 hover:bg-indigo-50/20 text-slate-900'
+                            : 'bg-white border-slate-200/90 hover:border-blue-300 hover:bg-blue-50/20 text-slate-900'
                         }`}
                       >
                         <button
@@ -237,7 +237,7 @@ export const StudentDashboard: React.FC<StudentDashboardProps> = ({ onOpenBookin
             {/* Upload Mockup Box */}
             <div className="bg-white rounded-3xl border border-slate-200/90 p-6 shadow-xs">
               <h3 className="text-sm font-bold text-slate-900 mb-1 flex items-center gap-1.5">
-                <Upload className="w-4 h-4 text-indigo-600" />
+                <Upload className="w-4 h-4 text-blue-600" />
                 <span>Simpan & Verifikasi Berkas Anda</span>
               </h3>
               <p className="text-xs text-slate-500 mb-4 leading-relaxed font-medium">
@@ -251,7 +251,7 @@ export const StudentDashboard: React.FC<StudentDashboardProps> = ({ onOpenBookin
                   value={simulatedUploadName}
                   onChange={(e) => setSimulatedUploadName(e.target.value)}
                   placeholder="Nama berkas (mis: Esai_Chevening_V1)"
-                  className="w-full px-3 py-2 text-xs bg-slate-50 border border-slate-200 rounded-xl text-slate-900 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 font-medium"
+                  className="w-full px-3 py-2 text-xs bg-slate-50 border border-slate-200 rounded-xl text-slate-900 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-500 font-medium"
                 />
                 <button
                   type="submit"
@@ -270,7 +270,7 @@ export const StudentDashboard: React.FC<StudentDashboardProps> = ({ onOpenBookin
                 {uploadedFiles.map((file, idx) => (
                   <div key={idx} className="p-2.5 bg-slate-50 rounded-xl flex items-center justify-between gap-2 text-xs border border-slate-100">
                     <div className="flex items-center gap-2 overflow-hidden">
-                      <FileText className="w-4 h-4 text-indigo-600 shrink-0" />
+                      <FileText className="w-4 h-4 text-blue-600 shrink-0" />
                       <div className="truncate">
                         <div className="font-semibold text-slate-800 truncate">{file.name}</div>
                         <div className="text-[10px] text-slate-400">{file.size} · {file.date}</div>
@@ -289,7 +289,7 @@ export const StudentDashboard: React.FC<StudentDashboardProps> = ({ onOpenBookin
             </div>
 
             {/* Template Downloads */}
-            <div className="bg-gradient-to-br from-indigo-900 via-indigo-950 to-slate-950 text-white rounded-3xl p-6 shadow-md space-y-3 border border-indigo-900/50">
+            <div className="bg-gradient-to-br from-blue-900 via-blue-950 to-slate-950 text-white rounded-3xl p-6 shadow-md space-y-3 border border-blue-900/50">
               <span className="text-[10px] font-bold uppercase tracking-widest text-amber-300 block">
                 Bonus Siswa MandalikaEdu
               </span>

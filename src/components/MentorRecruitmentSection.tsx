@@ -76,12 +76,12 @@ export const MentorRecruitmentSection: React.FC<MentorRecruitmentSectionProps> =
         
         {/* Header */}
         <div className="text-center max-w-3xl mx-auto">
-          <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-indigo-50 border border-indigo-100 text-indigo-700 text-xs font-bold tracking-wide uppercase mb-3">
-            <Sparkles className="w-3.5 h-3.5 text-indigo-600" />
+          <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-blue-50 border border-blue-100 text-blue-700 text-xs font-bold tracking-wide uppercase mb-3">
+            <Sparkles className="w-3.5 h-3.5 text-blue-600" />
             <span>Kemitraan & Rekrutmen Mentor MandalikaEdu</span>
           </div>
           <h1 className="text-3xl sm:text-4xl lg:text-5xl font-black text-slate-900 tracking-tight mb-4">
-            Bergabung Jadi Mentor: Bimbing <span className="text-indigo-600">Talenta Daerah</span> ke Kampus Dunia
+            Bergabung Jadi Mentor: Bimbing <span className="text-blue-600">Talenta Daerah</span> ke Kampus Dunia
           </h1>
           <p className="text-base text-slate-600 leading-relaxed max-w-2xl mx-auto">
             Apakah Anda mahasiswa aktif atau alumni Indonesia di luar negeri? Mari perluas akses pendidikan tinggi dunia bagi adik-adik di daerah dengan skema kerja sama fleksibel dan transparan.
@@ -90,7 +90,7 @@ export const MentorRecruitmentSection: React.FC<MentorRecruitmentSectionProps> =
 
         {/* 3 Manfaat & Skema Kemitraan */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-          <div className="p-7 bg-white rounded-3xl border border-slate-200/90 shadow-xs hover:border-indigo-300 transition-all space-y-2">
+          <div className="p-7 bg-white rounded-3xl border border-slate-200/90 shadow-xs hover:border-blue-300 transition-all space-y-2">
             <div className="w-10 h-10 rounded-2xl bg-amber-400 text-slate-950 flex items-center justify-center font-black text-sm mb-3 shadow-xs">
               1
             </div>
@@ -102,7 +102,7 @@ export const MentorRecruitmentSection: React.FC<MentorRecruitmentSectionProps> =
             </p>
           </div>
 
-          <div className="p-7 bg-white rounded-3xl border border-slate-200/90 shadow-xs hover:border-indigo-300 transition-all space-y-2">
+          <div className="p-7 bg-white rounded-3xl border border-slate-200/90 shadow-xs hover:border-blue-300 transition-all space-y-2">
             <div className="w-10 h-10 rounded-2xl bg-amber-400 text-slate-950 flex items-center justify-center font-black text-sm mb-3 shadow-xs">
               2
             </div>
@@ -114,7 +114,7 @@ export const MentorRecruitmentSection: React.FC<MentorRecruitmentSectionProps> =
             </p>
           </div>
 
-          <div className="p-7 bg-white rounded-3xl border border-slate-200/90 shadow-xs hover:border-indigo-300 transition-all space-y-2">
+          <div className="p-7 bg-white rounded-3xl border border-slate-200/90 shadow-xs hover:border-blue-300 transition-all space-y-2">
             <div className="w-10 h-10 rounded-2xl bg-amber-400 text-slate-950 flex items-center justify-center font-black text-sm mb-3 shadow-xs">
               3
             </div>

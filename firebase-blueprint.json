@@ -1,0 +1,485 @@
+{
+  "entities": {
+    "Scholarship": {
+      "title": "Scholarship",
+      "description": "Informasi kurasi beasiswa fully funded dan partial untuk Warga Negara Indonesia (WNI)",
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Identifier unik beasiswa (kebab-case)"
+        },
+        "name": {
+          "type": "string",
+          "description": "Nama resmi program beasiswa"
+        },
+        "organizer": {
+          "type": "string",
+          "description": "Institusi atau kementerian penyelenggara"
+        },
+        "country": {
+          "type": "string",
+          "description": "Negara tujuan studi"
+        },
+        "flag": {
+          "type": "string",
+          "description": "Emoji bendera negara tujuan"
+        },
+        "regionGroup": {
+          "type": "string",
+          "description": "Grup wilayah geografis (misal: Asia Timur, Eropa, Timur Tengah, dll.)"
+        },
+        "level": {
+          "type": "array",
+          "description": "Jenjang pendidikan yang ditanggung (S1, S2, S3, Non-Gelar)"
+        },
+        "fundingType": {
+          "type": "string",
+          "description": "Tipe pendanaan (Fully Funded atau Partial)"
+        },
+        "coverage": {
+          "type": "array",
+          "description": "Komponen pembiayaan yang dicover"
+        },
+        "requirements": {
+          "type": "object",
+          "description": "Persyaratan akademik, bahasa, usia, dan dokumen"
+        },
+        "applicationPeriod": {
+          "type": "object",
+          "description": "Jadwal pendaftaran, deadline, dan status terkini"
+        },
+        "deadlineDetails": {
+          "type": "string",
+          "description": "Rincian spesifik tanggal atau periode penutupan pendaftaran"
+        },
+        "fieldsOfStudy": {
+          "type": "array",
+          "description": "Bidang studi atau jurusan yang memenuhi syarat"
+        },
+        "quota": {
+          "type": "string",
+          "description": "Informasi kuota penerima atau jalur afirmasi"
+        },
+        "officialUrl": {
+          "type": "string",
+          "description": "Tautan portal resmi penyelenggara beasiswa"
+        },
+        "tipsMandalika": {
+          "type": "string",
+          "description": "Tips strategi lolos dari tim mentor MandalikaEdu"
+        },
+        "educationalNote": {
+          "type": "string",
+          "description": "Catatan edukatif regulasi dan eligibilitas WNI"
+        },
+        "statusNote": {
+          "type": "string",
+          "description": "Catatan status verifikasi dan pembukaan batch"
+        },
+        "seasonPattern": {
+          "type": "string",
+          "description": "Pola musim pembukaan pendaftaran kalender umum"
+        },
+        "updatedAt": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Waktu pembaharuan data dokumen ISO 8601"
+        }
+      },
+      "required": ["id", "name", "country", "fundingType", "officialUrl"]
+    },
+    "Package": {
+      "title": "Package",
+      "description": "Paket layanan bimbingan dan mentoring beasiswa MandalikaEdu",
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Identifier paket layanan"
+        },
+        "name": {
+          "type": "string",
+          "description": "Nama paket bimbingan"
+        },
+        "badge": {
+          "type": "string",
+          "description": "Label badge paket (misal: 100% Gratis, Populer)"
+        },
+        "tagline": {
+          "type": "string",
+          "description": "Slogan ringkas keunggulan paket"
+        },
+        "priceFormatted": {
+          "type": "string",
+          "description": "Format harga dalam Rupiah"
+        },
+        "priceNumber": {
+          "type": "number",
+          "description": "Nilai nominal harga dalam integer IDR"
+        },
+        "isPopular": {
+          "type": "boolean",
+          "description": "Penanda paket paling diminati"
+        },
+        "isFree": {
+          "type": "boolean",
+          "description": "Penanda layanan tanpa biaya"
+        },
+        "category": {
+          "type": "string",
+          "description": "Kategori paket: core, group, atau addon"
+        },
+        "duration": {
+          "type": "string",
+          "description": "Durasi atau jumlah sesi mentoring"
+        },
+        "features": {
+          "type": "array",
+          "description": "Daftar fitur dan materi mentoring"
+        },
+        "deliverables": {
+          "type": "array",
+          "description": "Luaran atau dokumen hasil bimbingan"
+        },
+        "targetAudience": {
+          "type": "string",
+          "description": "Profil peserta yang disarankan"
+        },
+        "whatsappMessage": {
+          "type": "string",
+          "description": "Pesan otomatis template pendaftaran WhatsApp"
+        }
+      },
+      "required": ["id", "name", "priceNumber", "category"]
+    },
+    "Mentor": {
+      "title": "Mentor",
+      "description": "Profil mentor akademik MandalikaEdu peraih beasiswa bergengsi",
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Identifier mentor"
+        },
+        "name": {
+          "type": "string",
+          "description": "Nama lengkap mentor beserta gelar akademik"
+        },
+        "role": {
+          "type": "string",
+          "description": "Peran atau posisi mentoring"
+        },
+        "origin": {
+          "type": "string",
+          "description": "Daerah asal mentor di Indonesia"
+        },
+        "education": {
+          "type": "string",
+          "description": "Riwayat pendidikan tinggi dan kampus universitas"
+        },
+        "scholarship": {
+          "type": "string",
+          "description": "Beasiswa yang pernah diraih oleh mentor"
+        },
+        "bio": {
+          "type": "string",
+          "description": "Biografi dan keahlian bimbingan"
+        }
+      },
+      "required": ["id", "name", "education", "scholarship"]
+    },
+    "Testimonial": {
+      "title": "Testimonial",
+      "description": "Kisah sukses awardee bimbingan MandalikaEdu asal berbagai daerah",
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Identifier testimoni"
+        },
+        "name": {
+          "type": "string",
+          "description": "Nama awardee"
+        },
+        "origin": {
+          "type": "string",
+          "description": "Kota atau kabupaten asal"
+        },
+        "scholarship": {
+          "type": "string",
+          "description": "Nama beasiswa yang diraih"
+        },
+        "university": {
+          "type": "string",
+          "description": "Nama universitas tujuan di luar negeri"
+        },
+        "country": {
+          "type": "string",
+          "description": "Negara tujuan studi"
+        },
+        "flag": {
+          "type": "string",
+          "description": "Emoji bendera negara"
+        },
+        "program": {
+          "type": "string",
+          "description": "Program studi / jurusan yang ditempuh"
+        },
+        "year": {
+          "type": "string",
+          "description": "Tahun kelulusan atau angkatan penerima"
+        },
+        "initialProblem": {
+          "type": "string",
+          "description": "Kendala awal sebelum bimbingan"
+        },
+        "solutionByMandalika": {
+          "type": "string",
+          "description": "Solusi dan pendampingan yang diberikan MandalikaEdu"
+        },
+        "quote": {
+          "type": "string",
+          "description": "Kutipan singkat testimoni"
+        },
+        "fullStory": {
+          "type": "string",
+          "description": "Kisah lengkap perjuangan meraih beasiswa"
+        }
+      },
+      "required": ["id", "name", "scholarship", "university", "quote"]
+    },
+    "Country": {
+      "title": "Country",
+      "description": "Direktori panduan negara tujuan studi, biaya hidup, dan universitas",
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Slug negara"
+        },
+        "name": {
+          "type": "string",
+          "description": "Nama negara"
+        },
+        "flag": {
+          "type": "string",
+          "description": "Emoji bendera"
+        },
+        "tagline": {
+          "type": "string",
+          "description": "Slogan keunggulan studi negara"
+        },
+        "capital": {
+          "type": "string",
+          "description": "Ibu kota negara"
+        },
+        "currency": {
+          "type": "string",
+          "description": "Mata uang resmi"
+        },
+        "avgLivingCostMonthly": {
+          "type": "object",
+          "description": "Estimasi rata-rata biaya hidup bulanan mahasiswa"
+        },
+        "tuitionFeeInfo": {
+          "type": "string",
+          "description": "Informasi biaya kuliah dan subsidi pemerintah"
+        },
+        "languageRequirements": {
+          "type": "object",
+          "description": "Syarat kemampuan bahasa Inggris dan lokal"
+        },
+        "popularUniversities": {
+          "type": "array",
+          "description": "Daftar universitas terpopuler"
+        },
+        "partTimeWorkRules": {
+          "type": "object",
+          "description": "Aturan kerja paruh waktu bagi mahasiswa internasional"
+        },
+        "availableScholarships": {
+          "type": "array",
+          "description": "Daftar beasiswa yang tersedia untuk negara ini"
+        }
+      },
+      "required": ["id", "name", "flag"]
+    },
+    "BlogPost": {
+      "title": "BlogPost",
+      "description": "Artikel edukasi, panduan esai, dan informasi beasiswa",
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Identifier artikel"
+        },
+        "slug": {
+          "type": "string",
+          "description": "URL slug artikel"
+        },
+        "title": {
+          "type": "string",
+          "description": "Judul artikel"
+        },
+        "category": {
+          "type": "string",
+          "description": "Kategori tulisan"
+        },
+        "author": {
+          "type": "object",
+          "description": "Profil penulis artikel"
+        },
+        "publishedDate": {
+          "type": "string",
+          "description": "Tanggal publikasi artikel"
+        },
+        "readTime": {
+          "type": "string",
+          "description": "Estimasi waktu membaca"
+        },
+        "excerpt": {
+          "type": "string",
+          "description": "Ringkasan pengantar artikel"
+        },
+        "content": {
+          "type": "array",
+          "description": "Paragraf isi artikel"
+        }
+      },
+      "required": ["id", "slug", "title", "content"]
+    },
+    "Booking": {
+      "title": "Booking",
+      "description": "Pendaftaran sesi konsultasi atau discovery session calon awardee",
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "ID pendaftaran konsultasi"
+        },
+        "studentName": {
+          "type": "string",
+          "description": "Nama lengkap pendaftar"
+        },
+        "studentWhatsapp": {
+          "type": "string",
+          "description": "Nomor WhatsApp aktif"
+        },
+        "studentEmail": {
+          "type": "string",
+          "description": "Alamat email pendaftar"
+        },
+        "originCity": {
+          "type": "string",
+          "description": "Kota atau daerah asal"
+        },
+        "targetScholarship": {
+          "type": "string",
+          "description": "Beasiswa yang ditargetkan"
+        },
+        "targetCountry": {
+          "type": "string",
+          "description": "Negara tujuan studi"
+        },
+        "packageId": {
+          "type": "string",
+          "description": "ID paket yang dipilih (misal: discovery-free)"
+        },
+        "preferredDate": {
+          "type": "string",
+          "description": "Jadwal preferensi konsultasi"
+        },
+        "notes": {
+          "type": "string",
+          "description": "Catatan tambahan atau pertanyaan awal"
+        },
+        "status": {
+          "type": "string",
+          "description": "Status pendaftaran (pending, confirmed, completed)"
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Waktu pengajuan pendaftaran"
+        }
+      },
+      "required": ["id", "studentName", "studentWhatsapp", "createdAt"]
+    },
+    "LeadMagnet": {
+      "title": "LeadMagnet",
+      "description": "Data unduhan panduan gratis / lead formulir edukasi",
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "ID pendaftaran lead"
+        },
+        "name": {
+          "type": "string",
+          "description": "Nama pendaftar"
+        },
+        "email": {
+          "type": "string",
+          "description": "Alamat email"
+        },
+        "whatsapp": {
+          "type": "string",
+          "description": "Nomor WhatsApp"
+        },
+        "originCity": {
+          "type": "string",
+          "description": "Kota asal pendaftar"
+        },
+        "targetDegree": {
+          "type": "string",
+          "description": "Target jenjang kuliah (S1, S2, S3)"
+        },
+        "source": {
+          "type": "string",
+          "description": "Sumber pendaftaran formulir"
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Waktu pengisian formulir"
+        }
+      },
+      "required": ["id", "name", "whatsapp", "createdAt"]
+    }
+  },
+  "firestore": {
+    "/scholarships/{scholarshipId}": {
+      "schema": "Scholarship",
+      "description": "Koleksi seluruh 60 database beasiswa Fully Funded untuk WNI dengan rincian jadwal dan syarat"
+    },
+    "/packages/{packageId}": {
+      "schema": "Package",
+      "description": "Koleksi paket layanan mentoring bimbingan beasiswa MandalikaEdu"
+    },
+    "/mentors/{mentorId}": {
+      "schema": "Mentor",
+      "description": "Koleksi profil tim mentor dan alumni universitas top dunia"
+    },
+    "/testimonials/{testimonialId}": {
+      "schema": "Testimonial",
+      "description": "Koleksi kisah sukses dan testimoni awardee asal daerah"
+    },
+    "/countries/{countryId}": {
+      "schema": "Country",
+      "description": "Koleksi direktori panduan negara tujuan studi dan regulasi visa mahasiswa"
+    },
+    "/blogPosts/{postId}": {
+      "schema": "BlogPost",
+      "description": "Koleksi artikel panduan esai, tips beasiswa, dan wawasan studi luar negeri"
+    },
+    "/bookings/{bookingId}": {
+      "schema": "Booking",
+      "description": "Koleksi pendaftaran sesi Discovery Gratis dan konsultasi berbayar siswa"
+    },
+    "/leadMagnets/{leadId}": {
+      "schema": "LeadMagnet",
+      "description": "Koleksi data pendaftar e-book panduan beasiswa dan ceklis persiapan"
+    }
+  }
+}

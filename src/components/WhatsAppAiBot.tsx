@@ -503,7 +503,7 @@ export const WhatsAppAiBot: React.FC<WhatsAppAiBotProps> = ({
         {/* Tooltip greeting preview */}
         {!isOpen && showTooltip && (
           <div className="mb-3 max-w-xs bg-slate-900/90 backdrop-blur-md text-white p-3.5 rounded-2xl rounded-br-xs shadow-xl border border-slate-700/60 text-xs flex items-start gap-2.5 animate-bounce-subtle">
-            <div className="w-2.5 h-2.5 rounded-full bg-violet-400 shrink-0 mt-1 animate-pulse" />
+            <div className="w-2.5 h-2.5 rounded-full bg-sky-400 shrink-0 mt-1 animate-pulse" />
             <div className="space-y-1">
               <div className="font-bold text-white flex items-center gap-1.5">
                 <span>Safiya • AI Agent MandalikaEdu</span>
@@ -524,12 +524,12 @@ export const WhatsAppAiBot: React.FC<WhatsAppAiBotProps> = ({
           </div>
         )}
 
-        {/* Circular Violet Trigger Button with '1' Notification Badge */}
+        {/* Circular Blue Gradient Trigger Button with '1' Notification Badge */}
         <button
           type="button"
           onClick={() => setIsOpen(!isOpen)}
           aria-label="Buka Chat Safiya AI Agent MandalikaEdu"
-          className="relative group w-14 h-14 sm:w-16 sm:h-16 rounded-full bg-[#8B5CF6] hover:bg-[#7C3AED] active:scale-95 text-white flex items-center justify-center shadow-xl shadow-purple-600/30 transition-all duration-200 cursor-pointer"
+          className="relative group w-14 h-14 sm:w-16 sm:h-16 rounded-full bg-gradient-to-r from-sky-500 to-blue-600 hover:from-sky-600 hover:to-blue-700 active:scale-95 text-white flex items-center justify-center shadow-xl shadow-blue-500/30 transition-all duration-200 cursor-pointer"
         >
           {isOpen ? (
             <X className="w-7 h-7 transition-transform group-hover:rotate-90 duration-200" />
@@ -620,7 +620,7 @@ export const WhatsAppAiBot: React.FC<WhatsAppAiBotProps> = ({
                     className={`max-w-[86%] p-3.5 sm:p-4 text-xs sm:text-sm leading-relaxed shadow-2xs ${
                       isAi
                         ? 'bg-[#F3F4F6] text-slate-800 rounded-2xl rounded-bl-xs'
-                        : 'bg-[#8B5CF6] text-white rounded-2xl rounded-br-xs'
+                        : 'bg-gradient-to-r from-sky-500 to-blue-600 text-white rounded-2xl rounded-br-xs'
                     }`}
                   >
                     {/* Message Text */}
@@ -635,7 +635,7 @@ export const WhatsAppAiBot: React.FC<WhatsAppAiBotProps> = ({
                     </div>
 
                     {/* Timestamp inside message bubble */}
-                    <div className={`mt-2 text-[10px] ${isAi ? 'text-slate-400 text-right' : 'text-purple-200/90 text-right'}`}>
+                    <div className={`mt-2 text-[10px] ${isAi ? 'text-slate-400 text-right' : 'text-blue-100/90 text-right'}`}>
                       {m.timestamp}
                     </div>
                   </div>
@@ -648,10 +648,10 @@ export const WhatsAppAiBot: React.FC<WhatsAppAiBotProps> = ({
                           key={bIdx}
                           type="button"
                           onClick={() => handleActionButtonClick(btn)}
-                          className="w-full text-left px-3.5 py-2.5 bg-white hover:bg-violet-50 active:bg-violet-100 border border-slate-200/80 hover:border-violet-300 rounded-xl text-xs font-semibold text-slate-800 hover:text-violet-950 flex items-center justify-between transition-colors shadow-2xs group cursor-pointer"
+                          className="w-full text-left px-3.5 py-2.5 bg-white hover:bg-sky-50 active:bg-sky-100 border border-slate-200/80 hover:border-sky-300 rounded-xl text-xs font-semibold text-slate-800 hover:text-blue-950 flex items-center justify-between transition-colors shadow-2xs group cursor-pointer"
                         >
                           <span>{btn.label}</span>
-                          <ChevronRight className="w-3.5 h-3.5 text-slate-400 group-hover:text-violet-600 transition-transform group-hover:translate-x-0.5" />
+                          <ChevronRight className="w-3.5 h-3.5 text-slate-400 group-hover:text-blue-600 transition-transform group-hover:translate-x-0.5" />
                         </button>
                       ))}
                     </div>
@@ -670,7 +670,7 @@ export const WhatsAppAiBot: React.FC<WhatsAppAiBotProps> = ({
             {/* Typing Indicator */}
             {isTyping && (
               <div className="flex items-center gap-2 bg-[#F3F4F6] text-slate-600 rounded-2xl rounded-bl-xs px-4 py-3 max-w-[180px] shadow-2xs text-xs">
-                <Bot className="w-3.5 h-3.5 text-violet-600 animate-spin" />
+                <Bot className="w-3.5 h-3.5 text-blue-600 animate-spin" />
                 <span className="italic text-xs">AI agent mengetik...</span>
               </div>
             )}
@@ -685,7 +685,7 @@ export const WhatsAppAiBot: React.FC<WhatsAppAiBotProps> = ({
                 key={idx}
                 type="button"
                 onClick={() => handleSendMessage(p)}
-                className="shrink-0 text-[11px] font-medium bg-white hover:bg-violet-50 text-slate-600 hover:text-violet-700 border border-slate-200/80 hover:border-violet-300 rounded-full px-3 py-1 transition-all cursor-pointer shadow-2xs"
+                className="shrink-0 text-[11px] font-medium bg-white hover:bg-sky-50 text-slate-600 hover:text-blue-700 border border-slate-200/80 hover:border-sky-300 rounded-full px-3 py-1 transition-all cursor-pointer shadow-2xs"
               >
                 {p}
               </button>
@@ -723,7 +723,7 @@ export const WhatsAppAiBot: React.FC<WhatsAppAiBotProps> = ({
                   aria-label="Kirim Pesan"
                   className={`w-8 h-8 rounded-full flex items-center justify-center transition-all cursor-pointer ${
                     inputText.trim() && !isTyping
-                      ? 'bg-[#8B5CF6] hover:bg-[#7C3AED] text-white shadow-xs'
+                      ? 'bg-gradient-to-r from-sky-500 to-blue-600 hover:from-sky-600 hover:to-blue-700 text-white shadow-xs'
                       : 'bg-slate-100 text-slate-300 cursor-not-allowed'
                   }`}
                 >

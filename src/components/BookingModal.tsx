@@ -372,11 +372,11 @@ export const BookingModal: React.FC<BookingModalProps> = ({
                 </div>
 
                 {/* Legal Entity Badge */}
-                <div className="p-2.5 bg-indigo-50/80 border border-indigo-100 rounded-xl text-[11px] text-indigo-900 flex items-start gap-2">
-                  <ShieldCheck className="w-4 h-4 text-indigo-600 shrink-0 mt-0.5" />
+                <div className="p-2.5 bg-blue-50/80 border border-blue-100 rounded-xl text-[11px] text-blue-900 flex items-start gap-2">
+                  <ShieldCheck className="w-4 h-4 text-blue-600 shrink-0 mt-0.5" />
                   <div>
                     <strong>Payung Hukum Resmi:</strong>
-                    <div className="font-semibold text-indigo-950 mt-0.5">
+                    <div className="font-semibold text-blue-950 mt-0.5">
                       {CONTACT_CONFIG.legalEntity}
                     </div>
                   </div>
@@ -389,7 +389,7 @@ export const BookingModal: React.FC<BookingModalProps> = ({
                     onClick={() => setActivePaymentTab('qris')}
                     className={`flex-1 py-2 rounded-lg transition-all flex items-center justify-center gap-1.5 cursor-pointer ${
                       activePaymentTab === 'qris'
-                        ? 'bg-white text-indigo-700 shadow-2xs font-extrabold'
+                        ? 'bg-white text-blue-700 shadow-2xs font-extrabold'
                         : 'hover:text-slate-900'
                     }`}
                   >
@@ -402,7 +402,7 @@ export const BookingModal: React.FC<BookingModalProps> = ({
                     onClick={() => setActivePaymentTab('bank')}
                     className={`flex-1 py-2 rounded-lg transition-all flex items-center justify-center gap-1.5 cursor-pointer ${
                       activePaymentTab === 'bank'
-                        ? 'bg-white text-indigo-700 shadow-2xs font-extrabold'
+                        ? 'bg-white text-blue-700 shadow-2xs font-extrabold'
                         : 'hover:text-slate-900'
                     }`}
                   >
@@ -453,7 +453,7 @@ export const BookingModal: React.FC<BookingModalProps> = ({
                   <div className="p-4 bg-slate-50 border border-slate-200 rounded-2xl space-y-3 text-xs">
                     <div className="font-bold text-slate-800 border-b border-slate-200 pb-2 flex items-center justify-between">
                       <span>{CONTACT_CONFIG.bankName}</span>
-                      <span className="text-[10px] px-2 py-0.5 bg-indigo-100 text-indigo-800 font-bold rounded">
+                      <span className="text-[10px] px-2 py-0.5 bg-blue-100 text-blue-800 font-bold rounded">
                         Transfer Bank
                       </span>
                     </div>

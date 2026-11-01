@@ -131,12 +131,12 @@ export const CostCalculator: React.FC<CostCalculatorProps> = ({ onOpenBooking })
         
         {/* Section Header */}
         <div className="text-center max-w-3xl mx-auto mb-12">
-          <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-indigo-50 border border-indigo-100 text-indigo-700 text-xs font-bold tracking-wide uppercase mb-3">
-            <Calculator className="w-3.5 h-3.5 text-indigo-600" />
+          <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-blue-50 border border-blue-100 text-blue-700 text-xs font-bold tracking-wide uppercase mb-3">
+            <Calculator className="w-3.5 h-3.5 text-blue-600" />
             <span>Transparansi Perkiraan Biaya Riil</span>
           </div>
           <h1 className="text-3xl sm:text-4xl lg:text-5xl font-black text-slate-900 tracking-tight mb-4">
-            Kalkulator <span className="text-indigo-600">Biaya Kuliah</span> & Hidup Luar Negeri
+            Kalkulator <span className="text-blue-600">Biaya Kuliah</span> & Hidup Luar Negeri
           </h1>
           <p className="text-base text-slate-600 leading-relaxed max-w-2xl mx-auto">
             Hitung estimasi pengeluaran per bulan dan per tahun secara akurat. Simulasikan penghematan dari beasiswa penuh, beasiswa parsial, hingga potensi pemasukan kerja paruh waktu resmi mahasiswa.
@@ -162,7 +162,7 @@ export const CostCalculator: React.FC<CostCalculatorProps> = ({ onOpenBooking })
                     className={`p-3 rounded-2xl border text-left transition-all cursor-pointer ${
                       selectedCountryId === c.id
                         ? 'bg-amber-400 text-slate-950 border-amber-400 font-bold shadow-xs scale-[1.02] ring-2 ring-amber-400/20'
-                        : 'bg-white text-slate-800 border-slate-200/90 hover:border-indigo-300 hover:text-indigo-600 hover:shadow-xs'
+                        : 'bg-white text-slate-800 border-slate-200/90 hover:border-blue-300 hover:text-blue-600 hover:shadow-xs'
                     }`}
                   >
                     <div className="text-xl mb-1">{c.flag}</div>
@@ -186,7 +186,7 @@ export const CostCalculator: React.FC<CostCalculatorProps> = ({ onOpenBooking })
                     onClick={() => setStudyLevel('S1')}
                     className={`py-2.5 px-3 text-xs font-bold rounded-xl border text-center transition-all cursor-pointer ${
                       studyLevel === 'S1'
-                        ? 'bg-indigo-600 text-white border-indigo-600 shadow-xs'
+                        ? 'bg-blue-600 text-white border-blue-600 shadow-xs'
                         : 'bg-slate-50 text-slate-700 border-slate-200 hover:bg-slate-100'
                     }`}
                   >
@@ -196,7 +196,7 @@ export const CostCalculator: React.FC<CostCalculatorProps> = ({ onOpenBooking })
                     onClick={() => setStudyLevel('S2')}
                     className={`py-2.5 px-3 text-xs font-bold rounded-xl border text-center transition-all cursor-pointer ${
                       studyLevel === 'S2'
-                        ? 'bg-indigo-600 text-white border-indigo-600 shadow-xs'
+                        ? 'bg-blue-600 text-white border-blue-600 shadow-xs'
                         : 'bg-slate-50 text-slate-700 border-slate-200 hover:bg-slate-100'
                     }`}
                   >
@@ -220,7 +220,7 @@ export const CostCalculator: React.FC<CostCalculatorProps> = ({ onOpenBooking })
                       onClick={() => setLifestyle(item.id as any)}
                       className={`py-2.5 px-1 text-[11px] font-bold rounded-xl border text-center truncate transition-all cursor-pointer ${
                         lifestyle === item.id
-                          ? 'bg-indigo-600 text-white border-indigo-600 shadow-xs'
+                          ? 'bg-blue-600 text-white border-blue-600 shadow-xs'
                           : 'bg-slate-50 text-slate-700 border-slate-200 hover:bg-slate-100'
                       }`}
                     >
@@ -266,7 +266,7 @@ export const CostCalculator: React.FC<CostCalculatorProps> = ({ onOpenBooking })
                 <label className="text-xs font-bold uppercase tracking-wider text-slate-500">
                   5. Rencana Kerja Paruh Waktu Resmi
                 </label>
-                <span className="text-xs font-black text-indigo-700 bg-indigo-50 border border-indigo-100 px-3 py-1 rounded-full tabular-nums">
+                <span className="text-xs font-black text-blue-700 bg-blue-50 border border-blue-100 px-3 py-1 rounded-full tabular-nums">
                   {partTimeHours} Jam / Minggu
                 </span>
               </div>
@@ -277,7 +277,7 @@ export const CostCalculator: React.FC<CostCalculatorProps> = ({ onOpenBooking })
                 step="2"
                 value={partTimeHours}
                 onChange={(e) => setPartTimeHours(Number(e.target.value))}
-                className="w-full accent-indigo-600 cursor-pointer"
+                className="w-full accent-blue-600 cursor-pointer"
               />
               <div className="flex justify-between text-[11px] text-slate-400 mt-1 font-medium">
                 <span>0 Jam (Fokus Belajar)</span>
@@ -285,10 +285,10 @@ export const CostCalculator: React.FC<CostCalculatorProps> = ({ onOpenBooking })
                 <span>28 Jam (Batas Legal Jepang)</span>
               </div>
 
-              <div className="mt-3 p-3.5 bg-indigo-50/60 border border-indigo-100 rounded-2xl text-xs text-slate-700 flex items-start gap-2.5">
-                <Clock className="w-4 h-4 text-indigo-600 shrink-0 mt-0.5" />
+              <div className="mt-3 p-3.5 bg-blue-50/60 border border-blue-100 rounded-2xl text-xs text-slate-700 flex items-start gap-2.5">
+                <Clock className="w-4 h-4 text-blue-600 shrink-0 mt-0.5" />
                 <div>
-                  <strong className="text-indigo-950">Aturan Kerja Resmi {country.name}:</strong> {country.partTimeWorkRules.allowedHours}. Potensi upah rata-rata: {country.partTimeWorkRules.hourlyWage}.
+                  <strong className="text-blue-950">Aturan Kerja Resmi {country.name}:</strong> {country.partTimeWorkRules.allowedHours}. Potensi upah rata-rata: {country.partTimeWorkRules.hourlyWage}.
                 </div>
               </div>
             </div>
@@ -298,8 +298,8 @@ export const CostCalculator: React.FC<CostCalculatorProps> = ({ onOpenBooking })
           {/* RIGHT: Calculation Summary (5 cols) */}
           <div className="lg:col-span-5 space-y-6">
             
-            <div className="bg-gradient-to-br from-indigo-900 via-indigo-950 to-slate-950 text-white rounded-3xl p-6 sm:p-8 shadow-xl border border-indigo-900/50">
-              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-indigo-800/60 border border-indigo-700/60 text-amber-300 text-xs font-bold uppercase tracking-wider mb-2">
+            <div className="bg-gradient-to-br from-blue-900 via-blue-950 to-slate-950 text-white rounded-3xl p-6 sm:p-8 shadow-xl border border-blue-900/50">
+              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-blue-800/60 border border-blue-700/60 text-amber-300 text-xs font-bold uppercase tracking-wider mb-2">
                 <Sparkles className="w-3.5 h-3.5 text-amber-400" />
                 <span>Ringkasan Simulasi Finansial</span>
               </div>
@@ -331,7 +331,7 @@ export const CostCalculator: React.FC<CostCalculatorProps> = ({ onOpenBooking })
                 
                 <div className="flex items-center justify-between text-slate-200">
                   <div className="flex items-center gap-2">
-                    <Home className="w-3.5 h-3.5 text-indigo-400" />
+                    <Home className="w-3.5 h-3.5 text-blue-400" />
                     <span>Sewa Tempat Tinggal / Asrama</span>
                   </div>
                   <span className="tabular-nums font-semibold">
@@ -341,7 +341,7 @@ export const CostCalculator: React.FC<CostCalculatorProps> = ({ onOpenBooking })
 
                 <div className="flex items-center justify-between text-slate-200">
                   <div className="flex items-center gap-2">
-                    <Utensils className="w-3.5 h-3.5 text-indigo-400" />
+                    <Utensils className="w-3.5 h-3.5 text-blue-400" />
                     <span>Makan & Kebutuhan Harian</span>
                   </div>
                   <span className="tabular-nums font-semibold">
@@ -351,7 +351,7 @@ export const CostCalculator: React.FC<CostCalculatorProps> = ({ onOpenBooking })
 
                 <div className="flex items-center justify-between text-slate-200">
                   <div className="flex items-center gap-2">
-                    <HeartPulse className="w-3.5 h-3.5 text-indigo-400" />
+                    <HeartPulse className="w-3.5 h-3.5 text-blue-400" />
                     <span>Asuransi Kesehatan Mahasiswa</span>
                   </div>
                   <span className="tabular-nums font-semibold">
@@ -361,7 +361,7 @@ export const CostCalculator: React.FC<CostCalculatorProps> = ({ onOpenBooking })
 
                 <div className="flex items-center justify-between text-slate-200">
                   <div className="flex items-center gap-2">
-                    <Bus className="w-3.5 h-3.5 text-indigo-400" />
+                    <Bus className="w-3.5 h-3.5 text-blue-400" />
                     <span>Transportasi Lokal</span>
                   </div>
                   <span className="tabular-nums font-semibold">
@@ -413,7 +413,7 @@ export const CostCalculator: React.FC<CostCalculatorProps> = ({ onOpenBooking })
             {/* Quick Fact Callout */}
             <div className="bg-white rounded-3xl border border-slate-200/90 p-6 text-xs text-slate-600 space-y-2 shadow-xs">
               <div className="font-bold text-slate-900 flex items-center gap-1.5">
-                <Sparkles className="w-4 h-4 text-indigo-600" />
+                <Sparkles className="w-4 h-4 text-blue-600" />
                 <span>Tips Penghematan untuk Anak Daerah:</span>
               </div>
               <p className="leading-relaxed">

@@ -29,7 +29,7 @@ export const Header: React.FC<HeaderProps> = ({ activeTab, setActiveTab, onOpenB
   };
 
   return (
-    <header className="sticky top-0 z-40 bg-white/90 backdrop-blur-md border-b border-indigo-100/60 shadow-xs">
+    <header className="sticky top-0 z-40 bg-white/90 backdrop-blur-md border-b border-blue-100/60 shadow-xs">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between gap-6 h-20">
           
@@ -39,7 +39,7 @@ export const Header: React.FC<HeaderProps> = ({ activeTab, setActiveTab, onOpenB
             className="flex items-center gap-2.5 text-left group cursor-pointer focus:outline-none"
           >
             {/* Visual Brand Mark from uploaded Instagram logo (text cropped out) */}
-            <div className="w-10 h-10 sm:w-11 sm:h-11 rounded-2xl bg-white border border-slate-200/80 shadow-2xs group-hover:border-indigo-300 transition-all flex items-center justify-center overflow-hidden shrink-0">
+            <div className="w-10 h-10 sm:w-11 sm:h-11 rounded-2xl bg-white border border-slate-200/80 shadow-2xs group-hover:border-blue-300 transition-all flex items-center justify-center overflow-hidden shrink-0">
               <img 
                 src={brandLogoImg} 
                 alt="MandalikaEdu Logo" 
@@ -48,7 +48,7 @@ export const Header: React.FC<HeaderProps> = ({ activeTab, setActiveTab, onOpenB
             </div>
             <div className="flex flex-col">
               <span className="text-xl font-extrabold tracking-tight text-slate-900 whitespace-nowrap">
-                Mandalika<span className="text-indigo-600">Edu</span>
+                Mandalika<span className="text-amber-500">Edu</span>
               </span>
               <span className="text-[10px] text-slate-500 font-semibold tracking-wide">
                 Bimbingan Kuliah Luar Negeri
@@ -66,7 +66,7 @@ export const Header: React.FC<HeaderProps> = ({ activeTab, setActiveTab, onOpenB
                   onClick={() => handleNavClick(item.id)}
                   className={`px-3.5 py-1.5 rounded-full transition-all whitespace-nowrap ${
                     isActive
-                      ? 'bg-white text-indigo-700 shadow-xs font-bold'
+                      ? 'bg-white text-blue-700 shadow-xs font-bold'
                       : 'text-slate-600 hover:text-slate-950 hover:bg-white/60'
                   }`}
                 >
@@ -79,7 +79,7 @@ export const Header: React.FC<HeaderProps> = ({ activeTab, setActiveTab, onOpenB
               onClick={() => handleNavClick('dashboard')}
               className={`px-3.5 py-1.5 rounded-full transition-all whitespace-nowrap ${
                 activeTab === 'dashboard'
-                  ? 'bg-white text-indigo-700 shadow-xs font-bold'
+                  ? 'bg-white text-blue-700 shadow-xs font-bold'
                   : 'text-slate-600 hover:text-slate-950 hover:bg-white/60'
               }`}
             >
@@ -89,7 +89,7 @@ export const Header: React.FC<HeaderProps> = ({ activeTab, setActiveTab, onOpenB
               onClick={() => handleNavClick('daftar-mentor')}
               className={`px-3.5 py-1.5 rounded-full transition-all whitespace-nowrap ${
                 activeTab === 'daftar-mentor'
-                  ? 'bg-white text-indigo-700 shadow-xs font-bold'
+                  ? 'bg-white text-blue-700 shadow-xs font-bold'
                   : 'text-slate-600 hover:text-slate-950 hover:bg-white/60'
               }`}
             >
@@ -99,7 +99,7 @@ export const Header: React.FC<HeaderProps> = ({ activeTab, setActiveTab, onOpenB
               onClick={() => handleNavClick('tentang')}
               className={`px-3.5 py-1.5 rounded-full transition-all whitespace-nowrap ${
                 activeTab === 'tentang'
-                  ? 'bg-white text-indigo-700 shadow-xs font-bold'
+                  ? 'bg-white text-blue-700 shadow-xs font-bold'
                   : 'text-slate-600 hover:text-slate-950 hover:bg-white/60'
               }`}
             >

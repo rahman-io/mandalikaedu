@@ -21,13 +21,13 @@ export const WebinarSection: React.FC<WebinarSectionProps> = ({ onOpenBooking })
     <div className="py-16 bg-eduvance-grid border-t border-b border-slate-200/80">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         
-        <div className="bg-gradient-to-br from-indigo-900 via-indigo-950 to-slate-950 text-white rounded-3xl p-8 sm:p-12 shadow-xl relative overflow-hidden border border-indigo-900/50">
+        <div className="bg-gradient-to-br from-blue-900 via-blue-950 to-slate-950 text-white rounded-3xl p-8 sm:p-12 shadow-xl relative overflow-hidden border border-blue-900/50">
           
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
             
             {/* Webinar Info */}
             <div className="lg:col-span-7 space-y-4">
-              <div className="inline-flex items-center gap-2 px-3 py-1 bg-indigo-800/60 border border-indigo-700/60 rounded-full text-xs font-bold text-amber-300 uppercase tracking-wider">
+              <div className="inline-flex items-center gap-2 px-3 py-1 bg-blue-800/60 border border-blue-700/60 rounded-full text-xs font-bold text-amber-300 uppercase tracking-wider">
                 <Video className="w-3.5 h-3.5 text-amber-400" />
                 <span>Webinar Bulanan Gratis MandalikaEdu</span>
               </div>
@@ -81,7 +81,7 @@ export const WebinarSection: React.FC<WebinarSectionProps> = ({ onOpenBooking })
                       value={name}
                       onChange={(e) => setName(e.target.value)}
                       placeholder="Nama Anda"
-                      className="w-full px-3 py-2 text-xs bg-slate-50 border border-slate-200 rounded-xl text-slate-900 focus:outline-none focus:ring-2 focus:ring-indigo-500 font-medium"
+                      className="w-full px-3 py-2 text-xs bg-slate-50 border border-slate-200 rounded-xl text-slate-900 focus:outline-none focus:ring-2 focus:ring-blue-500 font-medium"
                     />
                   </div>
 
@@ -95,7 +95,7 @@ export const WebinarSection: React.FC<WebinarSectionProps> = ({ onOpenBooking })
                       value={whatsapp}
                       onChange={(e) => setWhatsapp(e.target.value)}
                       placeholder="0812-xxxx-xxxx"
-                      className="w-full px-3 py-2 text-xs bg-slate-50 border border-slate-200 rounded-xl text-slate-900 focus:outline-none focus:ring-2 focus:ring-indigo-500 font-medium"
+                      className="w-full px-3 py-2 text-xs bg-slate-50 border border-slate-200 rounded-xl text-slate-900 focus:outline-none focus:ring-2 focus:ring-blue-500 font-medium"
                     />
                   </div>
 
@@ -109,7 +109,7 @@ export const WebinarSection: React.FC<WebinarSectionProps> = ({ onOpenBooking })
                       value={region}
                       onChange={(e) => setRegion(e.target.value)}
                       placeholder="Contoh: Univ. Mataram / Kupang / Samarinda"
-                      className="w-full px-3 py-2 text-xs bg-slate-50 border border-slate-200 rounded-xl text-slate-900 focus:outline-none focus:ring-2 focus:ring-indigo-500 font-medium"
+                      className="w-full px-3 py-2 text-xs bg-slate-50 border border-slate-200 rounded-xl text-slate-900 focus:outline-none focus:ring-2 focus:ring-blue-500 font-medium"
                     />
                   </div>
 

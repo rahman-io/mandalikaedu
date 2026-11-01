@@ -85,11 +85,11 @@ export const AboutSection: React.FC<AboutSectionProps> = ({ onOpenBooking, onOpe
         
         {/* Story Section */}
         <div className="max-w-3xl mx-auto text-center">
-          <div className="inline-flex items-center px-3.5 py-1 rounded-full bg-indigo-50 border border-indigo-100 text-indigo-700 text-xs font-bold mb-3 shadow-2xs">
+          <div className="inline-flex items-center px-3.5 py-1 rounded-full bg-blue-50 border border-blue-100 text-blue-700 text-xs font-bold mb-3 shadow-2xs">
             Cerita Di Balik Nama MandalikaEdu
           </div>
           <h1 className="text-3xl sm:text-5xl font-extrabold text-slate-900 tracking-tight mb-6">
-            <span className="text-indigo-600">Meratakan</span> Akses Beasiswa Dunia untuk Anak <span className="text-indigo-600">Daerah</span>
+            <span className="text-blue-600">Meratakan</span> Akses Beasiswa Dunia untuk Anak <span className="text-blue-600">Daerah</span>
           </h1>
           <p className="text-base text-slate-600 leading-relaxed mb-6">
             Nama <strong>Mandalika</strong> berakar dari Lombok, Nusa Tenggara Barat, yang melambangkan tekad kami membuka gerbang kesempatan pendidikan tinggi kelas dunia bagi putra-putri daerah di luar kota metropolitan Jakarta.
@@ -102,7 +102,7 @@ export const AboutSection: React.FC<AboutSectionProps> = ({ onOpenBooking, onOpe
         {/* Mentors Section */}
         <div>
           <div className="text-center max-w-2xl mx-auto mb-12">
-            <div className="inline-flex items-center px-3.5 py-1 rounded-full bg-indigo-50 border border-indigo-100 text-indigo-700 text-xs font-bold mb-2">
+            <div className="inline-flex items-center px-3.5 py-1 rounded-full bg-blue-50 border border-blue-100 text-blue-700 text-xs font-bold mb-2">
               Kredibilitas & Pengalaman Nyata
             </div>
             <h2 className="text-2xl sm:text-4xl font-extrabold text-slate-900 tracking-tight">
@@ -115,15 +115,15 @@ export const AboutSection: React.FC<AboutSectionProps> = ({ onOpenBooking, onOpe
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
             {MENTORS.map((m, idx) => (
-              <div key={idx} className="bg-white rounded-3xl border border-slate-200/90 p-7 sm:p-8 flex flex-col justify-between shadow-xs hover:shadow-md hover:border-indigo-200 transition-all">
+              <div key={idx} className="bg-white rounded-3xl border border-slate-200/90 p-7 sm:p-8 flex flex-col justify-between shadow-xs hover:shadow-md hover:border-blue-200 transition-all">
                 <div>
                   <div className="flex items-center gap-3.5 mb-4">
-                    <div className="w-12 h-12 rounded-2xl bg-indigo-600 text-white flex items-center justify-center font-black text-lg shadow-xs">
+                    <div className="w-12 h-12 rounded-2xl bg-blue-600 text-white flex items-center justify-center font-black text-lg shadow-xs">
                       {m.name.split(' ')[1]?.[0] || 'M'}
                     </div>
                     <div>
                       <h3 className="text-base font-bold text-slate-900">{m.name}</h3>
-                      <div className="text-xs text-indigo-700 font-semibold">{m.role}</div>
+                      <div className="text-xs text-blue-700 font-semibold">{m.role}</div>
                       <div className="text-[11px] text-slate-400 flex items-center gap-1 mt-0.5">
                         <MapPin className="w-3 h-3" />
                         <span>Asal: {m.origin}</span>

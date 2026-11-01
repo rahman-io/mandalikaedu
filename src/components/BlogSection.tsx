@@ -34,11 +34,11 @@ export const BlogSection: React.FC<BlogSectionProps> = ({ onOpenBooking }) => {
         
         {/* Header (Matching Insights & Ideas from Eduvance) */}
         <div className="text-center max-w-3xl mx-auto mb-14">
-          <div className="inline-flex items-center px-3.5 py-1 rounded-full bg-indigo-50 border border-indigo-100 text-indigo-700 text-xs font-bold mb-3 shadow-2xs">
+          <div className="inline-flex items-center px-3.5 py-1 rounded-full bg-blue-50 border border-blue-100 text-blue-700 text-xs font-bold mb-3 shadow-2xs">
             Blog & Edukasi Mandiri
           </div>
           <h1 className="text-3xl sm:text-5xl font-extrabold text-slate-900 tracking-tight mb-4">
-            <span className="text-indigo-600">Insights</span> & Ide Beasiswa Dari <span className="text-indigo-600">MandalikaEdu</span>
+            <span className="text-blue-600">Insights</span> & Ide Beasiswa Dari <span className="text-blue-600">MandalikaEdu</span>
           </h1>
           <p className="text-base text-slate-600 leading-relaxed max-w-2xl mx-auto">
             Artikel panduan mendalam seputar penulisan esai, strategi menembus IELTS tanpa les mahal, serta sistem konten edukasi Instagram MandalikaEdu.

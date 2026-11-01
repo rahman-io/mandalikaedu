@@ -22,12 +22,12 @@ export const CountriesDirectory: React.FC<CountriesDirectoryProps> = ({
         
         {/* Header */}
         <div className="text-center max-w-3xl mx-auto mb-12">
-          <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-indigo-50 border border-indigo-100 text-indigo-700 text-xs font-bold tracking-wide uppercase mb-3">
-            <Sparkles className="w-3.5 h-3.5 text-indigo-600" />
+          <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-blue-50 border border-blue-100 text-blue-700 text-xs font-bold tracking-wide uppercase mb-3">
+            <Sparkles className="w-3.5 h-3.5 text-blue-600" />
             <span>Panduan Lengkap Studi Mancanegara</span>
           </div>
           <h1 className="text-3xl sm:text-4xl lg:text-5xl font-black text-slate-900 tracking-tight mb-4">
-            Eksplorasi <span className="text-indigo-600">Negara Tujuan</span> Favorit
+            Eksplorasi <span className="text-blue-600">Negara Tujuan</span> Favorit
           </h1>
           <p className="text-base text-slate-600 leading-relaxed max-w-2xl mx-auto">
             Pahami karakteristik sistem pendidikan, kebijakan SPP, biaya hidup riil bulanan, regulasi kerja sampingan, serta peluang beasiswa terfavorit untuk setiap negara.
@@ -40,20 +40,20 @@ export const CountriesDirectory: React.FC<CountriesDirectoryProps> = ({
             <div
               key={c.id}
               onClick={() => setActiveModalCountry(c)}
-              className="bg-white rounded-3xl border border-slate-200/90 hover:border-indigo-300 p-7 sm:p-8 flex flex-col justify-between transition-all duration-200 hover:shadow-md cursor-pointer group"
+              className="bg-white rounded-3xl border border-slate-200/90 hover:border-blue-300 p-7 sm:p-8 flex flex-col justify-between transition-all duration-200 hover:shadow-md cursor-pointer group"
             >
               <div>
                 <div className="flex items-center justify-between mb-4 pb-3 border-b border-slate-100">
                   <div className="flex items-center gap-3">
                     <span className="text-3xl" role="img" aria-label={c.name}>{c.flag}</span>
                     <div>
-                      <h3 className="text-xl font-bold text-slate-900 group-hover:text-indigo-600 transition-colors">
+                      <h3 className="text-xl font-bold text-slate-900 group-hover:text-blue-600 transition-colors">
                         {c.name}
                       </h3>
                       <span className="text-xs text-slate-500 font-medium">Ibu kota: {c.capital}</span>
                     </div>
                   </div>
-                  <div className="text-xs font-bold text-indigo-700 bg-indigo-50 border border-indigo-100 px-3 py-1 rounded-full">
+                  <div className="text-xs font-bold text-blue-700 bg-blue-50 border border-blue-100 px-3 py-1 rounded-full">
                     {c.currency}
                   </div>
                 </div>
@@ -93,7 +93,7 @@ export const CountriesDirectory: React.FC<CountriesDirectoryProps> = ({
 
               {/* Bottom Card Action */}
               <div className="pt-4 border-t border-slate-100 flex items-center justify-between text-xs">
-                <span className="font-bold text-indigo-600 group-hover:text-indigo-700 group-hover:translate-x-1 transition-all flex items-center gap-1">
+                <span className="font-bold text-blue-600 group-hover:text-blue-700 group-hover:translate-x-1 transition-all flex items-center gap-1">
                   Lihat Rincian Studi <ArrowRight className="w-3.5 h-3.5" />
                 </span>
                 <span className="text-[11px] font-semibold text-slate-400 bg-slate-100 px-2.5 py-0.5 rounded-full">
@@ -222,7 +222,7 @@ export const CountriesDirectory: React.FC<CountriesDirectoryProps> = ({
               </div>
 
               {/* Adaptasi Anak Daerah */}
-              <div className="p-5 bg-gradient-to-br from-indigo-900 via-indigo-950 to-slate-950 text-white rounded-2xl text-xs space-y-1.5 border border-indigo-800/40 shadow-sm">
+              <div className="p-5 bg-gradient-to-br from-blue-900 via-blue-950 to-slate-950 text-white rounded-2xl text-xs space-y-1.5 border border-blue-800/40 shadow-sm">
                 <div className="font-bold flex items-center gap-1.5 text-amber-300">
                   <Sparkles className="w-4 h-4 text-amber-400" />
                   <span>Catatan Khusus untuk Mahasiswa Asal Daerah:</span>

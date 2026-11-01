@@ -55,17 +55,17 @@ export const HomeSection: React.FC<HomeSectionProps> = ({
     <div className="space-y-24 bg-white">
       
       {/* 1. HERO SECTION (100% MATCHING SCREENSHOT) */}
-      <section className="relative pt-12 pb-20 overflow-hidden bg-eduvance-grid border-b border-indigo-50">
+      <section className="relative pt-12 pb-20 overflow-hidden bg-eduvance-grid border-b border-blue-50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
             
             {/* Left Content (7 cols) */}
             <div className="lg:col-span-7 space-y-6 text-left">
               
-              {/* Pill Kicker - Lilac / Lavender badge */}
-              <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-indigo-50 border border-indigo-100 text-indigo-700 text-xs font-bold shadow-2xs">
+              {/* Pill Kicker - Blue badge */}
+              <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-blue-50 border border-blue-100 text-blue-700 text-xs font-bold shadow-2xs">
                 <span>Best Learning Platform</span>
-                <span className="text-indigo-300">·</span>
+                <span className="text-blue-300">·</span>
                 <span>Khusus Putra-Putri Daerah</span>
               </div>
 
@@ -76,7 +76,7 @@ export const HomeSection: React.FC<HomeSectionProps> = ({
                 </span>
                 Kuliah Dunia <span className="inline-block text-pink-400 font-serif text-3xl sm:text-4xl">*</span>
                 <br />
-                Dengan <span className="text-indigo-600 font-extrabold">Beasiswa Penuh</span>
+                Dengan <span className="text-blue-600 font-extrabold">Beasiswa Penuh</span>
               </h1>
 
               {/* Value Proposition Body */}
@@ -122,10 +122,10 @@ export const HomeSection: React.FC<HomeSectionProps> = ({
               <div className="relative mx-auto max-w-md">
                 
                 {/* Soft glow background */}
-                <div className="absolute inset-0 bg-gradient-to-tr from-indigo-100/60 via-purple-100/40 to-amber-100/60 rounded-3xl filter blur-2xl transform scale-95 -z-10" />
+                <div className="absolute inset-0 bg-gradient-to-tr from-sky-100/60 via-blue-100/40 to-amber-100/60 rounded-3xl filter blur-2xl transform scale-95 -z-10" />
 
                 {/* Central Student Canvas */}
-                <div className="bg-gradient-to-b from-indigo-50/70 to-purple-50/50 rounded-3xl p-5 border border-indigo-100/80 shadow-xl overflow-hidden relative">
+                <div className="bg-gradient-to-b from-sky-50/70 to-blue-50/50 rounded-3xl p-5 border border-blue-100/80 shadow-xl overflow-hidden relative">
                   
                   {/* Floating Badge 1: Top Left Satisfaction Rate (90% / 96%) */}
                   <div className="absolute top-4 left-4 z-20 bg-white/95 backdrop-blur-md rounded-2xl p-2.5 px-3.5 shadow-lg border border-slate-100 flex items-center gap-2.5">
@@ -157,7 +157,7 @@ export const HomeSection: React.FC<HomeSectionProps> = ({
                     <div className="flex -space-x-2">
                       <img className="w-7 h-7 rounded-full border-2 border-white object-cover" src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=100&q=80" alt="Alumni" />
                       <img className="w-7 h-7 rounded-full border-2 border-white object-cover" src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=100&q=80" alt="Alumni" />
-                      <div className="w-7 h-7 rounded-full border-2 border-white bg-indigo-600 text-white text-[9px] font-bold flex items-center justify-center">
+                      <div className="w-7 h-7 rounded-full border-2 border-white bg-blue-600 text-white text-[9px] font-bold flex items-center justify-center">
                         <Globe className="w-3.5 h-3.5" />
                       </div>
                     </div>
@@ -179,7 +179,7 @@ export const HomeSection: React.FC<HomeSectionProps> = ({
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="py-6 border-y border-slate-100 flex flex-wrap items-center justify-around gap-6 text-slate-400 font-bold text-xs uppercase tracking-wider">
           <div className="flex items-center gap-2 hover:text-slate-600 transition-colors">
-            <Award className="w-4 h-4 text-indigo-500" />
+            <Award className="w-4 h-4 text-blue-500" />
             <span>Beasiswa LPDP</span>
           </div>
           <div className="flex items-center gap-2 hover:text-slate-600 transition-colors">
@@ -191,7 +191,7 @@ export const HomeSection: React.FC<HomeSectionProps> = ({
             <span>DAAD Jerman</span>
           </div>
           <div className="flex items-center gap-2 hover:text-slate-600 transition-colors">
-            <Award className="w-4 h-4 text-indigo-500" />
+            <Award className="w-4 h-4 text-blue-500" />
             <span>Australia Awards (AAS)</span>
           </div>
           <div className="flex items-center gap-2 hover:text-slate-600 transition-colors">
@@ -209,9 +209,9 @@ export const HomeSection: React.FC<HomeSectionProps> = ({
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="bg-amber-400 rounded-3xl p-8 sm:p-12 relative overflow-hidden shadow-lg">
           
-          {/* Decorative Purple Doodle Loop in top right corner */}
+          {/* Decorative Blue Doodle Loop in top right corner */}
           <div className="absolute top-2 right-4 pointer-events-none opacity-40">
-            <svg className="w-48 h-48 text-indigo-700 stroke-current fill-none stroke-[3]" viewBox="0 0 200 200">
+            <svg className="w-48 h-48 text-blue-800 stroke-current fill-none stroke-[3]" viewBox="0 0 200 200">
               <path d="M 50 150 C 20 80, 160 20, 150 100 C 140 180, 30 140, 80 60 C 100 30, 150 50, 170 90" />
             </svg>
           </div>
@@ -223,10 +223,10 @@ export const HomeSection: React.FC<HomeSectionProps> = ({
 
           {/* Headline */}
           <h2 className="text-3xl sm:text-4xl font-extrabold text-slate-900 tracking-tight mb-8 max-w-xl">
-            Kurasi <span className="text-indigo-700">Terarah</span> Program Bimbingan & Beasiswa
+            Kurasi <span className="text-blue-900">Terarah</span> Program Bimbingan & Beasiswa
           </h2>
 
-          {/* 4 Cards Grid (3 white + 1 deep vibrant purple) */}
+          {/* 4 Cards Grid (3 white + 1 deep vibrant ocean blue) */}
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
             
             {/* Card 1: Beasiswa Fully Funded (White) */}
@@ -246,8 +246,8 @@ export const HomeSection: React.FC<HomeSectionProps> = ({
                 <div className="w-8 h-8 rounded-full bg-slate-100 flex items-center justify-center text-slate-900 group-hover:bg-amber-400 transition-colors">
                   <ChevronRight className="w-4 h-4" />
                 </div>
-                {/* Purple 4-point sparkle star */}
-                <div className="w-8 h-8 text-indigo-600 flex items-center justify-center">
+                {/* Blue 4-point sparkle star */}
+                <div className="w-8 h-8 text-blue-600 flex items-center justify-center">
                   <svg className="w-7 h-7 fill-current" viewBox="0 0 24 24">
                     <path d="M12 0C12 6.627 6.627 12 0 12C6.627 12 12 17.373 12 24C12 17.373 17.373 12 24 12C17.373 12 12 6.627 12 0Z" />
                   </svg>
@@ -272,31 +272,31 @@ export const HomeSection: React.FC<HomeSectionProps> = ({
                 <div className="w-8 h-8 rounded-full bg-slate-100 flex items-center justify-center text-slate-900 group-hover:bg-amber-400 transition-colors">
                   <ChevronRight className="w-4 h-4" />
                 </div>
-                {/* Purple geometric pixel square */}
-                <div className="w-8 h-8 grid grid-cols-2 gap-1 text-indigo-600">
-                  <div className="bg-indigo-600 rounded-xs" />
-                  <div className="bg-indigo-600 rounded-xs" />
-                  <div className="bg-indigo-600 rounded-xs" />
-                  <div className="bg-indigo-600 rounded-xs" />
+                {/* Blue geometric pixel square */}
+                <div className="w-8 h-8 grid grid-cols-2 gap-1 text-blue-600">
+                  <div className="bg-blue-600 rounded-xs" />
+                  <div className="bg-blue-600 rounded-xs" />
+                  <div className="bg-blue-600 rounded-xs" />
+                  <div className="bg-blue-600 rounded-xs" />
                 </div>
               </div>
             </div>
 
-            {/* Card 3: Essay & CV Lab (DEEP VIBRANT INDIGO PURPLE AS IN SCREENSHOT) */}
+            {/* Card 3: Essay & CV Lab (OCEANIC BLUE GRADIENT MATCHING LOGO) */}
             <div 
               onClick={() => onNavigateTab('paket')}
-              className="bg-indigo-600 text-white rounded-3xl p-6 flex flex-col justify-between shadow-md hover:bg-indigo-700 transition-all cursor-pointer group"
+              className="bg-gradient-to-br from-sky-500 via-blue-600 to-blue-700 text-white rounded-3xl p-6 flex flex-col justify-between shadow-md hover:shadow-lg transition-all cursor-pointer group"
             >
               <div>
                 <h3 className="text-base font-extrabold text-white mb-1">
                   Essay & CV Lab
                 </h3>
-                <div className="text-xs text-indigo-200 font-semibold mb-6">
+                <div className="text-xs text-sky-100 font-semibold mb-6">
                   3x Review Baris-per-Baris
                 </div>
               </div>
               <div className="flex items-center justify-between pt-2">
-                <div className="w-8 h-8 rounded-full bg-white/20 text-white flex items-center justify-center group-hover:bg-white group-hover:text-indigo-600 transition-colors">
+                <div className="w-8 h-8 rounded-full bg-white/20 text-white flex items-center justify-center group-hover:bg-white group-hover:text-blue-600 transition-colors">
                   <ChevronRight className="w-4 h-4" />
                 </div>
                 {/* Yellow/amber geometric pinwheel */}
@@ -329,8 +329,8 @@ export const HomeSection: React.FC<HomeSectionProps> = ({
                 <div className="w-8 h-8 rounded-full bg-slate-100 flex items-center justify-center text-slate-900 group-hover:bg-amber-400 transition-colors">
                   <ChevronRight className="w-4 h-4" />
                 </div>
-                {/* Purple starburst asterisk */}
-                <div className="w-8 h-8 text-indigo-600 flex items-center justify-center">
+                {/* Blue starburst asterisk */}
+                <div className="w-8 h-8 text-blue-600 flex items-center justify-center">
                   <svg className="w-7 h-7 fill-current" viewBox="0 0 24 24">
                     <path d="M11 2h2v7h7v2h-7v7h-2v-7H4v-2h7V2z" transform="rotate(45 12 12)" />
                     <path d="M11 2h2v7h7v2h-7v7h-2v-7H4v-2h7V2z" />
@@ -352,12 +352,12 @@ export const HomeSection: React.FC<HomeSectionProps> = ({
         <div className="absolute top-8 right-12 text-pink-400 text-3xl select-none font-serif">*</div>
 
         <div className="max-w-3xl mx-auto space-y-4 mb-14">
-          <div className="inline-flex items-center px-3.5 py-1 rounded-full bg-indigo-50 border border-indigo-100 text-indigo-700 text-xs font-bold">
+          <div className="inline-flex items-center px-3.5 py-1 rounded-full bg-blue-50 border border-blue-100 text-blue-700 text-xs font-bold">
             Tentang MandalikaEdu
           </div>
           
           <h2 className="text-3xl sm:text-4xl font-extrabold text-slate-900 tracking-tight">
-            <span className="text-indigo-600">Gateway</span> Menuju Pendidikan Tinggi Kelas <span className="text-indigo-600">Dunia</span>
+            <span className="text-blue-600">Gateway</span> Menuju Pendidikan Tinggi Kelas <span className="text-blue-600">Dunia</span>
           </h2>
           
           <p className="text-sm sm:text-base text-slate-600 leading-relaxed max-w-2xl mx-auto">
@@ -373,7 +373,7 @@ export const HomeSection: React.FC<HomeSectionProps> = ({
               title: 'Prioritas Afirmasi Geografis',
               desc: 'Memanfaatkan kuota khusus Indonesia Timur dan daerah berkembang pada beasiswa AAS Australia, LPDP Afirmasi, dan DAAD Jerman.',
               icon: MapPin,
-              accent: 'bg-indigo-50 text-indigo-600 border-indigo-100'
+              accent: 'bg-blue-50 text-blue-600 border-blue-100'
             },
             {
               num: '02',
@@ -397,7 +397,7 @@ export const HomeSection: React.FC<HomeSectionProps> = ({
               accent: 'bg-emerald-50 text-emerald-600 border-emerald-100'
             }
           ].map((item) => (
-            <div key={item.num} className="p-7 bg-white rounded-3xl border border-slate-200/90 hover:border-indigo-200 hover:shadow-md transition-all space-y-3">
+            <div key={item.num} className="p-7 bg-white rounded-3xl border border-slate-200/90 hover:border-blue-200 hover:shadow-md transition-all space-y-3">
               <div className="flex items-center justify-between">
                 <span className="text-2xl font-black text-slate-300 font-mono">{item.num}</span>
                 <div className={`w-9 h-9 rounded-xl border flex items-center justify-center ${item.accent}`}>
@@ -419,18 +419,18 @@ export const HomeSection: React.FC<HomeSectionProps> = ({
       {/* 5. PRICING SECTION ("CHOOSE WHAT WORKS FOR YOU" - SCREENSHOT EXACT LAYOUT) */}
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center max-w-2xl mx-auto mb-14">
-          <div className="inline-flex items-center px-3.5 py-1 rounded-full bg-indigo-50 border border-indigo-100 text-indigo-700 text-xs font-bold mb-3">
+          <div className="inline-flex items-center px-3.5 py-1 rounded-full bg-blue-50 border border-blue-100 text-blue-700 text-xs font-bold mb-3">
             Pilihan Paket
           </div>
           <h2 className="text-3xl sm:text-4xl font-extrabold text-slate-900 tracking-tight">
-            <span className="text-indigo-600">Pilih</span> Paket Yang Cocok Untuk <span className="text-indigo-600">Impianmu</span>
+            <span className="text-blue-600">Pilih</span> Paket Yang Cocok Untuk <span className="text-blue-600">Impianmu</span>
           </h2>
           <p className="text-xs sm:text-sm text-slate-600 mt-2">
             Mulai dari Sesi Discovery Rp 0 100% Gratis hingga pendampingan intensif dari nol hingga submit dokumen.
           </p>
         </div>
 
-        {/* 3 Pricing Cards: Left White, Center Vibrant Purple ("Best Choice"), Right White */}
+        {/* 3 Pricing Cards: Left White, Center Vibrant Ocean Blue Gradient ("Best Choice"), Right White */}
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 items-stretch">
           
           {/* Card 1: Free Plan (Discovery Gratis) */}
@@ -472,8 +472,8 @@ export const HomeSection: React.FC<HomeSectionProps> = ({
             </button>
           </div>
 
-          {/* Card 2: Starter / Featured (DEEP VIBRANT INDIGO PURPLE AS IN SCREENSHOT) */}
-          <div className="bg-indigo-600 text-white rounded-3xl p-8 flex flex-col justify-between shadow-xl relative transform lg:-translate-y-2 border-2 border-indigo-500">
+          {/* Card 2: Starter / Featured (OCEANIC BLUE GRADIENT AS IN LOGO) */}
+          <div className="bg-gradient-to-br from-sky-500 via-blue-600 to-blue-700 text-white rounded-3xl p-8 flex flex-col justify-between shadow-xl relative transform lg:-translate-y-2 border-2 border-sky-400">
             {/* Best Choice Amber Badge */}
             <div className="inline-flex items-center gap-1.5 self-start px-3 py-1 rounded-full bg-amber-400 text-slate-950 text-[11px] font-black uppercase tracking-wider mb-2 shadow-xs">
               <Star className="w-3.5 h-3.5 fill-current" />
@@ -482,14 +482,14 @@ export const HomeSection: React.FC<HomeSectionProps> = ({
 
             <div>
               <h3 className="text-lg font-bold text-white mb-1">Essay & CV Lab</h3>
-              <p className="text-xs text-indigo-100 mb-4">Bedah esai beasiswa berstandar internasional bersama mentor luar negeri.</p>
+              <p className="text-xs text-sky-100 mb-4">Bedah esai beasiswa berstandar internasional bersama mentor luar negeri.</p>
 
               <div className="flex items-baseline gap-1 my-4">
                 <span className="text-4xl font-black text-white">Rp 499.000</span>
-                <span className="text-xs text-indigo-200 font-semibold">/ dokumen</span>
+                <span className="text-xs text-sky-200 font-semibold">/ dokumen</span>
               </div>
 
-              <ul className="space-y-3 text-xs text-indigo-50 my-6">
+              <ul className="space-y-3 text-xs text-sky-50 my-6">
                 <li className="flex items-center gap-2.5">
                   <Check className="w-4 h-4 text-amber-300 shrink-0" />
                   <span>3x Review mendalam baris-per-baris</span>
@@ -561,7 +561,7 @@ export const HomeSection: React.FC<HomeSectionProps> = ({
         <div className="text-center mt-8">
           <button
             onClick={() => onNavigateTab('paket')}
-            className="text-xs font-bold text-indigo-600 hover:text-indigo-800 hover:underline inline-flex items-center gap-1 cursor-pointer"
+            className="text-xs font-bold text-blue-600 hover:text-blue-800 hover:underline inline-flex items-center gap-1 cursor-pointer"
           >
             Lihat Semua Pilihan Paket Termasuk Kelas Grup & Add-On <ArrowRight className="w-3.5 h-3.5" />
           </button>
@@ -573,12 +573,12 @@ export const HomeSection: React.FC<HomeSectionProps> = ({
         
         {/* Section Header */}
         <div className="text-center max-w-2xl mx-auto space-y-2">
-          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-purple-50 border border-purple-200 text-purple-700 text-xs font-extrabold shadow-2xs">
-            <Sparkles className="w-3.5 h-3.5 text-purple-600 animate-pulse" />
+          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-blue-50 border border-blue-200 text-blue-700 text-xs font-extrabold shadow-2xs">
+            <Sparkles className="w-3.5 h-3.5 text-blue-600 animate-pulse" />
             <span>Kemitraan Resmi Penyedia Layanan Eksternal</span>
           </div>
           <h2 className="text-3xl sm:text-4xl font-extrabold text-slate-900 tracking-tight">
-            Tools Interaktif Pendamping <span className="text-indigo-600">Belajar Bahasa Inggris</span>
+            Tools Interaktif Pendamping <span className="text-blue-600">Belajar Bahasa Inggris</span>
           </h2>
           <p className="text-xs sm:text-sm text-slate-600">
             Akses 2 platform inovatif mitra MandalikaEdu untuk menguasai Grammar, Tenses, dan Kosa Kata (Vocabulary) IELTS & TOEFL dengan cara seru!
@@ -589,17 +589,17 @@ export const HomeSection: React.FC<HomeSectionProps> = ({
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
           
           {/* Partner Card 1: TenseGO (Grammar AI & AR) */}
-          <div className="bg-gradient-to-br from-slate-950 via-slate-900 to-indigo-950 rounded-3xl p-7 sm:p-9 text-white shadow-xl relative overflow-hidden border border-purple-500/20 flex flex-col justify-between space-y-6">
+          <div className="bg-gradient-to-br from-slate-950 via-slate-900 to-blue-950 rounded-3xl p-7 sm:p-9 text-white shadow-xl relative overflow-hidden border border-blue-500/20 flex flex-col justify-between space-y-6">
             <div className="space-y-4">
               <div className="flex items-center justify-between gap-2">
-                <span className="px-3 py-1 bg-purple-500/20 border border-purple-400/30 text-purple-300 text-[11px] font-bold rounded-full">
+                <span className="px-3 py-1 bg-blue-500/20 border border-blue-400/30 text-blue-300 text-[11px] font-bold rounded-full">
                   📱 TenseGO · Grammar AI & AR
                 </span>
                 <span className="text-[10px] text-slate-400 font-semibold">Mitra Eksternal</span>
               </div>
 
               <h3 className="text-2xl font-black text-white leading-tight">
-                TenseGO <span className="text-purple-400 font-normal">| Belajar Grammar & Tenses Interaktif</span>
+                TenseGO <span className="text-blue-400 font-normal">| Belajar Grammar & Tenses Interaktif</span>
               </h3>
 
               <p className="text-xs sm:text-sm text-slate-300 leading-relaxed">
@@ -612,7 +612,7 @@ export const HomeSection: React.FC<HomeSectionProps> = ({
                   <span><strong>Kamera AR Cosmo:</strong> Ubah Objek Jadi Materi Tenses</span>
                 </div>
                 <div className="flex items-center gap-2 bg-white/5 border border-white/10 rounded-xl p-2.5">
-                  <span className="w-2 h-2 rounded-full bg-purple-400 shrink-0" />
+                  <span className="w-2 h-2 rounded-full bg-blue-400 shrink-0" />
                   <span><strong>Tutor AI 24/7:</strong> Tanya Jawab 16 Tenses Kapan Saja</span>
                 </div>
               </div>
@@ -622,7 +622,7 @@ export const HomeSection: React.FC<HomeSectionProps> = ({
               href="https://tensego.replaceid.org/"
               target="_blank"
               rel="noopener noreferrer"
-              className="w-full py-3.5 bg-gradient-to-r from-purple-500 to-indigo-600 hover:from-purple-600 hover:to-indigo-700 text-white font-extrabold text-xs uppercase tracking-wider rounded-xl transition-all shadow-md flex items-center justify-center gap-2 cursor-pointer active:scale-95"
+              className="w-full py-3.5 bg-gradient-to-r from-sky-500 to-blue-600 hover:from-sky-600 hover:to-blue-700 text-white font-extrabold text-xs uppercase tracking-wider rounded-xl transition-all shadow-md flex items-center justify-center gap-2 cursor-pointer active:scale-95"
             >
               <span>Buka TenseGO (tensego.replaceid.org)</span>
               <Globe className="w-4 h-4" />
@@ -676,11 +676,11 @@ export const HomeSection: React.FC<HomeSectionProps> = ({
       {/* 6. YOUR LEARNING JOURNEY IN 4 SIMPLE STEPS (FROM SCREENSHOT) */}
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center max-w-2xl mx-auto mb-12">
-          <div className="inline-flex items-center px-3.5 py-1 rounded-full bg-indigo-50 border border-indigo-100 text-indigo-700 text-xs font-bold mb-3">
+          <div className="inline-flex items-center px-3.5 py-1 rounded-full bg-blue-50 border border-blue-100 text-blue-700 text-xs font-bold mb-3">
             Alur Bimbingan
           </div>
           <h2 className="text-3xl sm:text-4xl font-extrabold text-slate-900 tracking-tight">
-            Tahapan Bimbingan Menuju Kampus Impian Dalam <span className="text-indigo-600">4 Langkah</span>
+            Tahapan Bimbingan Menuju Kampus Impian Dalam <span className="text-blue-600">4 Langkah</span>
           </h2>
           <p className="text-xs sm:text-sm text-slate-600 mt-2">
             Metodologi terstruktur dan terbukti mendampingi ratusan pelamar dari luar pulau Jawa.
@@ -712,7 +712,7 @@ export const HomeSection: React.FC<HomeSectionProps> = ({
           ].map((s) => (
             <div key={s.step} className="bg-slate-50/70 border border-slate-200/80 rounded-3xl p-6 relative flex flex-col justify-between">
               <div>
-                <div className="w-10 h-10 rounded-2xl bg-indigo-600 text-white font-extrabold flex items-center justify-center text-sm mb-4 shadow-xs">
+                <div className="w-10 h-10 rounded-2xl bg-gradient-to-br from-sky-500 to-blue-600 text-white font-extrabold flex items-center justify-center text-sm mb-4 shadow-xs">
                   {s.step}
                 </div>
                 <h3 className="text-base font-bold text-slate-900 mb-2">
@@ -731,11 +731,11 @@ export const HomeSection: React.FC<HomeSectionProps> = ({
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 mb-10">
           <div>
-            <div className="inline-flex items-center px-3 py-1 rounded-full bg-indigo-50 border border-indigo-100 text-indigo-700 text-xs font-bold mb-2">
+            <div className="inline-flex items-center px-3 py-1 rounded-full bg-blue-50 border border-blue-100 text-blue-700 text-xs font-bold mb-2">
               Artikel & Edukasi
             </div>
             <h2 className="text-3xl font-extrabold text-slate-900 tracking-tight">
-              <span className="text-indigo-600">Wawasan</span> & Panduan Beasiswa Dari <span className="text-indigo-600">MandalikaEdu</span>
+              <span className="text-blue-600">Wawasan</span> & Panduan Beasiswa Dari <span className="text-blue-600">MandalikaEdu</span>
             </h2>
             <p className="text-xs sm:text-sm text-slate-600 mt-1">
               Tips praktis dari para mentor untuk menembus beasiswa kuliah luar negeri.
@@ -764,10 +764,10 @@ export const HomeSection: React.FC<HomeSectionProps> = ({
                 className="w-full h-56 object-cover group-hover:scale-102 transition-transform duration-300"
               />
               <div className="p-7 space-y-3">
-                <span className="inline-block px-2.5 py-1 rounded-md bg-indigo-100 text-indigo-700 text-[11px] font-bold">
+                <span className="inline-block px-2.5 py-1 rounded-md bg-blue-100 text-blue-700 text-[11px] font-bold">
                   {featuredBlogs[0].category}
                 </span>
-                <h3 className="text-xl font-bold text-slate-900 group-hover:text-indigo-600 transition-colors leading-snug">
+                <h3 className="text-xl font-bold text-slate-900 group-hover:text-blue-600 transition-colors leading-snug">
                   {featuredBlogs[0].title}
                 </h3>
                 <p className="text-xs text-slate-600 leading-relaxed line-clamp-2">
@@ -786,13 +786,13 @@ export const HomeSection: React.FC<HomeSectionProps> = ({
               <div 
                 key={post.id}
                 onClick={() => onNavigateTab('blog')}
-                className="bg-white rounded-2xl border border-slate-200/80 p-4 hover:shadow-xs hover:border-indigo-200 transition-all cursor-pointer group flex flex-col justify-between"
+                className="bg-white rounded-2xl border border-slate-200/80 p-4 hover:shadow-xs hover:border-blue-200 transition-all cursor-pointer group flex flex-col justify-between"
               >
                 <div>
                   <span className="inline-block px-2 py-0.5 rounded bg-slate-100 text-slate-700 text-[10px] font-semibold mb-2">
                     {post.category}
                   </span>
-                  <h4 className="text-xs font-bold text-slate-900 group-hover:text-indigo-600 transition-colors line-clamp-2 leading-snug">
+                  <h4 className="text-xs font-bold text-slate-900 group-hover:text-blue-600 transition-colors line-clamp-2 leading-snug">
                     {post.title}
                   </h4>
                 </div>
@@ -809,11 +809,11 @@ export const HomeSection: React.FC<HomeSectionProps> = ({
       {/* 8. FREQUENTLY ASKED QUESTIONS (FROM SCREENSHOT) */}
       <section className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center mb-10">
-          <div className="inline-flex items-center px-3 py-1 rounded-full bg-indigo-50 border border-indigo-100 text-indigo-700 text-xs font-bold mb-2">
+          <div className="inline-flex items-center px-3 py-1 rounded-full bg-blue-50 border border-blue-100 text-blue-700 text-xs font-bold mb-2">
             FAQ
           </div>
           <h2 className="text-3xl font-extrabold text-slate-900 tracking-tight">
-            <span className="text-indigo-600">Frequently</span> Asked Questions
+            <span className="text-blue-600">Frequently</span> Asked Questions
           </h2>
           <p className="text-xs sm:text-sm text-slate-600 mt-1">
             Pertanyaan yang sering diajukan oleh calon siswa dan orang tua.
@@ -830,14 +830,14 @@ export const HomeSection: React.FC<HomeSectionProps> = ({
                   className="w-full p-5 text-left flex items-center justify-between gap-4 font-bold text-slate-900 text-sm hover:bg-slate-50/50 transition-colors"
                 >
                   <span className="flex items-center gap-2">
-                    <span className="text-indigo-600 font-extrabold">Q:</span>
+                    <span className="text-blue-600 font-extrabold">Q:</span>
                     <span>{faq.q}</span>
                   </span>
                   <ChevronDown className={`w-4 h-4 text-slate-400 transition-transform ${isOpen ? 'rotate-180' : ''}`} />
                 </button>
                 {isOpen && (
                   <div className="px-5 pb-5 pt-1 text-xs sm:text-sm text-slate-600 leading-relaxed border-t border-slate-100">
-                    <strong className="text-indigo-600 mr-1">A:</strong>
+                    <strong className="text-blue-600 mr-1">A:</strong>
                     {faq.a}
                   </div>
                 )}
@@ -861,7 +861,7 @@ export const HomeSection: React.FC<HomeSectionProps> = ({
 
       {/* 10. LEAD MAGNET BANNER (E-BOOK DOWNLOAD) */}
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-10 sm:pb-16">
-        <div className="bg-gradient-to-r from-indigo-900 via-indigo-800 to-purple-900 text-white rounded-3xl p-8 sm:p-12 flex flex-col md:flex-row items-center justify-between gap-8 shadow-xl">
+        <div className="bg-gradient-to-r from-blue-950 via-blue-900 to-sky-900 text-white rounded-3xl p-8 sm:p-12 flex flex-col md:flex-row items-center justify-between gap-8 shadow-xl">
           <div className="space-y-3 max-w-xl">
             <div className="inline-flex items-center gap-2 text-xs font-semibold uppercase tracking-wider text-amber-300">
               <Download className="w-4 h-4" />
@@ -870,7 +870,7 @@ export const HomeSection: React.FC<HomeSectionProps> = ({
             <h3 className="text-2xl sm:text-3xl font-extrabold tracking-tight">
               Unduh "Panduan Beasiswa 2027: Dari Daerah Menembus Kampus Impian Dunia"
             </h3>
-            <p className="text-xs sm:text-sm text-indigo-200 leading-relaxed">
+            <p className="text-xs sm:text-sm text-blue-200 leading-relaxed">
               Dapatkan panduan 60 halaman lengkap dengan template CV ATS, contoh Motivation Letter lolos beasiswa, dan kalender deadline 2026/2027 secara cuma-cuma.
             </p>
           </div>
