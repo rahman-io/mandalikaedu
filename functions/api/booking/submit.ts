@@ -40,7 +40,12 @@ async function sendTelegramNotification(text: string, waUrl: string) {
 }
 
 // Kirim notifikasi email resmi via SMTP Google menggunakan socket TLS
-async function sendSmtpEmail(subject: string, text: string, html: string) {
+async function sendSmtpEmail(
+  subject: string, 
+  text: string, 
+  html: string,
+  replyTo?: { name?: string; email?: string }
+) {
   try {
     // @ts-ignore - cloudflare:sockets tersedia di runtime Cloudflare Pages
     const { connect } = await import('cloudflare:sockets');
@@ -98,10 +103,15 @@ async function sendSmtpEmail(subject: string, text: string, html: string) {
     // 5. Kirim isi pesan email berformat MIME
     await sendCommand('DATA');
 
+    const replyToHeader = replyTo && replyTo.email 
+      ? `Reply-To: "${replyTo.name || 'Calon Siswa'}" <${replyTo.email}>` 
+      : `Reply-To: "MandalikaEdu Official" <${ADMIN_EMAIL}>`;
+
     const boundary = '----=_Part_' + Date.now();
     const emailData = [
       `From: "MandalikaEdu Official" <${ADMIN_EMAIL}>`,
       `To: ${ADMIN_EMAIL}`,
+      replyToHeader,
       `Subject: ${subject}`,
       `MIME-Version: 1.0`,
       `Content-Type: multipart/alternative; boundary="${boundary}"`,
@@ -246,13 +256,13 @@ export const onRequestPost = async (context: any) => {
       context.waitUntil(
         Promise.all([
           sendTelegramNotification(telegramText, studentWaChatUrl),
-          sendSmtpEmail(emailSubject, telegramText, emailHtml)
+          sendSmtpEmail(emailSubject, telegramText, emailHtml, { name: studentName, email: studentEmail })
         ])
       );
     } else {
       await Promise.all([
         sendTelegramNotification(telegramText, studentWaChatUrl),
-        sendSmtpEmail(emailSubject, telegramText, emailHtml)
+        sendSmtpEmail(emailSubject, telegramText, emailHtml, { name: studentName, email: studentEmail })
       ]);
     }
 

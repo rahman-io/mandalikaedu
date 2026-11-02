@@ -37,7 +37,12 @@ async function sendTelegramNotification(text: string, waUrl: string) {
   }
 }
 
-async function sendSmtpEmail(subject: string, text: string, html: string) {
+async function sendSmtpEmail(
+  subject: string, 
+  text: string, 
+  html: string,
+  replyTo?: { name?: string; email?: string }
+) {
   try {
     // @ts-ignore - cloudflare:sockets
     const { connect } = await import('cloudflare:sockets');
@@ -85,10 +90,15 @@ async function sendSmtpEmail(subject: string, text: string, html: string) {
     await sendCommand(`RCPT TO:<${ADMIN_EMAIL}>`);
     await sendCommand('DATA');
 
+    const replyToHeader = replyTo && replyTo.email 
+      ? `Reply-To: "${replyTo.name || 'Calon Mentor'}" <${replyTo.email}>` 
+      : `Reply-To: "MandalikaEdu Official" <${ADMIN_EMAIL}>`;
+
     const boundary = '----=_Part_' + Date.now();
     const emailData = [
       `From: "MandalikaEdu Official" <${ADMIN_EMAIL}>`,
       `To: ${ADMIN_EMAIL}`,
+      replyToHeader,
       `Subject: ${subject}`,
       `MIME-Version: 1.0`,
       `Content-Type: multipart/alternative; boundary="${boundary}"`,
@@ -226,13 +236,13 @@ export const onRequestPost = async (context: any) => {
       context.waitUntil(
         Promise.all([
           sendTelegramNotification(telegramText, mentorWaChatUrl),
-          sendSmtpEmail(mentorEmailSubject, telegramText, mentorEmailHtml)
+          sendSmtpEmail(mentorEmailSubject, telegramText, mentorEmailHtml, { name: fullName, email: email })
         ])
       );
     } else {
       await Promise.all([
         sendTelegramNotification(telegramText, mentorWaChatUrl),
-        sendSmtpEmail(mentorEmailSubject, telegramText, mentorEmailHtml)
+        sendSmtpEmail(mentorEmailSubject, telegramText, mentorEmailHtml, { name: fullName, email: email })
       ]);
     }
 

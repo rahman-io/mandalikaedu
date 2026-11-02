@@ -227,6 +227,7 @@ async function sendEmailAlert(params: {
   text: string;
   html: string;
   recipientEmail?: string;
+  replyTo?: string;
 }): Promise<{ success: boolean; reason?: string; messageId?: string }> {
   const config = getEmailConfig();
   const timestamp = new Date().toISOString();
@@ -276,6 +277,7 @@ async function sendEmailAlert(params: {
     const info = await transporter.sendMail({
       from: `"MandalikaEdu Official" <${config.adminEmail}>`,
       to: toAddress,
+      replyTo: params.replyTo || `"MandalikaEdu Official" <${config.adminEmail}>`,
       subject: params.subject,
       text: params.text,
       html: params.html,
@@ -607,7 +609,8 @@ app.post('/api/booking/submit', (req, res) => {
     sendEmailAlert({
       subject: emailSubject,
       text: telegramText,
-      html: emailHtml
+      html: emailHtml,
+      replyTo: leadRecord.studentEmail ? `"${leadRecord.studentName}" <${leadRecord.studentEmail}>` : undefined,
     }).catch(err => console.error('Email dispatch error on booking:', err));
 
     return res.json({
@@ -750,7 +753,8 @@ app.post('/api/mentor/submit', (req, res) => {
     sendEmailAlert({
       subject: mentorEmailSubject,
       text: telegramText,
-      html: mentorEmailHtml
+      html: mentorEmailHtml,
+      replyTo: mentorRecord.email ? `"${mentorRecord.fullName}" <${mentorRecord.email}>` : undefined,
     }).catch(err => console.error('Email dispatch error on mentor submit:', err));
 
     return res.json({
