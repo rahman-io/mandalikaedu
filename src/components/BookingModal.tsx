@@ -509,25 +509,40 @@ export const BookingModal: React.FC<BookingModalProps> = ({
                       type="button"
                       onClick={() => {
                         setIsPaymentConfirmed(true);
+                        const confirmPayload = {
+                          studentName: formData.name,
+                          studentWhatsapp: formData.phone,
+                          studentEmail: formData.email,
+                          originCity: formData.city,
+                          targetCountry: formData.targetCountry,
+                          studyLevel: formData.studyLevel,
+                          packageId: selectedPkg.id,
+                          packageName: selectedPkg.name,
+                          priceFormatted: uniquePriceFormatted,
+                          preferredDate: formData.preferredDate,
+                          preferredTime: formData.preferredTime,
+                          notes: `[KONFIRMASI BAYAR] Siswa telah mentransfer via ${activePaymentTab === 'qris' ? 'QRIS' : 'Bank ' + CONTACT_CONFIG.bankName}. Total: ${uniquePriceFormatted}`,
+                          isFree: false,
+                        };
                         fetch('/api/booking/submit', {
                           method: 'POST',
                           headers: { 'Content-Type': 'application/json' },
-                          body: JSON.stringify({
-                            studentName: formData.name,
-                            studentWhatsapp: formData.phone,
-                            studentEmail: formData.email,
-                            originCity: formData.city,
-                            targetCountry: formData.targetCountry,
-                            studyLevel: formData.studyLevel,
-                            packageId: selectedPkg.id,
-                            packageName: selectedPkg.name,
-                            priceFormatted: uniquePriceFormatted,
-                            preferredDate: formData.preferredDate,
-                            preferredTime: formData.preferredTime,
-                            notes: `[KONFIRMASI BAYAR] Siswa telah mentransfer via ${activePaymentTab === 'qris' ? 'QRIS' : 'Bank ' + CONTACT_CONFIG.bankName}. Total: ${uniquePriceFormatted}`,
-                            isFree: false,
-                          })
-                        }).catch(() => {});
+                          body: JSON.stringify(confirmPayload)
+                        }).then(r => {
+                          if (!r.ok) {
+                            fetch('https://mandalikaedu-ai.rahman-udemy-manager.workers.dev/api/booking/submit', {
+                              method: 'POST',
+                              headers: { 'Content-Type': 'application/json' },
+                              body: JSON.stringify(confirmPayload)
+                            }).catch(() => {});
+                          }
+                        }).catch(() => {
+                          fetch('https://mandalikaedu-ai.rahman-udemy-manager.workers.dev/api/booking/submit', {
+                            method: 'POST',
+                            headers: { 'Content-Type': 'application/json' },
+                            body: JSON.stringify(confirmPayload)
+                          }).catch(() => {});
+                        });
                       }}
                       className="w-full py-3.5 px-4 bg-emerald-600 hover:bg-emerald-700 active:scale-95 text-white text-xs font-black uppercase tracking-wider rounded-xl transition-all shadow-md flex items-center justify-center gap-2 cursor-pointer"
                     >

@@ -74,7 +74,7 @@ export async function submitBookingRecord(
 
   // 2. Kirim notifikasi cadangan ke backend server untuk arsip email resmi perusahaan
   try {
-    const response = await fetch('/api/booking/submit', {
+    let response = await fetch('/api/booking/submit', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -86,9 +86,26 @@ export async function submitBookingRecord(
       }),
     });
 
-    const result = await response.json();
-    if (!firestoreBookingId && result.bookingId) {
-      firestoreBookingId = result.bookingId;
+    // Jika endpoint relatif tidak tersedia atau 405 (misal pada static hosting), gunakan Cloudflare Worker publik
+    if (!response || !response.ok) {
+      response = await fetch('https://mandalikaedu-ai.rahman-udemy-manager.workers.dev/api/booking/submit', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          ...payload,
+          firestoreBookingId: firestoreBookingId || undefined,
+          submittedAt: new Date().toISOString(),
+        }),
+      });
+    }
+
+    if (response && response.ok) {
+      const result = await response.json().catch(() => ({}));
+      if (!firestoreBookingId && result.bookingId) {
+        firestoreBookingId = result.bookingId;
+      }
     }
   } catch (serverError) {
     console.warn('Pemberitahuan email server mengalami kendala jaringan:', serverError);

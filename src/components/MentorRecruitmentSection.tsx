@@ -56,11 +56,18 @@ export const MentorRecruitmentSection: React.FC<MentorRecruitmentSectionProps> =
     e.preventDefault();
     setIsSubmitting(true);
     try {
-      await fetch('/api/mentor/submit', {
+      let res = await fetch('/api/mentor/submit', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(formData)
       });
+      if (!res || !res.ok) {
+        await fetch('https://mandalikaedu-ai.rahman-udemy-manager.workers.dev/api/mentor/submit', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(formData)
+        });
+      }
     } catch (err) {
       console.error('Error submitting mentor form:', err);
     } finally {

@@ -113,6 +113,151 @@ export default {
 
     if (request.method === 'POST') {
       try {
+        const url = new URL(request.url);
+        const body = await request.json().catch(() => ({}));
+
+        // 1. Handle Booking Notification (Pendaftaran Konsultasi)
+        if (url.pathname.includes('/booking') || body.studentName) {
+          const {
+            studentName,
+            studentWhatsapp,
+            studentEmail,
+            originCity = '-',
+            packageName = 'Sesi Discovery',
+            priceFormatted = 'Rp 0',
+            studyLevel = 'S2',
+            targetCountry = 'Umum',
+            preferredDate = 'Segera',
+            preferredTime = '19:30 WIB (Malam)',
+            notes = '',
+            firestoreBookingId
+          } = body;
+
+          const bookingId = firestoreBookingId || `lead_${Date.now()}_${Math.random().toString(36).substring(2, 7)}`;
+          const digitsOnly = String(studentWhatsapp || '').replace(/[^0-9]/g, '');
+          const studentWaStandard = digitsOnly.startsWith('0') 
+            ? '62' + digitsOnly.slice(1) 
+            : digitsOnly.startsWith('62') 
+              ? digitsOnly 
+              : '62' + digitsOnly;
+
+          const studentWaChatUrl = `https://wa.me/${studentWaStandard}?text=${encodeURIComponent(
+            `Halo ${studentName}, salam hangat dari Tim Konsultan MandalikaEdu.\n\n` +
+            `Kami telah menerima formulir pengajuan bimbingan ${packageName} (${studyLevel} ke ${targetCountry}) yang Anda kirimkan melalui website resmi kami.\n\n` +
+            `Apakah waktu konsultasi ${preferredDate} jam ${preferredTime} masih sesuai untuk kita jadwalkan?`
+          )}`;
+
+          const telegramText = 
+            `📋 *PENDAFTARAN KONSULTASI BARU*\n` +
+            `*Kode Tiket*: \`${bookingId}\`\n\n` +
+            `👤 *Nama Siswa*: ${studentName}\n` +
+            `📍 *Asal Daerah*: ${originCity || '-'}\n` +
+            `📦 *Paket Layanan*: ${packageName} (${priceFormatted})\n` +
+            `🎯 *Target Studi*: ${studyLevel} ke ${targetCountry}\n` +
+            `⏰ *Jadwal Sesi*: ${preferredDate} jam ${preferredTime}\n` +
+            `📝 *Kendala*: ${notes || '(Tidak ada kendala spesifik)'}\n` +
+            `📱 *WhatsApp Siswa*: +${studentWaStandard}\n\n` +
+            `👉 *Hubungi Siswa via WhatsApp (Sekali Klik):*\n` +
+            `${studentWaChatUrl}`;
+
+          // Kirim notifikasi Telegram instan ke HP admin
+          try {
+            await fetch('https://api.telegram.org/bot9253011123:AAFc9Ws7JdpGX1Sz271cn6fncD-iybikD4U/sendMessage', {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({
+                chat_id: '2126895475',
+                text: telegramText,
+                parse_mode: 'Markdown',
+                reply_markup: {
+                  inline_keyboard: [[{ text: '💬 Hubungi Siswa via WhatsApp', url: studentWaChatUrl }]]
+                }
+              })
+            });
+          } catch (tErr) {
+            console.error('Telegram dispatch error in worker:', tErr);
+          }
+
+          return new Response(
+            JSON.stringify({
+              success: true,
+              bookingId,
+              message: 'Notifikasi pendaftaran konsultasi berhasil dikirimkan ke admin.'
+            }),
+            { status: 200, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
+          );
+        }
+
+        // 2. Handle Mentor Submission (Pendaftaran Calon Mentor)
+        if (url.pathname.includes('/mentor') || body.university) {
+          const {
+            fullName,
+            whatsapp,
+            email,
+            originCity = '-',
+            university,
+            country = '',
+            major = '',
+            level = 'S2',
+            scholarship = 'Mandiri / Jalur Lain',
+            hoursPerWeek = '3-5 jam/minggu',
+            linkedinOrIg = '',
+          } = body;
+
+          const mentorId = `mentor_${Date.now()}_${Math.random().toString(36).substring(2, 7)}`;
+          const digitsOnly = String(whatsapp || '').replace(/[^0-9]/g, '');
+          const mentorWaStandard = digitsOnly.startsWith('0') 
+            ? '62' + digitsOnly.slice(1) 
+            : digitsOnly.startsWith('62') 
+              ? digitsOnly 
+              : '62' + digitsOnly;
+
+          const mentorWaChatUrl = `https://wa.me/${mentorWaStandard}?text=${encodeURIComponent(
+            `Halo ${fullName}, salam dari Tim MandalikaEdu.\n\n` +
+            `Terima kasih telah mendaftar sebagai Calon Mentor untuk pendampingan negara ${country} (${university}). Berkas Anda telah kami terima dan kami ingin mengundang Anda untuk sesi perkenalan singkat.`
+          )}`;
+
+          const telegramText = 
+            `🎓 *PENDAFTARAN MENTOR BARU*\n` +
+            `*Kode Mentor*: \`${mentorId}\`\n\n` +
+            `👤 *Nama*: ${fullName}\n` +
+            `🏫 *Kampus*: ${university} (${country})\n` +
+            `🎓 *Jurusan & Jenjang*: ${level} ${major}\n` +
+            `🏆 *Beasiswa*: ${scholarship}\n` +
+            `📍 *Kota Asal*: ${originCity}\n` +
+            `⏰ *Ketersediaan*: ${hoursPerWeek}\n` +
+            `📱 *WhatsApp Mentor*: +${mentorWaStandard}\n\n` +
+            `👉 *Hubungi Mentor via WhatsApp (Sekali Klik):*\n` +
+            `${mentorWaChatUrl}`;
+
+          try {
+            await fetch('https://api.telegram.org/bot9253011123:AAFc9Ws7JdpGX1Sz271cn6fncD-iybikD4U/sendMessage', {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({
+                chat_id: '2126895475',
+                text: telegramText,
+                parse_mode: 'Markdown',
+                reply_markup: {
+                  inline_keyboard: [[{ text: '💬 Hubungi Mentor via WhatsApp', url: mentorWaChatUrl }]]
+                }
+              })
+            });
+          } catch (tErr) {
+            console.error('Telegram mentor dispatch error in worker:', tErr);
+          }
+
+          return new Response(
+            JSON.stringify({
+              success: true,
+              mentorId,
+              message: 'Pendaftaran mentor berhasil dicatat.'
+            }),
+            { status: 200, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
+          );
+        }
+
+        // 3. Handle Gemini AI Chatbot
         const apiKey = env.GEMINI_API_KEY;
         if (!apiKey) {
           return new Response(
@@ -123,7 +268,6 @@ export default {
           );
         }
 
-        const body = await request.json();
         const incomingMessages = body.messages || [];
 
         // Susun riwayat percakapan agar Gemini paham alur tanya jawab
