@@ -1,0 +1,9 @@
+{
+  "adminEmail": "admin@mandalikaedu.com",
+  "forwardTo": "rahman.udemy.manager@gmail.com",
+  "smtpHost": "smtp.gmail.com",
+  "smtpPort": 465,
+  "smtpSecure": true,
+  "smtpUser": "rahman.udemy.manager@gmail.com",
+  "smtpPass": ""
+}

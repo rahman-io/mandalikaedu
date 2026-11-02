@@ -1,0 +1,16 @@
+[
+  {
+    "timestamp": "2026-11-02T09:23:09.903Z",
+    "to": "admin@mandalikaedu.com, rahman.udemy.manager@gmail.com",
+    "subject": "🔔 [TEST KONEKSI] Sistem Notifikasi Email MandalikaEdu Berhasil Aktif",
+    "preview": "Halo Admin MandalikaEdu,\n\nIni adalah email uji coba (test notification) untuk memverifikasi jalur pengiriman email pendaftaran.\nKoneksi email korporat admin@man",
+    "hasSmtpAuth": false
+  },
+  {
+    "timestamp": "2026-11-02T09:23:15.576Z",
+    "to": "admin@mandalikaedu.com, rahman.udemy.manager@gmail.com",
+    "subject": "[PENDAFTARAN KONSULTASI BARU] Sesi Discovery - Budi Santoso (Mataram)",
+    "preview": "📋 *PENDAFTARAN KONSULTASI BARU*\n*Kode Tiket*: `lead_1793611395562_hsn4f`\n\n👤 *Nama Siswa*: Budi Santoso\n📍 *Asal Daerah*: Mataram\n📦 *Paket Layanan*: Sesi Disc",
+    "hasSmtpAuth": false
+  }
+]

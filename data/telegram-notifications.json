@@ -10,5 +10,35 @@
       }
     ],
     "dispatched": false
+  },
+  {
+    "timestamp": "2026-11-02T08:08:32.582Z",
+    "adminPhone": "+48576982748",
+    "message": "📋 *PENDAFTARAN KONSULTASI BARU*\n*Kode Tiket*: `osCuTVXMJH5nHo1fZDTz`\n\n👤 *Nama Siswa*: rahman udemy\n📍 *Asal Daerah*: Sumbawa Besar\n📦 *Paket Layanan*: Sesi Discovery (Rp 0)\n🎯 *Target Studi*: S2 ke Jepang\n⏰ *Jadwal Sesi*: 2026-11-04 jam 19:30 WIB (Malam)\n📝 *Kendala*: (Tidak ada kendala spesifik)\n📱 *WhatsApp Siswa*: +6285205790192\n\n👉 *Hubungi Siswa via WhatsApp (Sekali Klik):*\nhttps://wa.me/6285205790192?text=Halo%20rahman%20udemy%2C%20salam%20hangat%20dari%20Tim%20Konsultan%20MandalikaEdu.%0A%0AKami%20telah%20menerima%20formulir%20pengajuan%20bimbingan%20Sesi%20Discovery%20(S2%20ke%20Jepang)%20yang%20Anda%20kirimkan%20melalui%20website%20resmi%20kami.%0A%0AApakah%20waktu%20konsultasi%202026-11-04%20jam%2019%3A30%20WIB%20(Malam)%20masih%20sesuai%20untuk%20kita%20jadwalkan%3F",
+    "buttons": [
+      {
+        "text": "💬 Hubungi Siswa via WhatsApp",
+        "url": "https://wa.me/6285205790192?text=Halo%20rahman%20udemy%2C%20salam%20hangat%20dari%20Tim%20Konsultan%20MandalikaEdu.%0A%0AKami%20telah%20menerima%20formulir%20pengajuan%20bimbingan%20Sesi%20Discovery%20(S2%20ke%20Jepang)%20yang%20Anda%20kirimkan%20melalui%20website%20resmi%20kami.%0A%0AApakah%20waktu%20konsultasi%202026-11-04%20jam%2019%3A30%20WIB%20(Malam)%20masih%20sesuai%20untuk%20kita%20jadwalkan%3F"
+      }
+    ],
+    "dispatched": false
+  },
+  {
+    "timestamp": "2026-11-02T08:28:32.083Z",
+    "adminPhone": "+48576982748",
+    "message": "🔔 *TEST KONEKSI TELEGRAM MANDALIKAEDU*\n\nSistem notifikasi pendaftaran berhasil terhubung dengan akun Telegram admin!\nSetiap pendaftar sesi konsultasi dan mentor akan otomatis dikirimkan ke sini lengkap dengan tautan sekali klik ke WhatsApp calon siswa.",
+    "dispatched": true
+  },
+  {
+    "timestamp": "2026-11-02T09:23:15.566Z",
+    "adminPhone": "+48576982748",
+    "message": "📋 *PENDAFTARAN KONSULTASI BARU*\n*Kode Tiket*: `lead_1793611395562_hsn4f`\n\n👤 *Nama Siswa*: Budi Santoso\n📍 *Asal Daerah*: Mataram\n📦 *Paket Layanan*: Sesi Discovery (Rp 0)\n🎯 *Target Studi*: S2 ke Australia\n⏰ *Jadwal Sesi*: Segera jam 19:30 WIB (Malam)\n📝 *Kendala*: Persiapan beasiswa AAS\n📱 *WhatsApp Siswa*: +6281234567890\n\n👉 *Hubungi Siswa via WhatsApp (Sekali Klik):*\nhttps://wa.me/6281234567890?text=Halo%20Budi%20Santoso%2C%20salam%20hangat%20dari%20Tim%20Konsultan%20MandalikaEdu.%0A%0AKami%20telah%20menerima%20formulir%20pengajuan%20bimbingan%20Sesi%20Discovery%20(S2%20ke%20Australia)%20yang%20Anda%20kirimkan%20melalui%20website%20resmi%20kami.%0A%0AApakah%20waktu%20konsultasi%20Segera%20jam%2019%3A30%20WIB%20(Malam)%20masih%20sesuai%20untuk%20kita%20jadwalkan%3F",
+    "buttons": [
+      {
+        "text": "💬 Hubungi Siswa via WhatsApp",
+        "url": "https://wa.me/6281234567890?text=Halo%20Budi%20Santoso%2C%20salam%20hangat%20dari%20Tim%20Konsultan%20MandalikaEdu.%0A%0AKami%20telah%20menerima%20formulir%20pengajuan%20bimbingan%20Sesi%20Discovery%20(S2%20ke%20Australia)%20yang%20Anda%20kirimkan%20melalui%20website%20resmi%20kami.%0A%0AApakah%20waktu%20konsultasi%20Segera%20jam%2019%3A30%20WIB%20(Malam)%20masih%20sesuai%20untuk%20kita%20jadwalkan%3F"
+      }
+    ],
+    "dispatched": true
   }
 ]

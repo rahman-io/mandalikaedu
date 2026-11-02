@@ -3,6 +3,7 @@ import path from 'path';
 import fs from 'fs';
 import { fileURLToPath } from 'url';
 import dotenv from 'dotenv';
+import nodemailer from 'nodemailer';
 import { GoogleGenAI } from '@google/genai';
 import { SCHOLARSHIPS_DATA } from './src/data/scholarships';
 import { generateFirebaseExportBundle } from './src/lib/firebase/firestoreExport';
@@ -19,8 +20,12 @@ const LEADS_DATA_FILE = path.join(LEADS_DATA_DIR, 'leads-backup.json');
 const MENTORS_DATA_FILE = path.join(LEADS_DATA_DIR, 'mentors-backup.json');
 const TELEGRAM_CONFIG_FILE = path.join(LEADS_DATA_DIR, 'telegram-config.json');
 const TELEGRAM_LOGS_FILE = path.join(LEADS_DATA_DIR, 'telegram-notifications.json');
+const EMAIL_CONFIG_FILE = path.join(LEADS_DATA_DIR, 'email-config.json');
+const EMAIL_LOGS_FILE = path.join(LEADS_DATA_DIR, 'email-notifications.json');
 
 const ADMIN_TELEGRAM_PHONE = '+48576982748';
+const DEFAULT_ADMIN_EMAIL = 'admin@mandalikaedu.com';
+const DEFAULT_FORWARD_EMAIL = 'rahman.udemy.manager@gmail.com';
 
 function ensureLeadsStorage() {
   try {
@@ -42,6 +47,20 @@ function ensureLeadsStorage() {
     }
     if (!fs.existsSync(TELEGRAM_LOGS_FILE)) {
       fs.writeFileSync(TELEGRAM_LOGS_FILE, JSON.stringify([], null, 2), 'utf-8');
+    }
+    if (!fs.existsSync(EMAIL_CONFIG_FILE)) {
+      fs.writeFileSync(EMAIL_CONFIG_FILE, JSON.stringify({
+        adminEmail: DEFAULT_ADMIN_EMAIL,
+        forwardTo: DEFAULT_FORWARD_EMAIL,
+        smtpHost: 'smtp.gmail.com',
+        smtpPort: 465,
+        smtpSecure: true,
+        smtpUser: DEFAULT_FORWARD_EMAIL,
+        smtpPass: process.env.GMAIL_APP_PASSWORD || ''
+      }, null, 2), 'utf-8');
+    }
+    if (!fs.existsSync(EMAIL_LOGS_FILE)) {
+      fs.writeFileSync(EMAIL_LOGS_FILE, JSON.stringify([], null, 2), 'utf-8');
     }
   } catch (err) {
     console.error('Error initializing leads backup storage:', err);
@@ -160,6 +179,112 @@ async function sendTelegramAlert(
   } catch (err: any) {
     console.error('Error dispatching telegram message:', err);
     return { success: false, reason: err?.message };
+  }
+}
+
+interface EmailConfig {
+  adminEmail: string;
+  forwardTo: string;
+  smtpHost: string;
+  smtpPort: number;
+  smtpSecure: boolean;
+  smtpUser: string;
+  smtpPass: string;
+}
+
+function getEmailConfig(): EmailConfig {
+  try {
+    ensureLeadsStorage();
+    if (fs.existsSync(EMAIL_CONFIG_FILE)) {
+      const raw = fs.readFileSync(EMAIL_CONFIG_FILE, 'utf-8');
+      const parsed = JSON.parse(raw);
+      return {
+        adminEmail: process.env.ADMIN_EMAIL || parsed.adminEmail || DEFAULT_ADMIN_EMAIL,
+        forwardTo: process.env.ADMIN_FORWARD_EMAIL || parsed.forwardTo || DEFAULT_FORWARD_EMAIL,
+        smtpHost: process.env.SMTP_HOST || parsed.smtpHost || 'smtp.gmail.com',
+        smtpPort: Number(process.env.SMTP_PORT || parsed.smtpPort || 465),
+        smtpSecure: parsed.smtpSecure !== undefined ? Boolean(parsed.smtpSecure) : true,
+        smtpUser: process.env.GMAIL_USER || process.env.SMTP_USER || parsed.smtpUser || DEFAULT_FORWARD_EMAIL,
+        smtpPass: process.env.GMAIL_APP_PASSWORD || process.env.SMTP_PASS || parsed.smtpPass || '',
+      };
+    }
+  } catch (err) {
+    console.error('Error reading email config:', err);
+  }
+  return {
+    adminEmail: process.env.ADMIN_EMAIL || DEFAULT_ADMIN_EMAIL,
+    forwardTo: process.env.ADMIN_FORWARD_EMAIL || DEFAULT_FORWARD_EMAIL,
+    smtpHost: process.env.SMTP_HOST || 'smtp.gmail.com',
+    smtpPort: Number(process.env.SMTP_PORT || 465),
+    smtpSecure: true,
+    smtpUser: process.env.GMAIL_USER || process.env.SMTP_USER || DEFAULT_FORWARD_EMAIL,
+    smtpPass: process.env.GMAIL_APP_PASSWORD || process.env.SMTP_PASS || '',
+  };
+}
+
+async function sendEmailAlert(params: {
+  subject: string;
+  text: string;
+  html: string;
+  recipientEmail?: string;
+}): Promise<{ success: boolean; reason?: string; messageId?: string }> {
+  const config = getEmailConfig();
+  const timestamp = new Date().toISOString();
+  // Alamat tujuan: diarahkan ke email korporat admin dan ke Gmail admin
+  const toAddress = params.recipientEmail || `${config.adminEmail}, ${config.forwardTo}`;
+
+  // Simpan catatan ke riwayat notifikasi email lokal
+  try {
+    ensureLeadsStorage();
+    let logs: any[] = [];
+    if (fs.existsSync(EMAIL_LOGS_FILE)) {
+      logs = JSON.parse(fs.readFileSync(EMAIL_LOGS_FILE, 'utf-8') || '[]');
+    }
+    logs.push({
+      timestamp,
+      to: toAddress,
+      subject: params.subject,
+      preview: params.text.slice(0, 160),
+      hasSmtpAuth: Boolean(config.smtpPass)
+    });
+    fs.writeFileSync(EMAIL_LOGS_FILE, JSON.stringify(logs.slice(-100), null, 2), 'utf-8');
+  } catch (err) {
+    console.error('Error logging email alert:', err);
+  }
+
+  // Tampilkan notifikasi email siap kirim di terminal console
+  console.log(`\n======================================================\n[NOTIFIKASI EMAIL KONSULTASI ADMIN (${toAddress})]\nSubjek: ${params.subject}\n${params.text}\n======================================================\n`);
+
+  if (!config.smtpPass) {
+    return { 
+      success: true, 
+      reason: 'Notifikasi email berhasil dicatat dalam antrean lokal (masukkan Sandi Aplikasi Google untuk pengiriman inbox langsung).' 
+    };
+  }
+
+  try {
+    const transporter = nodemailer.createTransport({
+      host: config.smtpHost,
+      port: config.smtpPort,
+      secure: config.smtpSecure,
+      auth: {
+        user: config.smtpUser,
+        pass: config.smtpPass,
+      },
+    });
+
+    const info = await transporter.sendMail({
+      from: `"MandalikaEdu Official" <${config.adminEmail}>`,
+      to: toAddress,
+      subject: params.subject,
+      text: params.text,
+      html: params.html,
+    });
+
+    return { success: true, messageId: info.messageId, reason: 'Berhasil dikirim ke inbox email admin' };
+  } catch (err: any) {
+    console.error('Error dispatching email via SMTP:', err);
+    return { success: false, reason: err?.message || 'Gagal mengirim email via SMTP' };
   }
 }
 
@@ -428,6 +553,63 @@ app.post('/api/booking/submit', (req, res) => {
       { text: '💬 Hubungi Siswa via WhatsApp', url: studentWaChatUrl }
     ]).catch(err => console.error('Telegram dispatch error on booking:', err));
 
+    // Kirim notifikasi email resmi ke admin (Cloudflare Email Routing & Gmail)
+    const emailSubject = `[PENDAFTARAN KONSULTASI BARU] ${leadRecord.packageName} - ${leadRecord.studentName} (${leadRecord.originCity})`;
+    const emailHtml = `<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <style>
+    body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background-color: #f1f5f9; color: #0f172a; margin: 0; padding: 24px 12px; }
+    .card { max-width: 600px; margin: 0 auto; background: #ffffff; border-radius: 16px; overflow: hidden; border: 1px solid #e2e8f0; box-shadow: 0 4px 12px rgba(0,0,0,0.06); }
+    .head { background: #0f172a; color: #ffffff; padding: 24px 28px; }
+    .badge { display: inline-block; background: #10b981; color: #ffffff; font-size: 11px; font-weight: 700; text-transform: uppercase; padding: 4px 10px; border-radius: 9999px; margin-bottom: 8px; }
+    .title { margin: 0; font-size: 20px; font-weight: 700; }
+    .body { padding: 28px; }
+    .row { display: flex; justify-content: space-between; padding: 10px 0; border-bottom: 1px solid #f1f5f9; font-size: 14px; }
+    .lbl { color: #64748b; font-weight: 500; }
+    .val { color: #0f172a; font-weight: 600; text-align: right; }
+    .btn { display: block; background: #16a34a; color: #ffffff !important; text-align: center; text-decoration: none; padding: 14px 20px; border-radius: 12px; font-weight: 700; font-size: 15px; margin: 24px 0 12px 0; }
+    .foot { background: #f8fafc; padding: 16px 28px; text-align: center; font-size: 12px; color: #94a3b8; border-top: 1px solid #e2e8f0; }
+  </style>
+</head>
+<body>
+  <div class="card">
+    <div class="head">
+      <div class="badge">Pendaftaran Konsultasi Baru</div>
+      <h1 class="title">MandalikaEdu Official</h1>
+      <p style="margin: 4px 0 0 0; font-size: 13px; color: #94a3b8;">Tiket ID: ${leadRecord.bookingId}</p>
+    </div>
+    <div class="body">
+      <div class="row"><span class="lbl">Nama Siswa:</span><span class="val">${leadRecord.studentName}</span></div>
+      <div class="row"><span class="lbl">Asal Daerah:</span><span class="val">${leadRecord.originCity}</span></div>
+      <div class="row"><span class="lbl">Paket Layanan:</span><span class="val">${leadRecord.packageName} (${leadRecord.priceFormatted})</span></div>
+      <div class="row"><span class="lbl">Target Studi:</span><span class="val">${leadRecord.studyLevel} ke ${leadRecord.targetCountry}</span></div>
+      <div class="row"><span class="lbl">Jadwal Sesi:</span><span class="val">${leadRecord.preferredDate} jam ${leadRecord.preferredTime}</span></div>
+      <div class="row"><span class="lbl">WhatsApp Siswa:</span><span class="val">+${studentWaStandard}</span></div>
+      <div class="row"><span class="lbl">Email Siswa:</span><span class="val">${leadRecord.studentEmail || '(Tidak dicantumkan)'}</span></div>
+      <div class="row"><span class="lbl">Kendala / Catatan:</span><span class="val">${leadRecord.notes || '(Tidak ada kendala spesifik)'}</span></div>
+
+      <a href="${studentWaChatUrl}" class="btn" target="_blank">
+        👉 Hubungi Siswa via WhatsApp (Sekali Klik)
+      </a>
+      <p style="text-align: center; font-size: 12px; color: #64748b; margin: 0;">
+        Klik tombol hijau di atas untuk langsung membuka chat WhatsApp dengan salam pembuka resmi yang sudah terisi otomatis.
+      </p>
+    </div>
+    <div class="foot">
+      Sistem Notifikasi Resmi MandalikaEdu &bull; admin@mandalikaedu.com
+    </div>
+  </div>
+</body>
+</html>`;
+
+    sendEmailAlert({
+      subject: emailSubject,
+      text: telegramText,
+      html: emailHtml
+    }).catch(err => console.error('Email dispatch error on booking:', err));
+
     return res.json({
       success: true,
       bookingId: leadRecord.bookingId,
@@ -516,6 +698,61 @@ app.post('/api/mentor/submit', (req, res) => {
       { text: '💬 Hubungi Mentor via WhatsApp', url: mentorWaChatUrl }
     ]).catch(err => console.error('Telegram dispatch error on mentor submit:', err));
 
+    // Kirim notifikasi email mentor ke admin (Cloudflare Email Routing & Gmail)
+    const mentorEmailSubject = `[PENDAFTARAN MENTOR BARU] ${mentorRecord.fullName} - ${mentorRecord.university} (${mentorRecord.country})`;
+    const mentorEmailHtml = `<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <style>
+    body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background-color: #f1f5f9; color: #0f172a; margin: 0; padding: 24px 12px; }
+    .card { max-width: 600px; margin: 0 auto; background: #ffffff; border-radius: 16px; overflow: hidden; border: 1px solid #e2e8f0; box-shadow: 0 4px 12px rgba(0,0,0,0.06); }
+    .head { background: #0f172a; color: #ffffff; padding: 24px 28px; }
+    .badge { display: inline-block; background: #3b82f6; color: #ffffff; font-size: 11px; font-weight: 700; text-transform: uppercase; padding: 4px 10px; border-radius: 9999px; margin-bottom: 8px; }
+    .title { margin: 0; font-size: 20px; font-weight: 700; }
+    .body { padding: 28px; }
+    .row { display: flex; justify-content: space-between; padding: 10px 0; border-bottom: 1px solid #f1f5f9; font-size: 14px; }
+    .lbl { color: #64748b; font-weight: 500; }
+    .val { color: #0f172a; font-weight: 600; text-align: right; }
+    .btn { display: block; background: #16a34a; color: #ffffff !important; text-align: center; text-decoration: none; padding: 14px 20px; border-radius: 12px; font-weight: 700; font-size: 15px; margin: 24px 0 12px 0; }
+    .foot { background: #f8fafc; padding: 16px 28px; text-align: center; font-size: 12px; color: #94a3b8; border-top: 1px solid #e2e8f0; }
+  </style>
+</head>
+<body>
+  <div class="card">
+    <div class="head">
+      <div class="badge">Pendaftaran Mentor Baru</div>
+      <h1 class="title">MandalikaEdu Official</h1>
+      <p style="margin: 4px 0 0 0; font-size: 13px; color: #94a3b8;">Kode Mentor: ${mentorRecord.mentorId}</p>
+    </div>
+    <div class="body">
+      <div class="row"><span class="lbl">Nama:</span><span class="val">${mentorRecord.fullName}</span></div>
+      <div class="row"><span class="lbl">Kampus & Negara:</span><span class="val">${mentorRecord.university} (${mentorRecord.country})</span></div>
+      <div class="row"><span class="lbl">Jurusan & Jenjang:</span><span class="val">${mentorRecord.level} ${mentorRecord.major}</span></div>
+      <div class="row"><span class="lbl">Beasiswa:</span><span class="val">${mentorRecord.scholarship}</span></div>
+      <div class="row"><span class="lbl">Kota Asal:</span><span class="val">${mentorRecord.originCity}</span></div>
+      <div class="row"><span class="lbl">Ketersediaan Waktu:</span><span class="val">${mentorRecord.hoursPerWeek}</span></div>
+      <div class="row"><span class="lbl">WhatsApp:</span><span class="val">+${mentorWaStandard}</span></div>
+      <div class="row"><span class="lbl">Email:</span><span class="val">${mentorRecord.email}</span></div>
+      <div class="row"><span class="lbl">LinkedIn / IG:</span><span class="val">${mentorRecord.linkedinOrIg || '-'}</span></div>
+
+      <a href="${mentorWaChatUrl}" class="btn" target="_blank">
+        👉 Hubungi Mentor via WhatsApp (Sekali Klik)
+      </a>
+    </div>
+    <div class="foot">
+      Sistem Notifikasi Resmi MandalikaEdu &bull; admin@mandalikaedu.com
+    </div>
+  </div>
+</body>
+</html>`;
+
+    sendEmailAlert({
+      subject: mentorEmailSubject,
+      text: telegramText,
+      html: mentorEmailHtml
+    }).catch(err => console.error('Email dispatch error on mentor submit:', err));
+
     return res.json({
       success: true,
       mentorId: mentorRecord.mentorId,
@@ -563,6 +800,111 @@ app.post('/api/telegram/config', (req, res) => {
     return res.json({ success: true, config: { adminPhone: updated.adminPhone, isConfigured: Boolean(updated.botToken && updated.chatId) } });
   } catch (err: any) {
     return res.status(500).json({ error: 'Gagal memperbarui konfigurasi telegram' });
+  }
+});
+
+// Endpoint untuk melakukan test ping pengiriman pesan ke Telegram admin
+app.post('/api/telegram/test', async (_req, res) => {
+  try {
+    const result = await sendTelegramAlert(
+      `🔔 *TEST KONEKSI TELEGRAM MANDALIKAEDU*\n\n` +
+      `Sistem notifikasi pendaftaran berhasil terhubung dengan akun Telegram admin!\n` +
+      `Setiap pendaftar sesi konsultasi dan mentor akan otomatis dikirimkan ke sini lengkap dengan tautan sekali klik ke WhatsApp calon siswa.`
+    );
+    return res.json(result);
+  } catch (err: any) {
+    return res.status(500).json({ success: false, error: err?.message || 'Gagal mengirim test notifikasi' });
+  }
+});
+
+// Endpoint status dan audit notifikasi Email Admin
+app.get('/api/email/status', (_req, res) => {
+  try {
+    ensureLeadsStorage();
+    const config = getEmailConfig();
+    let logs: any[] = [];
+    if (fs.existsSync(EMAIL_LOGS_FILE)) {
+      logs = JSON.parse(fs.readFileSync(EMAIL_LOGS_FILE, 'utf-8') || '[]');
+    }
+    return res.json({
+      success: true,
+      adminEmail: config.adminEmail,
+      forwardTo: config.forwardTo,
+      smtpUser: config.smtpUser,
+      smtpConfigured: Boolean(config.smtpPass),
+      totalNotifications: logs.length,
+      recentAlerts: logs.slice(-10).reverse()
+    });
+  } catch (err: any) {
+    return res.status(500).json({ error: 'Gagal membaca status notifikasi email' });
+  }
+});
+
+// Endpoint untuk konfigurasi email admin & Sandi Aplikasi Google (App Password)
+app.post('/api/email/config', (req, res) => {
+  try {
+    ensureLeadsStorage();
+    const { adminEmail, forwardTo, smtpUser, smtpPass } = req.body;
+    const current = getEmailConfig();
+    const updated = {
+      adminEmail: adminEmail ? String(adminEmail).trim() : current.adminEmail,
+      forwardTo: forwardTo ? String(forwardTo).trim() : current.forwardTo,
+      smtpHost: current.smtpHost,
+      smtpPort: current.smtpPort,
+      smtpSecure: current.smtpSecure,
+      smtpUser: smtpUser ? String(smtpUser).trim() : (current.smtpUser || current.forwardTo),
+      smtpPass: smtpPass !== undefined ? String(smtpPass).replace(/\s+/g, '') : current.smtpPass,
+    };
+    fs.writeFileSync(EMAIL_CONFIG_FILE, JSON.stringify(updated, null, 2), 'utf-8');
+    return res.json({
+      success: true,
+      message: 'Konfigurasi email admin berhasil diperbarui.',
+      config: {
+        adminEmail: updated.adminEmail,
+        forwardTo: updated.forwardTo,
+        smtpConfigured: Boolean(updated.smtpPass)
+      }
+    });
+  } catch (err: any) {
+    return res.status(500).json({ error: 'Gagal memperbarui konfigurasi email' });
+  }
+});
+
+// Endpoint untuk melakukan test ping pengiriman email ke email admin & Gmail
+app.post('/api/email/test', async (_req, res) => {
+  try {
+    const config = getEmailConfig();
+    const result = await sendEmailAlert({
+      subject: '🔔 [TEST KONEKSI] Sistem Notifikasi Email MandalikaEdu Berhasil Aktif',
+      text: 
+        `Halo Admin MandalikaEdu,\n\n` +
+        `Ini adalah email uji coba (test notification) untuk memverifikasi jalur pengiriman email pendaftaran.\n` +
+        `Koneksi email korporat admin@mandalikaedu.com dan Gmail ${config.forwardTo} telah terhubung dengan sempurna.\n\n` +
+        `Setiap ada pendaftar sesi konsultasi atau pendaftar mentor, rincian data dan tombol WhatsApp sekali klik akan langsung dikirimkan ke email ini.`,
+      html: `<!DOCTYPE html>
+<html>
+<head><meta charset="utf-8"></head>
+<body style="font-family: sans-serif; background: #f8fafc; padding: 24px; color: #0f172a;">
+  <div style="max-width: 560px; margin: 0 auto; background: #ffffff; border-radius: 12px; padding: 28px; border: 1px solid #e2e8f0; box-shadow: 0 4px 6px rgba(0,0,0,0.05);">
+    <div style="display: inline-block; background: #10b981; color: #ffffff; font-size: 11px; font-weight: 700; text-transform: uppercase; padding: 4px 10px; border-radius: 9999px; margin-bottom: 8px;">Uji Coba Berhasil</div>
+    <h2 style="margin: 4px 0 16px 0; color: #0f172a;">Sistem Notifikasi Email Aktif</h2>
+    <p style="font-size: 14px; line-height: 1.6; color: #475569;">
+      Halo Admin MandalikaEdu,<br><br>
+      Email ini mengonfirmasi bahwa jalur notifikasi pendaftaran <strong>mandalikaedu.com</strong> ke <strong>${config.adminEmail}</strong> (diteruskan ke <strong>${config.forwardTo}</strong>) telah siap digunakan secara otomatis.
+    </p>
+    <div style="background: #f1f5f9; border-radius: 8px; padding: 16px; margin: 20px 0; font-size: 13px;">
+      ✅ <strong>Status Pengiriman:</strong> ${Boolean(config.smtpPass) ? 'Terkirim via Sandi Aplikasi Gmail SMTP' : 'Tercatat dalam antrean audit internal'}<br>
+      🏢 <strong>Email Korporat:</strong> ${config.adminEmail}<br>
+      📥 <strong>Inbox Gmail Tujuan:</strong> ${config.forwardTo}
+    </div>
+    <p style="font-size: 12px; color: #94a3b8; margin: 0;">Sistem Notifikasi MandalikaEdu Official &bull; PT Research Empowerment Learning and Replace Institute</p>
+  </div>
+</body>
+</html>`
+    });
+    return res.json(result);
+  } catch (err: any) {
+    return res.status(500).json({ success: false, error: err?.message || 'Gagal mengirim email test' });
   }
 });
 
