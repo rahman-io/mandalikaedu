@@ -102,5 +102,31 @@
       "timestamp": "2026-11-02T16:42:40.201Z"
     },
     "createdAt": "2026-11-02T16:42:40.201Z"
+  },
+  {
+    "bookingId": "lead_1793638542548_bpnvv",
+    "firestoreBookingId": null,
+    "studentName": "Ahmad Syahrir",
+    "studentWhatsapp": "081298765432",
+    "studentEmail": null,
+    "originCity": "Sumbawa Besar",
+    "targetCountry": "Jepang",
+    "studyLevel": "S2",
+    "targetScholarship": "S2 Jepang",
+    "packageId": "discovery-free",
+    "packageName": "Sesi Discovery",
+    "priceFormatted": "Rp 0",
+    "preferredDate": "Segera",
+    "preferredTime": "19:30 WIB (Malam)",
+    "notes": "Uji coba tanpa email pribadi di penerima",
+    "isFree": true,
+    "status": "sesi_gratis_terjadwal",
+    "source": "website_modal",
+    "privacyConsent": {
+      "agreed": true,
+      "legalNotice": "LEMBAGA RESEARCH EMPOWERMENT LEARNING AND REPLACE INSTITUTE",
+      "timestamp": "2026-11-02T16:55:42.548Z"
+    },
+    "createdAt": "2026-11-02T16:55:42.548Z"
   }
 ]

@@ -26,5 +26,12 @@
     "subject": "[PENDAFTARAN KONSULTASI BARU] Sesi Discovery - A. Rahman Test (Sumbawa Besar)",
     "preview": "📋 *PENDAFTARAN KONSULTASI BARU*\n*Kode Tiket*: `lead_1793637760201_ovclf`\n\n👤 *Nama Siswa*: A. Rahman Test\n📍 *Asal Daerah*: Sumbawa Besar\n📦 *Paket Layanan*: S",
     "hasSmtpAuth": true
+  },
+  {
+    "timestamp": "2026-11-02T16:55:42.568Z",
+    "to": "admin@mandalikaedu.com",
+    "subject": "[PENDAFTARAN KONSULTASI BARU] Sesi Discovery - Ahmad Syahrir (Sumbawa Besar)",
+    "preview": "📋 *PENDAFTARAN KONSULTASI BARU*\n*Kode Tiket*: `lead_1793638542548_bpnvv`\n\n👤 *Nama Siswa*: Ahmad Syahrir\n📍 *Asal Daerah*: Sumbawa Besar\n📦 *Paket Layanan*: Se",
+    "hasSmtpAuth": true
   }
 ]

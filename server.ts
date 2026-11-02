@@ -230,8 +230,8 @@ async function sendEmailAlert(params: {
 }): Promise<{ success: boolean; reason?: string; messageId?: string }> {
   const config = getEmailConfig();
   const timestamp = new Date().toISOString();
-  // Alamat tujuan: diarahkan ke email korporat admin dan ke Gmail admin
-  const toAddress = params.recipientEmail || `${config.adminEmail}, ${config.forwardTo}`;
+  // Alamat tujuan: diarahkan murni ke email resmi korporat admin (Cloudflare meneruskannya ke inbox secara privat)
+  const toAddress = params.recipientEmail || config.adminEmail;
 
   // Simpan catatan ke riwayat notifikasi email lokal
   try {
