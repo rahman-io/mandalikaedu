@@ -12,5 +12,19 @@
     "subject": "[PENDAFTARAN KONSULTASI BARU] Sesi Discovery - Budi Santoso (Mataram)",
     "preview": "📋 *PENDAFTARAN KONSULTASI BARU*\n*Kode Tiket*: `lead_1793611395562_hsn4f`\n\n👤 *Nama Siswa*: Budi Santoso\n📍 *Asal Daerah*: Mataram\n📦 *Paket Layanan*: Sesi Disc",
     "hasSmtpAuth": false
+  },
+  {
+    "timestamp": "2026-11-02T16:42:29.908Z",
+    "to": "admin@mandalikaedu.com, rahman.udemy.manager@gmail.com",
+    "subject": "🔔 [TEST KONEKSI] Sistem Notifikasi Email MandalikaEdu Berhasil Aktif",
+    "preview": "Halo Admin MandalikaEdu,\n\nIni adalah email uji coba (test notification) untuk memverifikasi jalur pengiriman email pendaftaran.\nKoneksi email korporat admin@man",
+    "hasSmtpAuth": true
+  },
+  {
+    "timestamp": "2026-11-02T16:42:40.257Z",
+    "to": "admin@mandalikaedu.com, rahman.udemy.manager@gmail.com",
+    "subject": "[PENDAFTARAN KONSULTASI BARU] Sesi Discovery - A. Rahman Test (Sumbawa Besar)",
+    "preview": "📋 *PENDAFTARAN KONSULTASI BARU*\n*Kode Tiket*: `lead_1793637760201_ovclf`\n\n👤 *Nama Siswa*: A. Rahman Test\n📍 *Asal Daerah*: Sumbawa Besar\n📦 *Paket Layanan*: S",
+    "hasSmtpAuth": true
   }
 ]

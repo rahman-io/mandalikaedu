@@ -76,5 +76,31 @@
       "timestamp": "2026-11-02T09:23:15.563Z"
     },
     "createdAt": "2026-11-02T09:23:15.563Z"
+  },
+  {
+    "bookingId": "lead_1793637760201_ovclf",
+    "firestoreBookingId": null,
+    "studentName": "A. Rahman Test",
+    "studentWhatsapp": "085205790192",
+    "studentEmail": null,
+    "originCity": "Sumbawa Besar",
+    "targetCountry": "Jepang",
+    "studyLevel": "S2",
+    "targetScholarship": "S2 Jepang",
+    "packageId": "discovery-free",
+    "packageName": "Sesi Discovery",
+    "priceFormatted": "Rp 0",
+    "preferredDate": "Segera",
+    "preferredTime": "19:30 WIB (Malam)",
+    "notes": "Uji coba email langsung masuk ke Gmail",
+    "isFree": true,
+    "status": "sesi_gratis_terjadwal",
+    "source": "website_modal",
+    "privacyConsent": {
+      "agreed": true,
+      "legalNotice": "LEMBAGA RESEARCH EMPOWERMENT LEARNING AND REPLACE INSTITUTE",
+      "timestamp": "2026-11-02T16:42:40.201Z"
+    },
+    "createdAt": "2026-11-02T16:42:40.201Z"
   }
 ]
