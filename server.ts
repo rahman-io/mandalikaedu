@@ -16,6 +16,11 @@ const __dirname = path.dirname(__filename);
 // Direktori dan berkas cadangan data pendaftaran internal
 const LEADS_DATA_DIR = path.join(__dirname, 'data');
 const LEADS_DATA_FILE = path.join(LEADS_DATA_DIR, 'leads-backup.json');
+const MENTORS_DATA_FILE = path.join(LEADS_DATA_DIR, 'mentors-backup.json');
+const TELEGRAM_CONFIG_FILE = path.join(LEADS_DATA_DIR, 'telegram-config.json');
+const TELEGRAM_LOGS_FILE = path.join(LEADS_DATA_DIR, 'telegram-notifications.json');
+
+const ADMIN_TELEGRAM_PHONE = '+48576982748';
 
 function ensureLeadsStorage() {
   try {
@@ -24,6 +29,19 @@ function ensureLeadsStorage() {
     }
     if (!fs.existsSync(LEADS_DATA_FILE)) {
       fs.writeFileSync(LEADS_DATA_FILE, JSON.stringify([], null, 2), 'utf-8');
+    }
+    if (!fs.existsSync(MENTORS_DATA_FILE)) {
+      fs.writeFileSync(MENTORS_DATA_FILE, JSON.stringify([], null, 2), 'utf-8');
+    }
+    if (!fs.existsSync(TELEGRAM_CONFIG_FILE)) {
+      fs.writeFileSync(TELEGRAM_CONFIG_FILE, JSON.stringify({
+        adminPhone: ADMIN_TELEGRAM_PHONE,
+        botToken: process.env.TELEGRAM_BOT_TOKEN || '',
+        chatId: process.env.TELEGRAM_CHAT_ID || ''
+      }, null, 2), 'utf-8');
+    }
+    if (!fs.existsSync(TELEGRAM_LOGS_FILE)) {
+      fs.writeFileSync(TELEGRAM_LOGS_FILE, JSON.stringify([], null, 2), 'utf-8');
     }
   } catch (err) {
     console.error('Error initializing leads backup storage:', err);
@@ -39,6 +57,109 @@ function saveLeadRecord(record: any) {
     fs.writeFileSync(LEADS_DATA_FILE, JSON.stringify(records, null, 2), 'utf-8');
   } catch (err) {
     console.error('Error saving lead to backup file:', err);
+  }
+}
+
+function saveMentorRecord(record: any) {
+  try {
+    ensureLeadsStorage();
+    const existingRaw = fs.readFileSync(MENTORS_DATA_FILE, 'utf-8');
+    const records = JSON.parse(existingRaw || '[]');
+    records.push(record);
+    fs.writeFileSync(MENTORS_DATA_FILE, JSON.stringify(records, null, 2), 'utf-8');
+  } catch (err) {
+    console.error('Error saving mentor to backup file:', err);
+  }
+}
+
+interface TelegramConfig {
+  botToken?: string;
+  chatId?: string;
+  adminPhone?: string;
+}
+
+function getTelegramConfig(): TelegramConfig {
+  try {
+    ensureLeadsStorage();
+    if (fs.existsSync(TELEGRAM_CONFIG_FILE)) {
+      const raw = fs.readFileSync(TELEGRAM_CONFIG_FILE, 'utf-8');
+      const parsed = JSON.parse(raw);
+      return {
+        botToken: process.env.TELEGRAM_BOT_TOKEN || parsed.botToken || '',
+        chatId: process.env.TELEGRAM_CHAT_ID || parsed.chatId || '',
+        adminPhone: parsed.adminPhone || ADMIN_TELEGRAM_PHONE,
+      };
+    }
+  } catch (err) {
+    console.error('Error reading telegram config:', err);
+  }
+  return {
+    botToken: process.env.TELEGRAM_BOT_TOKEN || '',
+    chatId: process.env.TELEGRAM_CHAT_ID || '',
+    adminPhone: ADMIN_TELEGRAM_PHONE,
+  };
+}
+
+async function sendTelegramAlert(
+  message: string, 
+  urlButtons?: Array<{ text: string; url: string }>
+): Promise<{ success: boolean; reason?: string }> {
+  const config = getTelegramConfig();
+  const timestamp = new Date().toISOString();
+  
+  // Catat riwayat notifikasi ke berkas audit lokal
+  try {
+    ensureLeadsStorage();
+    let logs: any[] = [];
+    if (fs.existsSync(TELEGRAM_LOGS_FILE)) {
+      logs = JSON.parse(fs.readFileSync(TELEGRAM_LOGS_FILE, 'utf-8') || '[]');
+    }
+    logs.push({
+      timestamp,
+      adminPhone: config.adminPhone || ADMIN_TELEGRAM_PHONE,
+      message,
+      buttons: urlButtons,
+      dispatched: Boolean(config.botToken && config.chatId)
+    });
+    fs.writeFileSync(TELEGRAM_LOGS_FILE, JSON.stringify(logs.slice(-100), null, 2), 'utf-8');
+  } catch (err) {
+    console.error('Error logging telegram alert:', err);
+  }
+
+  // Tampilkan notifikasi siap pakai di terminal server
+  console.log(`\n======================================================\n[NOTIFIKASI TELEGRAM ADMIN ${config.adminPhone || ADMIN_TELEGRAM_PHONE}]\n${message}\n======================================================\n`);
+
+  if (!config.botToken || !config.chatId) {
+    return { success: true, reason: 'Tercatat dalam log notifikasi admin Telegram' };
+  }
+
+  try {
+    const payload: any = {
+      chat_id: config.chatId,
+      text: message,
+      parse_mode: 'Markdown',
+      disable_web_page_preview: false,
+    };
+
+    if (urlButtons && urlButtons.length > 0) {
+      payload.reply_markup = {
+        inline_keyboard: [
+          urlButtons.map(btn => ({ text: btn.text, url: btn.url }))
+        ]
+      };
+    }
+
+    const res = await fetch(`https://api.telegram.org/bot${config.botToken}/sendMessage`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(payload)
+    });
+
+    const data = await res.json();
+    return { success: Boolean(data.ok), reason: data.description };
+  } catch (err: any) {
+    console.error('Error dispatching telegram message:', err);
+    return { success: false, reason: err?.message };
   }
 }
 
@@ -276,14 +397,172 @@ app.post('/api/booking/submit', (req, res) => {
 
     console.log('[NOTIFIKASI EMAIL RESMI PERUSAHAAN]', JSON.stringify(emailNotification, null, 2));
 
+    // Bersihkan format nomor WhatsApp calon siswa untuk tautan sekali sentuh admin
+    const digitsOnly = String(leadRecord.studentWhatsapp).replace(/[^0-9]/g, '');
+    const studentWaStandard = digitsOnly.startsWith('0') 
+      ? '62' + digitsOnly.slice(1) 
+      : digitsOnly.startsWith('62') 
+        ? digitsOnly 
+        : '62' + digitsOnly;
+
+    const studentWaChatUrl = `https://wa.me/${studentWaStandard}?text=${encodeURIComponent(
+      `Halo ${leadRecord.studentName}, salam hangat dari Tim Konsultan MandalikaEdu.\n\n` +
+      `Kami telah menerima formulir pengajuan bimbingan ${leadRecord.packageName} (${leadRecord.studyLevel} ke ${leadRecord.targetCountry}) yang Anda kirimkan melalui website resmi kami.\n\n` +
+      `Apakah waktu konsultasi ${leadRecord.preferredDate} jam ${leadRecord.preferredTime} masih sesuai untuk kita jadwalkan?`
+    )}`;
+
+    const telegramText = 
+      `📋 *PENDAFTARAN KONSULTASI BARU*\n` +
+      `*Kode Tiket*: \`${leadRecord.bookingId}\`\n\n` +
+      `👤 *Nama Siswa*: ${leadRecord.studentName}\n` +
+      `📍 *Asal Daerah*: ${leadRecord.originCity}\n` +
+      `📦 *Paket Layanan*: ${leadRecord.packageName} (${leadRecord.priceFormatted})\n` +
+      `🎯 *Target Studi*: ${leadRecord.studyLevel} ke ${leadRecord.targetCountry}\n` +
+      `⏰ *Jadwal Sesi*: ${leadRecord.preferredDate} jam ${leadRecord.preferredTime}\n` +
+      `📝 *Kendala*: ${leadRecord.notes || '(Tidak ada kendala spesifik)'}\n` +
+      `📱 *WhatsApp Siswa*: +${studentWaStandard}\n\n` +
+      `👉 *Hubungi Siswa via WhatsApp (Sekali Klik):*\n` +
+      `${studentWaChatUrl}`;
+
+    sendTelegramAlert(telegramText, [
+      { text: '💬 Hubungi Siswa via WhatsApp', url: studentWaChatUrl }
+    ]).catch(err => console.error('Telegram dispatch error on booking:', err));
+
     return res.json({
       success: true,
       bookingId: leadRecord.bookingId,
-      message: 'Data formulir berhasil dicatat dan cadangan email telah disiapkan.'
+      message: 'Data formulir berhasil dicatat dan notifikasi telah dikirimkan ke admin.'
     });
   } catch (err: any) {
     console.error('Error processing booking submit:', err);
     return res.status(500).json({ error: 'Gagal memproses data booking di server' });
+  }
+});
+
+// Endpoint untuk pencatatan pendaftaran calon mentor baru
+app.post('/api/mentor/submit', (req, res) => {
+  try {
+    const {
+      fullName,
+      whatsapp,
+      email,
+      originCity,
+      university,
+      country,
+      major,
+      level,
+      scholarship,
+      yearStatus,
+      skills,
+      hoursPerWeek,
+      linkedinOrIg,
+      motivation,
+      proofFileName,
+    } = req.body;
+
+    if (!fullName || !whatsapp || !university || !country) {
+      return res.status(400).json({ error: 'Nama lengkap, WhatsApp, universitas, dan negara wajib diisi.' });
+    }
+
+    const mentorId = `mentor_${Date.now()}_${Math.random().toString(36).substring(2, 7)}`;
+    const mentorRecord = {
+      mentorId,
+      fullName: String(fullName).trim(),
+      whatsapp: String(whatsapp).trim(),
+      email: String(email).trim(),
+      originCity: String(originCity).trim(),
+      university: String(university).trim(),
+      country: String(country).trim(),
+      major: String(major).trim(),
+      level: level || 'S2',
+      scholarship: scholarship || 'Mandiri / Jalur Lain',
+      yearStatus: yearStatus || '',
+      skills: Array.isArray(skills) ? skills : [],
+      hoursPerWeek: hoursPerWeek || '3-5 jam/minggu',
+      linkedinOrIg: linkedinOrIg || '',
+      motivation: motivation || '',
+      proofFileName: proofFileName || '',
+      submittedAt: new Date().toISOString()
+    };
+
+    saveMentorRecord(mentorRecord);
+
+    const digitsOnly = String(mentorRecord.whatsapp).replace(/[^0-9]/g, '');
+    const mentorWaStandard = digitsOnly.startsWith('0') 
+      ? '62' + digitsOnly.slice(1) 
+      : digitsOnly.startsWith('62') 
+        ? digitsOnly 
+        : '62' + digitsOnly;
+
+    const mentorWaChatUrl = `https://wa.me/${mentorWaStandard}?text=${encodeURIComponent(
+      `Halo ${mentorRecord.fullName}, salam dari Tim MandalikaEdu.\n\n` +
+      `Terima kasih telah mendaftar sebagai Calon Mentor untuk pendampingan negara ${mentorRecord.country} (${mentorRecord.university}). Berkas Anda telah kami terima dan kami ingin mengundang Anda untuk sesi perkenalan singkat.`
+    )}`;
+
+    const telegramText = 
+      `🎓 *PENDAFTARAN MENTOR BARU*\n` +
+      `*Kode Mentor*: \`${mentorRecord.mentorId}\`\n\n` +
+      `👤 *Nama*: ${mentorRecord.fullName}\n` +
+      `🏫 *Kampus*: ${mentorRecord.university} (${mentorRecord.country})\n` +
+      `🎓 *Jurusan & Jenjang*: ${mentorRecord.level} ${mentorRecord.major}\n` +
+      `🏆 *Beasiswa*: ${mentorRecord.scholarship}\n` +
+      `📍 *Kota Asal*: ${mentorRecord.originCity}\n` +
+      `⏰ *Ketersediaan*: ${mentorRecord.hoursPerWeek}\n` +
+      `📱 *WhatsApp Mentor*: +${mentorWaStandard}\n\n` +
+      `👉 *Hubungi Mentor via WhatsApp (Sekali Klik):*\n` +
+      `${mentorWaChatUrl}`;
+
+    sendTelegramAlert(telegramText, [
+      { text: '💬 Hubungi Mentor via WhatsApp', url: mentorWaChatUrl }
+    ]).catch(err => console.error('Telegram dispatch error on mentor submit:', err));
+
+    return res.json({
+      success: true,
+      mentorId: mentorRecord.mentorId,
+      message: 'Pendaftaran mentor berhasil dicatat.'
+    });
+  } catch (err: any) {
+    console.error('Error processing mentor submit:', err);
+    return res.status(500).json({ error: 'Gagal memproses pendaftaran mentor di server' });
+  }
+});
+
+// Endpoint status dan konfigurasi Telegram Admin
+app.get('/api/telegram/status', (_req, res) => {
+  try {
+    ensureLeadsStorage();
+    const config = getTelegramConfig();
+    let logs: any[] = [];
+    if (fs.existsSync(TELEGRAM_LOGS_FILE)) {
+      logs = JSON.parse(fs.readFileSync(TELEGRAM_LOGS_FILE, 'utf-8') || '[]');
+    }
+    return res.json({
+      success: true,
+      adminPhone: config.adminPhone || ADMIN_TELEGRAM_PHONE,
+      isConfigured: Boolean(config.botToken && config.chatId),
+      totalNotifications: logs.length,
+      recentAlerts: logs.slice(-10).reverse()
+    });
+  } catch (err: any) {
+    return res.status(500).json({ error: 'Gagal membaca status telegram' });
+  }
+});
+
+// Endpoint untuk memperbarui token bot atau chat id Telegram jika admin memasukkannya
+app.post('/api/telegram/config', (req, res) => {
+  try {
+    ensureLeadsStorage();
+    const { botToken, chatId, adminPhone } = req.body;
+    const current = getTelegramConfig();
+    const updated = {
+      adminPhone: adminPhone ? String(adminPhone).trim() : (current.adminPhone || ADMIN_TELEGRAM_PHONE),
+      botToken: botToken !== undefined ? String(botToken).trim() : current.botToken,
+      chatId: chatId !== undefined ? String(chatId).trim() : current.chatId,
+    };
+    fs.writeFileSync(TELEGRAM_CONFIG_FILE, JSON.stringify(updated, null, 2), 'utf-8');
+    return res.json({ success: true, config: { adminPhone: updated.adminPhone, isConfigured: Boolean(updated.botToken && updated.chatId) } });
+  } catch (err: any) {
+    return res.status(500).json({ error: 'Gagal memperbarui konfigurasi telegram' });
   }
 });
 

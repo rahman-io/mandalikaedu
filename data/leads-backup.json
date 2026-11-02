@@ -1,1 +1,28 @@
-[]
+[
+  {
+    "bookingId": "lead_1793606301290_njfum",
+    "firestoreBookingId": null,
+    "studentName": "Budi Pratama",
+    "studentWhatsapp": "081234567890",
+    "studentEmail": null,
+    "originCity": "Lombok Timur",
+    "targetCountry": "Jepang",
+    "studyLevel": "S2",
+    "targetScholarship": "S2 Jepang",
+    "packageId": "discovery-free",
+    "packageName": "Sesi Discovery",
+    "priceFormatted": "Rp 0",
+    "preferredDate": "2026-11-10",
+    "preferredTime": "19:30 WIB",
+    "notes": "Ingin tanya beasiswa MEXT",
+    "isFree": true,
+    "status": "sesi_gratis_terjadwal",
+    "source": "website_modal",
+    "privacyConsent": {
+      "agreed": true,
+      "legalNotice": "LEMBAGA RESEARCH EMPOWERMENT LEARNING AND REPLACE INSTITUTE",
+      "timestamp": "2026-11-02T07:58:21.290Z"
+    },
+    "createdAt": "2026-11-02T07:58:21.290Z"
+  }
+]

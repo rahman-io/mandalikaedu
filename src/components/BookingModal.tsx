@@ -36,6 +36,8 @@ export const BookingModal: React.FC<BookingModalProps> = ({
 
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSuccess, setIsSuccess] = useState(false);
+  const [bookingTicketCode, setBookingTicketCode] = useState('');
+  const [isPaymentConfirmed, setIsPaymentConfirmed] = useState(false);
   const [activePaymentTab, setActivePaymentTab] = useState<'qris' | 'bank'>('qris');
   const [copiedBank, setCopiedBank] = useState(false);
   const [uniqueCode] = useState(() => Math.floor(Math.random() * 89) + 10); // Code 10-98
@@ -49,7 +51,7 @@ export const BookingModal: React.FC<BookingModalProps> = ({
     e.preventDefault();
     setIsSubmitting(true);
     try {
-      await submitBookingRecord({
+      const res = await submitBookingRecord({
         studentName: formData.name,
         studentWhatsapp: formData.phone,
         studentEmail: formData.email,
@@ -65,6 +67,9 @@ export const BookingModal: React.FC<BookingModalProps> = ({
         notes: formData.backgroundNotes,
         isFree: isFree,
       });
+      if (res?.bookingId) {
+        setBookingTicketCode(res.bookingId);
+      }
     } catch (err) {
       console.error('Error submitting booking:', err);
     } finally {
@@ -83,30 +88,6 @@ export const BookingModal: React.FC<BookingModalProps> = ({
     setCopiedBank(true);
     setTimeout(() => setCopiedBank(false), 2500);
   };
-
-  // Generate WhatsApp Payment Confirmation Link
-  const waText = encodeURIComponent(
-    isFree
-      ? `Halo Tim MandalikaEdu, saya ingin mendaftar Sesi Discovery Gratis\n\n` +
-        `• Nama ${formData.name}\n` +
-        `• Asal Kota atau Daerah ${formData.city}\n` +
-        `• Jenjang dan Negara Target ${formData.studyLevel} - ${formData.targetCountry}\n` +
-        `• Paket Layanan ${selectedPkg.name} (${selectedPkg.priceFormatted})\n` +
-        `• Pilihan Waktu ${formData.preferredDate || 'Segera'} jam ${formData.preferredTime}\n` +
-        (formData.backgroundNotes ? `• Catatan ${formData.backgroundNotes}\n` : '') +
-        `\nMohon konfirmasi jadwal ketersediaan mentor. Terima kasih!`
-      : `Halo Admin MandalikaEdu dan ${CONTACT_CONFIG.legalEntity},\n\nSaya telah melakukan pemesanan paket bimbingan di website\n\n` +
-        `• Nama Pemesan ${formData.name}\n` +
-        `• Nomor WhatsApp ${formData.phone}\n` +
-        `• Asal Kota atau Daerah ${formData.city}\n` +
-        `• Paket Dipilih ${selectedPkg.name}\n` +
-        `• Total Tagihan ${uniquePriceFormatted}\n` +
-        `• Metode Pembayaran ${activePaymentTab === 'qris' ? 'QRIS All Payment' : 'Transfer Bank (' + CONTACT_CONFIG.bankName + ')'}\n` +
-        `• Pilihan Jadwal Sesi ${formData.preferredDate || 'Segera'} (${formData.preferredTime})\n\n` +
-        `Berikut saya lampirkan bukti transfer pembayaran. Mohon verifikasi dan konfirmasi jadwal sesi. Terima kasih!`
-  );
-
-  const waUrl = `https://wa.me/${getActiveWhatsAppNumber()}?text=${waText}`;
 
   return (
     <div className="fixed inset-0 z-[100] bg-slate-900/70 backdrop-blur-xs flex items-center justify-center p-3 sm:p-6 overflow-y-auto">
@@ -332,36 +313,37 @@ export const BookingModal: React.FC<BookingModalProps> = ({
                   <CheckCircle2 className="w-8 h-8" />
                 </div>
 
+                <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-emerald-50 border border-emerald-200 text-emerald-800 text-[11px] font-bold">
+                  <ShieldCheck className="w-3.5 h-3.5 text-emerald-600" />
+                  <span>Pendaftaran Terverifikasi Sistem</span>
+                </div>
+
                 <h3 className="text-xl font-bold text-slate-900">
-                  Formulir Sesi Gratis Terdaftar!
+                  Formulir Konsultasi Berhasil Terkirim!
                 </h3>
 
                 <p className="text-xs text-slate-600 max-w-sm mx-auto leading-relaxed">
-                  Halo <strong>{formData.name}</strong>, jadwal sesi Discovery Gratis Anda untuk paket <strong>{selectedPkg.name}</strong> telah dicatat secara aman oleh sistem MandalikaEdu.
+                  Halo <strong>{formData.name}</strong>, jadwal pengajuan sesi Discovery Gratis Anda untuk paket <strong>{selectedPkg.name}</strong> telah dicatat secara aman oleh sistem MandalikaEdu.
                 </p>
 
-                <div className="p-4 bg-slate-50 rounded-2xl border border-slate-200 text-xs text-slate-700 max-w-sm mx-auto text-left space-y-1">
+                <div className="p-4 bg-slate-50 rounded-2xl border border-slate-200 text-xs text-slate-700 max-w-sm mx-auto text-left space-y-1.5">
+                  <div>· <strong>Kode Tiket</strong> <span className="font-mono font-bold text-slate-900">{bookingTicketCode || 'MDK-TERDAFTAR'}</span></div>
                   <div>· <strong>Asal Daerah</strong> {formData.city}</div>
                   <div>· <strong>Target Studi</strong> {formData.studyLevel} {formData.targetCountry}</div>
-                  <div>· <strong>Waktu Sesi</strong> {formData.preferredDate || 'Segera'} ({formData.preferredTime})</div>
+                  <div>· <strong>Pilihan Waktu</strong> {formData.preferredDate || 'Segera'} ({formData.preferredTime})</div>
+                  <div>· <strong>Status</strong> <span className="text-emerald-700 font-bold">Menunggu Validasi Konsultan</span></div>
                 </div>
 
-                <div className="pt-2 space-y-2">
-                  <a
-                    href={waUrl}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="w-full py-3 px-4 bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-bold uppercase tracking-wider rounded-xl transition-all shadow-sm flex items-center justify-center gap-2"
-                  >
-                    <Phone className="w-4 h-4" />
-                    <span>Konfirmasi ke WhatsApp Admin MandalikaEdu</span>
-                  </a>
+                <div className="p-3 bg-blue-50 border border-blue-100 rounded-xl text-[11px] text-blue-900 text-left max-w-sm mx-auto leading-relaxed">
+                  Pemberitahuan telah diteruskan langsung ke sistem tim konsultan. Konsultan resmi kami akan segera menghubungi nomor WhatsApp Anda (<strong>{formData.phone}</strong>) setelah ketersediaan jadwal tervalidasi.
+                </div>
 
+                <div className="pt-2">
                   <button
                     onClick={onClose}
-                    className="w-full py-2.5 text-xs text-slate-500 hover:text-slate-900 font-semibold cursor-pointer"
+                    className="w-full py-3.5 px-4 bg-slate-900 hover:bg-slate-800 text-white text-xs font-bold uppercase tracking-wider rounded-xl transition-all shadow-md cursor-pointer"
                   >
-                    Tutup Jendela Ini
+                    Selesai dan Tutup Jendela
                   </button>
                 </div>
               </div>
@@ -520,26 +502,75 @@ export const BookingModal: React.FC<BookingModalProps> = ({
                   </div>
                 )}
 
-                {/* Action Button: Confirm & Submit Proof via WhatsApp */}
-                <div className="pt-2 space-y-2">
-                  <a
-                    href={waUrl}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="w-full py-3.5 px-4 bg-emerald-600 hover:bg-emerald-700 active:scale-95 text-white text-xs font-black uppercase tracking-wider rounded-xl transition-all shadow-md flex items-center justify-center gap-2 cursor-pointer"
-                  >
-                    <Phone className="w-4 h-4" />
-                    <span>Konfirmasi & Kirim Bukti Transfer ke WA Admin</span>
-                  </a>
+                {/* Action Button: Confirm Payment without exposing Admin WA */}
+                {!isPaymentConfirmed ? (
+                  <div className="pt-2 space-y-2">
+                    <button
+                      type="button"
+                      onClick={() => {
+                        setIsPaymentConfirmed(true);
+                        fetch('/api/booking/submit', {
+                          method: 'POST',
+                          headers: { 'Content-Type': 'application/json' },
+                          body: JSON.stringify({
+                            studentName: formData.name,
+                            studentWhatsapp: formData.phone,
+                            studentEmail: formData.email,
+                            originCity: formData.city,
+                            targetCountry: formData.targetCountry,
+                            studyLevel: formData.studyLevel,
+                            packageId: selectedPkg.id,
+                            packageName: selectedPkg.name,
+                            priceFormatted: uniquePriceFormatted,
+                            preferredDate: formData.preferredDate,
+                            preferredTime: formData.preferredTime,
+                            notes: `[KONFIRMASI BAYAR] Siswa telah mentransfer via ${activePaymentTab === 'qris' ? 'QRIS' : 'Bank ' + CONTACT_CONFIG.bankName}. Total: ${uniquePriceFormatted}`,
+                            isFree: false,
+                          })
+                        }).catch(() => {});
+                      }}
+                      className="w-full py-3.5 px-4 bg-emerald-600 hover:bg-emerald-700 active:scale-95 text-white text-xs font-black uppercase tracking-wider rounded-xl transition-all shadow-md flex items-center justify-center gap-2 cursor-pointer"
+                    >
+                      <CheckCircle2 className="w-4 h-4" />
+                      <span>Saya Sudah Transfer / Konfirmasi Pembayaran</span>
+                    </button>
 
-                  <button
-                    type="button"
-                    onClick={onClose}
-                    className="w-full py-2.5 text-xs text-slate-500 hover:text-slate-900 font-semibold cursor-pointer"
-                  >
-                    Tutup / Bayar Nanti
-                  </button>
-                </div>
+                    <button
+                      type="button"
+                      onClick={onClose}
+                      className="w-full py-2.5 text-xs text-slate-500 hover:text-slate-900 font-semibold cursor-pointer"
+                    >
+                      Tutup / Bayar Nanti
+                    </button>
+                  </div>
+                ) : (
+                  <div className="p-4 bg-emerald-50 border border-emerald-200 rounded-2xl text-center space-y-3">
+                    <div className="w-10 h-10 bg-emerald-100 text-emerald-600 rounded-full flex items-center justify-center mx-auto">
+                      <CheckCircle2 className="w-6 h-6" />
+                    </div>
+                    <h4 className="text-base font-bold text-slate-900">
+                      Konfirmasi Transfer Diterima!
+                    </h4>
+                    <p className="text-xs text-slate-600 leading-relaxed max-w-sm mx-auto">
+                      Terima kasih <strong>{formData.name}</strong>. Notifikasi pembayaran paket <strong>{selectedPkg.name}</strong> ({uniquePriceFormatted}) telah dicatat oleh sistem.
+                    </p>
+                    <div className="p-3 bg-white border border-emerald-200 rounded-xl text-[11px] text-slate-700 text-left space-y-1">
+                      <div>· <strong>Paket</strong> {selectedPkg.name}</div>
+                      <div>· <strong>Status</strong> Menunggu Verifikasi Mutasi Bank</div>
+                      <div>· <strong>Nomor WhatsApp Anda</strong> {formData.phone}</div>
+                    </div>
+                    <p className="text-[11px] text-blue-900 font-medium">
+                      Admin keuangan MandalikaEdu akan segera memverifikasi mutasi dan menghubungi nomor WhatsApp Anda untuk memulai bimbingan.
+                    </p>
+                    <button
+                      type="button"
+                      onClick={onClose}
+                      className="w-full py-3 bg-slate-900 hover:bg-slate-800 text-white text-xs font-bold uppercase tracking-wider rounded-xl transition-all shadow-md cursor-pointer"
+                    >
+                      Selesai dan Tutup
+                    </button>
+                  </div>
+                )}
 
               </div>
             )}

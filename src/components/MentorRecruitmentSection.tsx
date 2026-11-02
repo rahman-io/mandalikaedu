@@ -50,25 +50,24 @@ export const MentorRecruitmentSection: React.FC<MentorRecruitmentSectionProps> =
     }));
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const [isSubmitting, setIsSubmitting] = useState(false);
+
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setIsSubmitted(true);
+    setIsSubmitting(true);
+    try {
+      await fetch('/api/mentor/submit', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(formData)
+      });
+    } catch (err) {
+      console.error('Error submitting mentor form:', err);
+    } finally {
+      setIsSubmitting(false);
+      setIsSubmitted(true);
+    }
   };
-
-  const waText = encodeURIComponent(
-    `Halo Tim MandalikaEdu, saya ingin mendaftar sebagai Mentor\n\n` +
-    `• Nama ${formData.fullName}\n` +
-    `• Asal ${formData.originCity}\n` +
-    `• Kampus dan Negara ${formData.university} (${formData.country})\n` +
-    `• Jenjang dan Jurusan ${formData.level} - ${formData.major}\n` +
-    `• Beasiswa ${formData.scholarship || 'Mandiri atau Jalur Lain'}\n` +
-    `• Keahlian Bimbingan ${formData.skills.join(', ')}\n` +
-    `• Ketersediaan ${formData.hoursPerWeek}\n` +
-    `• Profil ${formData.linkedinOrIg}\n\n` +
-    `Mohon informasi tahap review berkas dan wawancara singkat. Terima kasih!`
-  );
-
-  const waUrl = `https://wa.me/${getActiveWhatsAppNumber()}?text=${waText}`;
 
   return (
     <div className="py-16 bg-eduvance-grid min-h-screen">
@@ -440,22 +439,16 @@ export const MentorRecruitmentSection: React.FC<MentorRecruitmentSectionProps> =
                 <div>· <strong>Ketersediaan:</strong> {formData.hoursPerWeek}</div>
               </div>
 
-              <div className="pt-2 space-y-2">
-                <a
-                  href={waUrl}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="w-full py-3 px-4 bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-bold uppercase tracking-wider rounded-xl transition-all shadow-sm flex items-center justify-center gap-2"
-                >
-                  <Phone className="w-4 h-4" />
-                  <span>Kirim Notifikasi Pendaftaran ke WhatsApp Tim MandalikaEdu</span>
-                </a>
+              <div className="p-3 bg-blue-50 border border-blue-100 rounded-xl text-[11px] text-blue-900 text-left max-w-sm mx-auto leading-relaxed">
+                Pemberitahuan telah diteruskan langsung ke sistem kurasi mentor MandalikaEdu. Tim kami akan meninjau profil dan menghubungi nomor WhatsApp Anda (<strong>{formData.whatsapp}</strong>) untuk jadwal wawancara perkenalan singkat.
+              </div>
 
+              <div className="pt-2">
                 <button
                   onClick={() => setIsSubmitted(false)}
-                  className="w-full py-2.5 text-xs text-slate-500 hover:text-slate-900 font-semibold"
+                  className="w-full py-3 px-4 bg-slate-900 hover:bg-slate-800 text-white text-xs font-bold uppercase tracking-wider rounded-xl transition-all shadow-md cursor-pointer"
                 >
-                  Daftarkan Mentor Lain / Edit Data
+                  Selesai / Daftarkan Berkas Lain
                 </button>
               </div>
             </div>

@@ -3,6 +3,8 @@ export const CONTACT_CONFIG = {
   // Nomor WhatsApp resmi MandalikaEdu (+6287753935810)
   whatsappNumber: '6287753935810', 
   whatsappDisplay: '+62 877-5393-5810',
+  // Akun Telegram Resmi Admin untuk Notifikasi Pendaftaran Instan
+  adminTelegramNumber: '+48576982748',
   email: 'salam@mandalikaedu.id',
   address: 'Mataram, Nusa Tenggara Barat, Indonesia',
   legalEntity: 'LEMBAGA RESEARCH EMPOWERMENT LEARNING AND REPLACE INSTITUTE',
