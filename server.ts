@@ -595,8 +595,12 @@ app.post('/api/booking/submit', (req, res) => {
       <a href="${studentWaChatUrl}" class="btn" target="_blank">
         👉 Hubungi Siswa via WhatsApp (Sekali Klik)
       </a>
+      ${leadRecord.studentEmail ? `
+      <a href="mailto:${leadRecord.studentEmail}?subject=${encodeURIComponent(`[MandalikaEdu] Konfirmasi Pendaftaran Konsultasi - ${leadRecord.studentName}`)}&body=${encodeURIComponent(`Halo ${leadRecord.studentName},\n\nTerima kasih telah mendaftar sesi konsultasi di MandalikaEdu (${leadRecord.packageName} untuk target ${leadRecord.studyLevel} ke ${leadRecord.targetCountry}).\n\nKami siap mendampingi persiapan beasiswa dan studi Anda. Apakah jadwal pada ${leadRecord.preferredDate} pukul ${leadRecord.preferredTime} dapat kita laksanakan via Google Meet / Zoom?\n\nSalam hangat,\nTim Konsultan MandalikaEdu\nadmin@mandalikaedu.com`)}" style="display: block; background: #0284c7; color: #ffffff !important; text-align: center; text-decoration: none; padding: 14px 20px; border-radius: 12px; font-weight: 700; font-size: 15px; margin: 8px 0 12px 0;">
+        ✉️ Balas / Kirim Email ke Siswa (Sekali Klik)
+      </a>` : ''}
       <p style="text-align: center; font-size: 12px; color: #64748b; margin: 0;">
-        Klik tombol hijau di atas untuk langsung membuka chat WhatsApp dengan salam pembuka resmi yang sudah terisi otomatis.
+        Tekan tombol Balas di Gmail atau gunakan tombol sekali-klik di atas untuk langsung menghubungi siswa tanpa perlu menyalin email secara manual.
       </p>
     </div>
     <div class="foot">
@@ -742,6 +746,10 @@ app.post('/api/mentor/submit', (req, res) => {
       <a href="${mentorWaChatUrl}" class="btn" target="_blank">
         👉 Hubungi Mentor via WhatsApp (Sekali Klik)
       </a>
+      ${mentorRecord.email ? `
+      <a href="mailto:${mentorRecord.email}?subject=${encodeURIComponent(`[MandalikaEdu] Konfirmasi Pendaftaran Calon Mentor - ${mentorRecord.fullName}`)}&body=${encodeURIComponent(`Halo ${mentorRecord.fullName},\n\nTerima kasih telah mendaftar sebagai Calon Mentor di MandalikaEdu (${mentorRecord.university}, ${mentorRecord.country}). Berkas dan data Anda telah kami terima.\n\nKami mengundang Anda untuk sesi perkenalan singkat via Google Meet. Mohon informasikan ketersediaan waktu luang Anda.\n\nSalam hangat,\nTim Rekrutmen MandalikaEdu\nadmin@mandalikaedu.com`)}" style="display: block; background: #0284c7; color: #ffffff !important; text-align: center; text-decoration: none; padding: 14px 20px; border-radius: 12px; font-weight: 700; font-size: 15px; margin: 8px 0 12px 0;">
+        ✉️ Balas / Kirim Email ke Mentor (Sekali Klik)
+      </a>` : ''}
     </div>
     <div class="foot">
       Sistem Notifikasi Resmi MandalikaEdu &bull; admin@mandalikaedu.com

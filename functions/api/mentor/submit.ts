@@ -224,6 +224,10 @@ export const onRequestPost = async (context: any) => {
       <a href="${mentorWaChatUrl}" class="btn" target="_blank">
         👉 Hubungi Mentor via WhatsApp (Sekali Klik)
       </a>
+      ${email ? `
+      <a href="mailto:${email}?subject=${encodeURIComponent(`[MandalikaEdu] Konfirmasi Pendaftaran Calon Mentor - ${fullName}`)}&body=${encodeURIComponent(`Halo ${fullName},\n\nTerima kasih telah mendaftar sebagai Calon Mentor di MandalikaEdu (${university}, ${country}). Berkas dan data Anda telah kami terima.\n\nKami mengundang Anda untuk sesi perkenalan singkat via Google Meet. Mohon informasikan ketersediaan waktu luang Anda.\n\nSalam hangat,\nTim Rekrutmen MandalikaEdu\nadmin@mandalikaedu.com`)}" style="display: block; background: #0284c7; color: #ffffff !important; text-align: center; text-decoration: none; padding: 14px 20px; border-radius: 12px; font-weight: 700; font-size: 15px; margin: 8px 0 12px 0;">
+        ✉️ Balas / Kirim Email ke Mentor (Sekali Klik)
+      </a>` : ''}
     </div>
     <div class="foot">
       Sistem Notifikasi Resmi MandalikaEdu &bull; admin@mandalikaedu.com

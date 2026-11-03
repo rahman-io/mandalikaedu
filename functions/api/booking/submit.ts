@@ -240,8 +240,12 @@ export const onRequestPost = async (context: any) => {
       <a href="${studentWaChatUrl}" class="btn" target="_blank">
         👉 Hubungi Siswa via WhatsApp (Sekali Klik)
       </a>
+      ${studentEmail ? `
+      <a href="mailto:${studentEmail}?subject=${encodeURIComponent(`[MandalikaEdu] Konfirmasi Pendaftaran Konsultasi - ${studentName}`)}&body=${encodeURIComponent(`Halo ${studentName},\n\nTerima kasih telah mendaftar sesi konsultasi di MandalikaEdu (${packageName} untuk target ${studyLevel} ke ${targetCountry}).\n\nKami siap mendampingi persiapan beasiswa dan studi Anda. Apakah jadwal pada ${preferredDate} pukul ${preferredTime} dapat kita laksanakan via Google Meet / Zoom?\n\nSalam hangat,\nTim Konsultan MandalikaEdu\nadmin@mandalikaedu.com`)}" style="display: block; background: #0284c7; color: #ffffff !important; text-align: center; text-decoration: none; padding: 14px 20px; border-radius: 12px; font-weight: 700; font-size: 15px; margin: 8px 0 12px 0;">
+        ✉️ Balas / Kirim Email ke Siswa (Sekali Klik)
+      </a>` : ''}
       <p style="text-align: center; font-size: 12px; color: #64748b; margin: 0;">
-        Klik tombol hijau di atas untuk langsung membuka chat WhatsApp dengan salam pembuka resmi yang sudah terisi otomatis.
+        Tekan tombol Balas di Gmail atau gunakan tombol sekali-klik di atas untuk langsung menghubungi siswa tanpa perlu menyalin email secara manual.
       </p>
     </div>
     <div class="foot">
